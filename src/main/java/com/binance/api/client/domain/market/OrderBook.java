@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.market;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -13,40 +15,37 @@ public class OrderBook {
   /**
    * Last update id of this order book.
    */
-  private long lastUpdateId;
+  private final long lastUpdateId;
 
   /**
    * List of bids (price/qty).
    */
-  private List<OrderBookEntry> bids;
+  private final List<OrderBookEntry> bids;
 
   /**
    * List of asks (price/qty).
    */
-  private List<OrderBookEntry> asks;
+  private final List<OrderBookEntry> asks;
+
+  @JsonCreator
+  public OrderBook(@JsonProperty("lastUpdateId") long lastUpdateId,
+                   @JsonProperty("OrderBookEntry") List<OrderBookEntry> bids,
+                   @JsonProperty("asks") List<OrderBookEntry> asks) {
+    this.lastUpdateId = lastUpdateId;
+    this.bids = bids;
+    this.asks = asks;
+  }
 
   public long getLastUpdateId() {
     return lastUpdateId;
-  }
-
-  public void setLastUpdateId(long lastUpdateId) {
-    this.lastUpdateId = lastUpdateId;
   }
 
   public List<OrderBookEntry> getBids() {
     return bids;
   }
 
-  public void setBids(List<OrderBookEntry> bids) {
-    this.bids = bids;
-  }
-
   public List<OrderBookEntry> getAsks() {
     return asks;
-  }
-
-  public void setAsks(List<OrderBookEntry> asks) {
-    this.asks = asks;
   }
 
   @Override

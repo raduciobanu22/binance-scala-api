@@ -8,6 +8,7 @@ import com.binance.api.client.domain.market.CandlestickInterval;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 /**
@@ -31,7 +32,7 @@ public class CandlesticksCacheExample {
   private void initializeCandlestickCache(String symbol, CandlestickInterval interval) {
     BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance();
     BinanceApiRestClient client = factory.newRestClient();
-    List<Candlestick> candlestickBars = client.getCandlestickBars(symbol.toUpperCase(), interval);
+    List<Candlestick> candlestickBars = client.getCandlestickBars(symbol.toUpperCase(), interval, Optional.empty(), Optional.empty(), Optional.empty());
 
     this.candlesticksCache = new TreeMap<>();
     for (Candlestick candlestickBar : candlestickBars) {
@@ -48,27 +49,23 @@ public class CandlesticksCacheExample {
 
     client.onCandlestickEvent(symbol.toLowerCase(), interval, response -> {
       Long openTime = response.getOpenTime();
-      Candlestick updateCandlestick = candlesticksCache.get(openTime);
-      if (updateCandlestick == null) {
-        // new candlestick
-        updateCandlestick = new Candlestick();
-      }
-      // update candlestick with the stream data
-      updateCandlestick.setOpenTime(response.getOpenTime());
-      updateCandlestick.setOpen(response.getOpen());
-      updateCandlestick.setLow(response.getLow());
-      updateCandlestick.setHigh(response.getHigh());
-      updateCandlestick.setClose(response.getClose());
-      updateCandlestick.setCloseTime(response.getCloseTime());
-      updateCandlestick.setVolume(response.getVolume());
-      updateCandlestick.setNumberOfTrades(response.getNumberOfTrades());
-      updateCandlestick.setQuoteAssetVolume(response.getQuoteAssetVolume());
-      updateCandlestick.setTakerBuyQuoteAssetVolume(response.getTakerBuyQuoteAssetVolume());
-      updateCandlestick.setTakerBuyBaseAssetVolume(response.getTakerBuyQuoteAssetVolume());
 
       // Store the updated candlestick in the cache
-      candlesticksCache.put(openTime, updateCandlestick);
-      System.out.println(updateCandlestick);
+      Candlestick updated = new Candlestick(
+          response.getOpenTime(),
+          response.getOpen(),
+          response.getHigh(),
+          response.getLow(),
+          response.getClose(),
+          response.getVolume(),
+          response.getCloseTime(),
+          response.getQuoteAssetVolume(),
+          response.getNumberOfTrades(),
+          response.getTakerBuyBaseAssetVolume(),
+          response.getTakerBuyQuoteAssetVolume()
+      );
+      candlesticksCache.put(openTime, updated);
+      System.out.println(updated);
     });
   }
 

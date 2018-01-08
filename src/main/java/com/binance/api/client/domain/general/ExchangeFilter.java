@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.general;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -12,24 +14,23 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class ExchangeFilter {
 
-  private FilterType filterType;
+  private final FilterType filterType;
 
-  private Integer limit;
+  private final Integer limit;
+
+  @JsonCreator
+  public ExchangeFilter(@JsonProperty("filterType") FilterType filterType,
+                        @JsonProperty("limit") Integer limit) {
+    this.filterType = filterType;
+    this.limit = limit;
+  }
 
   public FilterType getFilterType() {
     return filterType;
   }
 
-  public void setFilterType(FilterType filterType) {
-    this.filterType = filterType;
-  }
-
   public Integer getLimit() {
     return limit;
-  }
-
-  public void setLimit(Integer limit) {
-    this.limit = limit;
   }
 
   @Override

@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.general;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -8,34 +10,31 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class RateLimit {
 
-  private RateLimitType rateLimitType;
+  private final RateLimitType rateLimitType;
 
-  private RateLimitInterval interval;
+  private final RateLimitInterval interval;
 
-  private Integer limit;
+  private final Integer limit;
+
+  @JsonCreator
+  public RateLimit(@JsonProperty("rateLimitType") RateLimitType rateLimitType,
+                   @JsonProperty("interval") RateLimitInterval interval,
+                   @JsonProperty("limit") Integer limit) {
+    this.rateLimitType = rateLimitType;
+    this.interval = interval;
+    this.limit = limit;
+  }
 
   public RateLimitType getRateLimitType() {
     return rateLimitType;
-  }
-
-  public void setRateLimitType(RateLimitType rateLimitType) {
-    this.rateLimitType = rateLimitType;
   }
 
   public RateLimitInterval getInterval() {
     return interval;
   }
 
-  public void setInterval(RateLimitInterval interval) {
-    this.interval = interval;
-  }
-
   public Integer getLimit() {
     return limit;
-  }
-
-  public void setLimit(Integer limit) {
-    this.limit = limit;
   }
 
   @Override

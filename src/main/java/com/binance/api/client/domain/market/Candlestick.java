@@ -1,127 +1,93 @@
 package com.binance.api.client.domain.market;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * Kline/Candlestick bars for a symbol. Klines are uniquely identified by their open time.
  */
-@JsonFormat(shape = JsonFormat.Shape.ARRAY)
-@JsonPropertyOrder()
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonDeserialize(using = CandlestickDeserializer.class)
 public class Candlestick {
 
-  private Long openTime;
+  private final Long openTime;
+  private final String open;
+  private final String high;
+  private final String low;
+  private final String close;
+  private final String volume;
+  private final Long closeTime;
+  private final String quoteAssetVolume;
+  private final Long numberOfTrades;
+  private final String takerBuyBaseAssetVolume;
+  private final String takerBuyQuoteAssetVolume;
 
-  private String open;
-
-  private String high;
-
-  private String low;
-
-  private String close;
-
-  private String volume;
-
-  private Long closeTime;
-
-  private String quoteAssetVolume;
-
-  private Long numberOfTrades;
-
-  private String takerBuyBaseAssetVolume;
-
-  private String takerBuyQuoteAssetVolume;
+  public Candlestick(Long openTime,
+                     String open,
+                     String high,
+                     String low,
+                     String close,
+                     String volume,
+                     Long closeTime,
+                     String quoteAssetVolume,
+                     Long numberOfTrades,
+                     String takerBuyBaseAssetVolume,
+                     String takerBuyQuoteAssetVolume) {
+    this.openTime = openTime;
+    this.open = open;
+    this.high = high;
+    this.low = low;
+    this.close = close;
+    this.volume = volume;
+    this.closeTime = closeTime;
+    this.quoteAssetVolume = quoteAssetVolume;
+    this.numberOfTrades = numberOfTrades;
+    this.takerBuyBaseAssetVolume = takerBuyBaseAssetVolume;
+    this.takerBuyQuoteAssetVolume = takerBuyQuoteAssetVolume;
+  }
 
   public Long getOpenTime() {
     return openTime;
-  }
-
-  public void setOpenTime(Long openTime) {
-    this.openTime = openTime;
   }
 
   public String getOpen() {
     return open;
   }
 
-  public void setOpen(String open) {
-    this.open = open;
-  }
-
   public String getHigh() {
     return high;
-  }
-
-  public void setHigh(String high) {
-    this.high = high;
   }
 
   public String getLow() {
     return low;
   }
 
-  public void setLow(String low) {
-    this.low = low;
-  }
-
   public String getClose() {
     return close;
-  }
-
-  public void setClose(String close) {
-    this.close = close;
   }
 
   public String getVolume() {
     return volume;
   }
 
-  public void setVolume(String volume) {
-    this.volume = volume;
-  }
-
   public Long getCloseTime() {
     return closeTime;
-  }
-
-  public void setCloseTime(Long closeTime) {
-    this.closeTime = closeTime;
   }
 
   public String getQuoteAssetVolume() {
     return quoteAssetVolume;
   }
 
-  public void setQuoteAssetVolume(String quoteAssetVolume) {
-    this.quoteAssetVolume = quoteAssetVolume;
-  }
-
   public Long getNumberOfTrades() {
     return numberOfTrades;
-  }
-
-  public void setNumberOfTrades(Long numberOfTrades) {
-    this.numberOfTrades = numberOfTrades;
   }
 
   public String getTakerBuyBaseAssetVolume() {
     return takerBuyBaseAssetVolume;
   }
 
-  public void setTakerBuyBaseAssetVolume(String takerBuyBaseAssetVolume) {
-    this.takerBuyBaseAssetVolume = takerBuyBaseAssetVolume;
-  }
-
   public String getTakerBuyQuoteAssetVolume() {
     return takerBuyQuoteAssetVolume;
-  }
-
-  public void setTakerBuyQuoteAssetVolume(String takerBuyQuoteAssetVolume) {
-    this.takerBuyQuoteAssetVolume = takerBuyQuoteAssetVolume;
   }
 
   @Override

@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.market;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,66 +13,59 @@ public class BookTicker {
   /**
    * Ticker symbol.
    */
-  private String symbol;
+  private final String symbol;
 
   /**
    * Bid price.
    */
-  private String bidPrice;
+  private final String bidPrice;
 
   /**
    * Bid quantity
    */
-  private String bidQty;
+  private final String bidQty;
 
   /**
    * Ask price.
    */
-  private String askPrice;
+  private final String askPrice;
 
   /**
    * Ask quantity.
    */
-  private String askQty;
+  private final String askQty;
+
+  @JsonCreator
+  public BookTicker(@JsonProperty("symbol") String symbol,
+                    @JsonProperty("bidPrice") String bidPrice,
+                    @JsonProperty("bidQty") String bidQty,
+                    @JsonProperty("askPrice") String askPrice,
+                    @JsonProperty("askQty") String askQty) {
+    this.symbol = symbol;
+    this.bidPrice = bidPrice;
+    this.bidQty = bidQty;
+    this.askPrice = askPrice;
+    this.askQty = askQty;
+  }
 
   public String getSymbol() {
     return symbol;
-  }
-
-  public void setSymbol(String symbol) {
-    this.symbol = symbol;
   }
 
   public String getBidPrice() {
     return bidPrice;
   }
 
-  public void setBidPrice(String bidPrice) {
-    this.bidPrice = bidPrice;
-  }
-
   public String getBidQty() {
     return bidQty;
-  }
-
-  public void setBidQty(String bidQty) {
-    this.bidQty = bidQty;
   }
 
   public String getAskPrice() {
     return askPrice;
   }
 
-  public void setAskPrice(String askPrice) {
-    this.askPrice = askPrice;
-  }
-
   public String getAskQty() {
     return askQty;
-  }
-
-  public void setAskQty(String askQty) {
-    this.askQty = askQty;
   }
 
   @Override

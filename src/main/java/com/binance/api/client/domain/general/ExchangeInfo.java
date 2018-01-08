@@ -1,7 +1,9 @@
 package com.binance.api.client.domain.general;
 
 import com.binance.api.client.exception.BinanceApiException;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -14,46 +16,41 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ExchangeInfo {
 
-  private String timezone;
+  private final String timezone;
 
-  private Long serverTime;
+  private final Long serverTime;
 
-  private List<RateLimit> rateLimits;
+  private final List<RateLimit> rateLimits;
 
-  // private List<String> exchangeFilters;
+  // private final List<String> exchangeFilters;
 
-  private List<SymbolInfo> symbols;
+  private final List<SymbolInfo> symbols;
+
+  @JsonCreator
+  public ExchangeInfo(@JsonProperty("timezone") String timezone,
+                      @JsonProperty("serverTime") Long serverTime,
+                      @JsonProperty("rateLimits") List<RateLimit> rateLimits,
+                      @JsonProperty("symbols") List<SymbolInfo> symbols) {
+    this.timezone = timezone;
+    this.serverTime = serverTime;
+    this.rateLimits = rateLimits;
+    this.symbols = symbols;
+  }
 
   public String getTimezone() {
     return timezone;
-  }
-
-  public void setTimezone(String timezone) {
-    this.timezone = timezone;
   }
 
   public Long getServerTime() {
     return serverTime;
   }
 
-  public void setServerTime(Long serverTime) {
-    this.serverTime = serverTime;
-  }
-
   public List<RateLimit> getRateLimits() {
     return rateLimits;
   }
 
-  public void setRateLimits(List<RateLimit> rateLimits) {
-    this.rateLimits = rateLimits;
-  }
-
   public List<SymbolInfo> getSymbols() {
     return symbols;
-  }
-
-  public void setSymbols(List<SymbolInfo> symbols) {
-    this.symbols = symbols;
   }
 
   /**

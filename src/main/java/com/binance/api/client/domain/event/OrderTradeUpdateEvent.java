@@ -1,11 +1,6 @@
 package com.binance.api.client.domain.event;
 
-import com.binance.api.client.domain.ExecutionType;
-import com.binance.api.client.domain.OrderRejectReason;
-import com.binance.api.client.domain.OrderSide;
-import com.binance.api.client.domain.OrderStatus;
-import com.binance.api.client.domain.OrderType;
-import com.binance.api.client.domain.TimeInForce;
+import com.binance.api.client.domain.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

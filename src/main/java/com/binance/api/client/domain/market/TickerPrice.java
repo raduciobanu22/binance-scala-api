@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.market;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,27 +13,26 @@ public class TickerPrice {
   /**
    * Ticker symbol.
    */
-  private String symbol;
+  private final String symbol;
 
   /**
    * Latest price.
    */
-  private String price;
+  private final String price;
+
+  @JsonCreator
+  public TickerPrice(@JsonProperty("symbol") String symbol,
+                     @JsonProperty("price") String price) {
+    this.symbol = symbol;
+    this.price = price;
+  }
 
   public String getSymbol() {
     return symbol;
   }
 
-  public void setSymbol(String symbol) {
-    this.symbol = symbol;
-  }
-
   public String getPrice() {
     return price;
-  }
-
-  public void setPrice(String price) {
-    this.price = price;
   }
 
   @Override

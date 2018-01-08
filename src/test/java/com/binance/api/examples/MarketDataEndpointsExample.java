@@ -12,6 +12,7 @@ import com.binance.api.client.domain.market.TickerStatistics;
 import com.binance.api.client.exception.BinanceApiException;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Examples on how to get market data information such as the latest price of a symbol, etc.
@@ -35,11 +36,11 @@ public class MarketDataEndpointsExample {
     System.out.println(allPrices);
 
     // Getting agg trades
-    List<AggTrade> aggTrades = client.getAggTrades("NEOETH");
+    List<AggTrade> aggTrades = client.getAggTrades("NEOETH", Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
     System.out.println(aggTrades);
 
     // Weekly candlestick bars for a symbol
-    List<Candlestick> candlesticks = client.getCandlestickBars("NEOETH", CandlestickInterval.WEEKLY);
+    List<Candlestick> candlesticks = client.getCandlestickBars("NEOETH", CandlestickInterval.WEEKLY, Optional.empty(), Optional.empty(), Optional.empty());
     System.out.println(candlesticks);
 
     // Getting all book tickers

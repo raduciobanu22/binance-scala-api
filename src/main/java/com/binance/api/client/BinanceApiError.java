@@ -1,5 +1,7 @@
 package com.binance.api.client;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,27 +13,26 @@ public class BinanceApiError {
   /**
    * Error code.
    */
-  private int code;
+  private final int code;
 
   /**
    * Error message.
    */
-  private String msg;
+  private final String msg;
+
+  @JsonCreator
+  public BinanceApiError(@JsonProperty("code") int code,
+                         @JsonProperty("msg") String msg) {
+    this.code = code;
+    this.msg = msg;
+  }
 
   public int getCode() {
     return code;
   }
 
-  public void setCode(int code) {
-    this.code = code;
-  }
-
   public String getMsg() {
     return msg;
-  }
-
-  public void setMsg(String msg) {
-    this.msg = msg;
   }
 
   @Override

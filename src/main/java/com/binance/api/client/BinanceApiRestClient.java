@@ -1,27 +1,15 @@
 package com.binance.api.client;
 
-import com.binance.api.client.domain.account.Account;
-import com.binance.api.client.domain.account.DepositAddress;
-import com.binance.api.client.domain.account.DepositHistory;
-import com.binance.api.client.domain.account.NewOrder;
-import com.binance.api.client.domain.account.NewOrderResponse;
-import com.binance.api.client.domain.account.Order;
-import com.binance.api.client.domain.account.Trade;
-import com.binance.api.client.domain.account.WithdrawHistory;
+import com.binance.api.client.domain.account.*;
 import com.binance.api.client.domain.account.request.AllOrdersRequest;
 import com.binance.api.client.domain.account.request.CancelOrderRequest;
 import com.binance.api.client.domain.account.request.OrderRequest;
 import com.binance.api.client.domain.account.request.OrderStatusRequest;
 import com.binance.api.client.domain.general.ExchangeInfo;
-import com.binance.api.client.domain.market.AggTrade;
-import com.binance.api.client.domain.market.BookTicker;
-import com.binance.api.client.domain.market.Candlestick;
-import com.binance.api.client.domain.market.CandlestickInterval;
-import com.binance.api.client.domain.market.OrderBook;
-import com.binance.api.client.domain.market.TickerPrice;
-import com.binance.api.client.domain.market.TickerStatistics;
+import com.binance.api.client.domain.market.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Binance API façade, supporting synchronous/blocking access Binance's REST API.
@@ -71,15 +59,9 @@ public interface BinanceApiRestClient {
    * @param endTime Timestamp in ms to get aggregate trades until INCLUSIVE (optional).
    * @return a list of aggregate trades for the given symbol
    */
-  List<AggTrade> getAggTrades(String symbol, String fromId, Integer limit, Long startTime, Long endTime);
+  List<AggTrade> getAggTrades(String symbol, Optional<String> fromId, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime);
 
   /**
-   * Return the most recent aggregate trades for <code>symbol</code>
-   *
-   * @see #getAggTrades(String, String, Integer, Long, Long)
-   */
-  List<AggTrade> getAggTrades(String symbol);
-
   /**
    * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.
    *
@@ -90,15 +72,9 @@ public interface BinanceApiRestClient {
    * @param endTime Timestamp in ms to get candlestick bars until INCLUSIVE (optional).
    * @return a candlestick bar for the given symbol and interval
    */
-  List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval, Integer limit, Long startTime, Long endTime);
+  List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime);
 
   /**
-   * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.
-   *
-   * @see #getCandlestickBars(String, CandlestickInterval, Integer, Long, Long)
-   */
-  List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval);
-
   /**
    * Get 24 hour price change statistics.
    *
@@ -167,12 +143,7 @@ public interface BinanceApiRestClient {
   /**
    * Get current account information.
    */
-  Account getAccount(Long recvWindow, Long timestamp);
-
-  /**
-   * Get current account information using default parameters.
-   */
-  Account getAccount();
+  Account getAccount(Optional<Long> recvWindow, Optional<Long> timestamp);
 
   /**
    * Get trades for a specific account and symbol.
@@ -182,24 +153,7 @@ public interface BinanceApiRestClient {
    * @param fromId TradeId to fetch from. Default gets most recent trades.
    * @return a list of trades
    */
-  List<Trade> getMyTrades(String symbol, Integer limit, Long fromId, Long recvWindow, Long timestamp);
-
-  /**
-   * Get trades for a specific account and symbol.
-   *
-   * @param symbol symbol to get trades from
-   * @param limit default 500; max 500
-   * @return a list of trades
-   */
-  List<Trade> getMyTrades(String symbol, Integer limit);
-
-  /**
-   * Get trades for a specific account and symbol.
-   *
-   * @param symbol symbol to get trades from
-   * @return a list of trades
-   */
-  List<Trade> getMyTrades(String symbol);
+  List<Trade> getMyTrades(String symbol, Optional<Integer> limit, Optional<Long> fromId, Optional<Long> recvWindow, Optional<Long> timestamp);
 
   /**
    * Submit a withdraw request.
@@ -211,7 +165,7 @@ public interface BinanceApiRestClient {
    * @param amount amount to withdraw
    * @param name description/alias of the address
    */
-  void withdraw(String asset, String address, String amount, String name);
+  void withdraw(String asset, String address, String amount, Optional<String> name);
 
   /**
    * Fetch account deposit history.

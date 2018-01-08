@@ -4,6 +4,8 @@ import com.binance.api.client.BinanceApiAsyncRestClient;
 import com.binance.api.client.BinanceApiClientFactory;
 import com.binance.api.client.domain.account.Account;
 
+import static java.util.Optional.empty;
+
 /**
  * Examples on how to get account information.
  */
@@ -14,10 +16,10 @@ public class AccountEndpointsExampleAsync {
     BinanceApiAsyncRestClient client = factory.newAsyncRestClient();
 
     // Get account balances (async)
-    client.getAccount((Account response) -> System.out.println(response.getAssetBalance("ETH")));
+    client.getAccount(empty(), empty(), (Account response) -> System.out.println(response.getAssetBalance("ETH")));
 
     // Get list of trades (async)
-    client.getMyTrades("NEOETH", response -> System.out.println(response));
+    client.getMyTrades("NEOETH", empty(), empty(), empty(), empty(), response -> System.out.println(response));
 
     // Get withdraw history (async)
     client.getWithdrawHistory("ETH", response -> System.out.println(response));

@@ -14,29 +14,30 @@ import java.util.Optional;
 public class AllOrdersRequest extends OrderRequest {
   @JsonCreator
   public AllOrdersRequest(@JsonProperty("symbol") String symbol,
+                          @JsonProperty("recvWindow") Optional<Long> recvWindow,
+                          @JsonProperty("timestamp") Long timestamp,
                           @JsonProperty("orderId") Optional<Long> orderId,
-                          @JsonProperty("limit") Integer limit) {
+                          @JsonProperty("limit") Optional<Integer> limit) {
+    super(symbol, recvWindow, Optional.of(timestamp));
+    this.orderId = orderId;
+    this.limit = limit;
+  }
+
+  public AllOrdersRequest(String symbol, Optional<Long> orderId, Optional<Integer> limit) {
     super(symbol);
     this.orderId = orderId;
     this.limit = limit;
   }
 
-  public AllOrdersRequest(String symbol) {
-    this(symbol, Optional.empty(), DEFAULT_LIMIT);
-  }
-
-  private static final Integer DEFAULT_LIMIT = 500;
-
   private final Optional<Long> orderId;
 
-  private final Integer limit;
-
+  private final Optional<Integer> limit;
 
   public Optional<Long> getOrderId() {
     return orderId;
   }
 
-  public Integer getLimit() {
+  public Optional<Integer> getLimit() {
     return limit;
   }
 

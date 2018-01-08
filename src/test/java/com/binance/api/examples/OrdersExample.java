@@ -31,7 +31,7 @@ public class OrdersExample {
     System.out.println(openOrders);
 
     // Getting list of all orders with a limit of 10
-    List<Order> allOrders = client.getAllOrders(new AllOrdersRequest("LINKETH", Optional.empty(), 10));
+    List<Order> allOrders = client.getAllOrders(new AllOrdersRequest("LINKETH", Optional.empty(), Optional.of(10)));
     System.out.println(allOrders);
 
     // Get status of a particular order

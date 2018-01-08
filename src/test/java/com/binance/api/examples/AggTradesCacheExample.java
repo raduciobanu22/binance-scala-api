@@ -5,9 +5,7 @@ import com.binance.api.client.BinanceApiRestClient;
 import com.binance.api.client.BinanceApiWebSocketClient;
 import com.binance.api.client.domain.market.AggTrade;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Illustrates how to use the aggTrades event stream to create a local cache of trades for a symbol.
@@ -31,7 +29,7 @@ public class AggTradesCacheExample {
   private void initializeAggTradesCache(String symbol) {
     BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance();
     BinanceApiRestClient client = factory.newRestClient();
-    List<AggTrade> aggTrades = client.getAggTrades(symbol.toUpperCase());
+    List<AggTrade> aggTrades = client.getAggTrades(symbol.toUpperCase(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
 
     this.aggTradesCache = new HashMap<>();
     for (AggTrade aggTrade : aggTrades) {
@@ -47,22 +45,8 @@ public class AggTradesCacheExample {
     BinanceApiWebSocketClient client = factory.newWebSocketClient();
 
     client.onAggTradeEvent(symbol.toLowerCase(), response -> {
-      Long aggregatedTradeId = response.getAggregatedTradeId();
-      AggTrade updateAggTrade = aggTradesCache.get(aggregatedTradeId);
-      if (updateAggTrade == null) {
-        // new agg trade
-        updateAggTrade = new AggTrade();
-      }
-      updateAggTrade.setAggregatedTradeId(aggregatedTradeId);
-      updateAggTrade.setPrice(response.getPrice());
-      updateAggTrade.setQuantity(response.getQuantity());
-      updateAggTrade.setFirstBreakdownTradeId(response.getFirstBreakdownTradeId());
-      updateAggTrade.setLastBreakdownTradeId(response.getLastBreakdownTradeId());
-      updateAggTrade.setBuyerMaker(response.isBuyerMaker());
-
-      // Store the updated agg trade in the cache
-      aggTradesCache.put(aggregatedTradeId, updateAggTrade);
-      System.out.println(updateAggTrade);
+      aggTradesCache.put(response.getAggregatedTradeId(), response);
+      System.out.println(response);
     });
   }
 

@@ -24,6 +24,7 @@ import com.binance.api.client.domain.market.TickerPrice;
 import com.binance.api.client.domain.market.TickerStatistics;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Binance API façade, supporting asynchronous/non-blocking access Binance's REST API.
@@ -73,15 +74,9 @@ public interface BinanceApiAsyncRestClient {
    * @param callback the callback that handles the response
    * @return a list of aggregate trades for the given symbol
    */
-  void getAggTrades(String symbol, String fromId, Integer limit, Long startTime, Long endTime, BinanceApiCallback<List<AggTrade>> callback);
+  void getAggTrades(String symbol, Optional<String> fromId, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime, BinanceApiCallback<List<AggTrade>> callback);
 
   /**
-   * Return the most recent aggregate trades for <code>symbol</code>
-   *
-   * @see #getAggTrades(String, String, Integer, Long, Long, BinanceApiCallback)
-   */
-  void getAggTrades(String symbol, BinanceApiCallback<List<AggTrade>> callback);
-
   /**
    * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.
    *
@@ -92,14 +87,7 @@ public interface BinanceApiAsyncRestClient {
    * @param endTime Timestamp in ms to get candlestick bars until INCLUSIVE (optional).
    * @param callback the callback that handles the response containing a candlestick bar for the given symbol and interval
    */
-  void getCandlestickBars(String symbol, CandlestickInterval interval, Integer limit, Long startTime, Long endTime, BinanceApiCallback<List<Candlestick>> callback);
-
-  /**
-   * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.
-   *
-   * @see #getCandlestickBars(String, CandlestickInterval, BinanceApiCallback)
-   */
-  void getCandlestickBars(String symbol, CandlestickInterval interval, BinanceApiCallback<List<Candlestick>> callback);
+  void getCandlestickBars(String symbol, CandlestickInterval interval, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime, BinanceApiCallback<List<Candlestick>> callback);
 
   /**
    * Get 24 hour price change statistics (asynchronous).
@@ -176,12 +164,7 @@ public interface BinanceApiAsyncRestClient {
   /**
    * Get current account information (async).
    */
-  void getAccount(Long recvWindow, Long timestamp, BinanceApiCallback<Account> callback);
-
-  /**
-   * Get current account information using default parameters (async).
-   */
-  void getAccount(BinanceApiCallback<Account> callback);
+  void getAccount(Optional<Long> recvWindow, Optional<Long> timestamp, BinanceApiCallback<Account> callback);
 
   /**
    * Get trades for a specific account and symbol.
@@ -191,24 +174,7 @@ public interface BinanceApiAsyncRestClient {
    * @param fromId TradeId to fetch from. Default gets most recent trades.
    * @param callback the callback that handles the response with a list of trades
    */
-  void getMyTrades(String symbol, Integer limit, Long fromId, Long recvWindow, Long timestamp, BinanceApiCallback<List<Trade>> callback);
-
-  /**
-   * Get trades for a specific account and symbol.
-   *
-   * @param symbol symbol to get trades from
-   * @param limit default 500; max 500
-   * @param callback the callback that handles the response with a list of trades
-   */
-  void getMyTrades(String symbol, Integer limit, BinanceApiCallback<List<Trade>> callback);
-
-  /**
-   * Get trades for a specific account and symbol.
-   *
-   * @param symbol symbol to get trades from
-   * @param callback the callback that handles the response with a list of trades
-   */
-  void getMyTrades(String symbol, BinanceApiCallback<List<Trade>> callback);
+  void getMyTrades(String symbol, Optional<Integer> limit, Optional<Long> fromId, Optional<Long> recvWindow, Optional<Long> timestamp, BinanceApiCallback<List<Trade>> callback);
 
   /**
    * Submit a withdraw request.

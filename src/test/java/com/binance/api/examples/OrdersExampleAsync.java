@@ -30,7 +30,7 @@ public class OrdersExampleAsync {
         response -> System.out.println(response));
 
     // Getting list of all orders with a limit of 10
-    client.getAllOrders(new AllOrdersRequest("LINKETH", Optional.empty(), 10), response -> System.out.println(response));
+    client.getAllOrders(new AllOrdersRequest("LINKETH", Optional.empty(), Optional.of(10)), response -> System.out.println(response));
 
     // Canceling an order
     client.cancelOrder(new CancelOrderRequest("LINKETH", 756703L),

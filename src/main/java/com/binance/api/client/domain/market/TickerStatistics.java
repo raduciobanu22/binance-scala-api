@@ -1,6 +1,8 @@
 package com.binance.api.client.domain.market;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -13,210 +15,182 @@ public class TickerStatistics {
   /**
    * Price change during the last 24 hours.
    */
-  private String priceChange;
+  private final String priceChange;
 
   /**
    * Price change, in percentage, during the last 24 hours.
    */
-  private String priceChangePercent;
+  private final String priceChangePercent;
 
   /**
    * Weighted average price.
    */
-  private String weightedAvgPrice;
+  private final String weightedAvgPrice;
 
   /**
    * Previous close price.
    */
-  private String prevClosePrice;
+  private final String prevClosePrice;
 
   /**
    * Last price.
    */
-  private String lastPrice;
+  private final String lastPrice;
 
   /**
    * Bid price.
    */
-  private String bidPrice;
+  private final String bidPrice;
 
   /**
    * Ask price.
    */
-  private String askPrice;
+  private final String askPrice;
 
   /**
    * Open price 24 hours ago.
    */
-  private String openPrice;
+  private final String openPrice;
 
   /**
    * Highest price during the past 24 hours.
    */
-  private String highPrice;
+  private final String highPrice;
 
   /**
    * Lowest price during the past 24 hours.
    */
-  private String lowPrice;
+  private final String lowPrice;
 
   /**
    * Total volume during the past 24 hours.
    */
-  private String volume;
+  private final String volume;
 
   /**
    * Open time.
    */
-  private long openTime;
+  private final long openTime;
 
   /**
    * Close time.
    */
-  private long closeTime;
+  private final long closeTime;
 
   /**
    * First trade id.
    */
-  private long firstId;
+  private final long firstId;
 
   /**
    * Last trade id.
    */
-  private long lastId;
+  private final long lastId;
 
   /**
    * Total number of trades during the last 24 hours.
    */
-  private long count;
+  private final long count;
+
+  @JsonCreator
+  public TickerStatistics(@JsonProperty("priceChange") String priceChange,
+                          @JsonProperty("priceChangePercent") String priceChangePercent,
+                          @JsonProperty("weightedAvgPrice") String weightedAvgPrice,
+                          @JsonProperty("prevClosePrice") String prevClosePrice,
+                          @JsonProperty("lastPrice") String lastPrice,
+                          @JsonProperty("bidPrice") String bidPrice,
+                          @JsonProperty("askPrice") String askPrice,
+                          @JsonProperty("openPrice") String openPrice,
+                          @JsonProperty("highPrice") String highPrice,
+                          @JsonProperty("lowPrice") String lowPrice,
+                          @JsonProperty("volume") String volume,
+                          @JsonProperty("openTime") long openTime,
+                          @JsonProperty("closeTime") long closeTime,
+                          @JsonProperty("firstId") long firstId,
+                          @JsonProperty("lastId") long lastId,
+                          @JsonProperty("count") long count) {
+    this.priceChange = priceChange;
+    this.priceChangePercent = priceChangePercent;
+    this.weightedAvgPrice = weightedAvgPrice;
+    this.prevClosePrice = prevClosePrice;
+    this.lastPrice = lastPrice;
+    this.bidPrice = bidPrice;
+    this.askPrice = askPrice;
+    this.openPrice = openPrice;
+    this.highPrice = highPrice;
+    this.lowPrice = lowPrice;
+    this.volume = volume;
+    this.openTime = openTime;
+    this.closeTime = closeTime;
+    this.firstId = firstId;
+    this.lastId = lastId;
+    this.count = count;
+  }
 
   public String getPriceChange() {
     return priceChange;
-  }
-
-  public void setPriceChange(String priceChange) {
-    this.priceChange = priceChange;
   }
 
   public String getPriceChangePercent() {
     return priceChangePercent;
   }
 
-  public void setPriceChangePercent(String priceChangePercent) {
-    this.priceChangePercent = priceChangePercent;
-  }
-
   public String getWeightedAvgPrice() {
     return weightedAvgPrice;
-  }
-
-  public void setWeightedAvgPrice(String weightedAvgPrice) {
-    this.weightedAvgPrice = weightedAvgPrice;
   }
 
   public String getPrevClosePrice() {
     return prevClosePrice;
   }
 
-  public void setPrevClosePrice(String prevClosePrice) {
-    this.prevClosePrice = prevClosePrice;
-  }
-
   public String getLastPrice() {
     return lastPrice;
-  }
-
-  public void setLastPrice(String lastPrice) {
-    this.lastPrice = lastPrice;
   }
 
   public String getBidPrice() {
     return bidPrice;
   }
 
-  public void setBidPrice(String bidPrice) {
-    this.bidPrice = bidPrice;
-  }
-
   public String getAskPrice() {
     return askPrice;
-  }
-
-  public void setAskPrice(String askPrice) {
-    this.askPrice = askPrice;
   }
 
   public String getOpenPrice() {
     return openPrice;
   }
 
-  public void setOpenPrice(String openPrice) {
-    this.openPrice = openPrice;
-  }
-
   public String getHighPrice() {
     return highPrice;
-  }
-
-  public void setHighPrice(String highPrice) {
-    this.highPrice = highPrice;
   }
 
   public String getLowPrice() {
     return lowPrice;
   }
 
-  public void setLowPrice(String lowPrice) {
-    this.lowPrice = lowPrice;
-  }
-
   public String getVolume() {
     return volume;
-  }
-
-  public void setVolume(String volume) {
-    this.volume = volume;
   }
 
   public long getOpenTime() {
     return openTime;
   }
 
-  public void setOpenTime(long openTime) {
-    this.openTime = openTime;
-  }
-
   public long getCloseTime() {
     return closeTime;
-  }
-
-  public void setCloseTime(long closeTime) {
-    this.closeTime = closeTime;
   }
 
   public long getFirstId() {
     return firstId;
   }
 
-  public void setFirstId(long firstId) {
-    this.firstId = firstId;
-  }
-
   public long getLastId() {
     return lastId;
-  }
-
-  public void setLastId(long lastId) {
-    this.lastId = lastId;
   }
 
   public long getCount() {
     return count;
   }
 
-  public void setCount(long count) {
-    this.count = count;
-  }
 
   @Override
   public String toString() {

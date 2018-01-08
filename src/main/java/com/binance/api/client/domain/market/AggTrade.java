@@ -1,91 +1,80 @@
 package com.binance.api.client.domain.market;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.util.OptionalLong;
+
 /**
  * An aggregated trade event for a symbol.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class AggTrade {
 
-  @JsonProperty("a")
-  private long aggregatedTradeId;
+  private final long aggregatedTradeId;
+  private final String price;
+  private final String quantity;
+  private final long firstBreakdownTradeId;
+  private final long lastBreakdownTradeId;
+  private final OptionalLong tradeTime;
+  private final boolean isBuyerMaker;
+  private final boolean wasTradeBestPriceMatch;
 
-  @JsonProperty("p")
-  private String price;
+  @JsonCreator
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public AggTrade(@JsonProperty("a") long aggregatedTradeId,
+                  @JsonProperty("p") String price,
+                  @JsonProperty("q") String quantity,
+                  @JsonProperty("f") long firstBreakdownTradeId,
+                  @JsonProperty("l") long lastBreakdownTradeId,
+                  @JsonProperty("T") OptionalLong tradeTime,
+                  @JsonProperty("m") boolean isBuyerMaker,
+                  @JsonProperty("M") boolean wasTradeBestPriceMatch
+                  ) {
 
-  @JsonProperty("q")
-  private String quantity;
-
-  @JsonProperty("f")
-  private long firstBreakdownTradeId;
-
-  @JsonProperty("l")
-  private long lastBreakdownTradeId;
-
-  @JsonProperty("T")
-  private long tradeTime;
-
-  @JsonProperty("m")
-  private boolean isBuyerMaker;
+    this.aggregatedTradeId = aggregatedTradeId;
+    this.price = price;
+    this.quantity = quantity;
+    this.firstBreakdownTradeId = firstBreakdownTradeId;
+    this.lastBreakdownTradeId = lastBreakdownTradeId;
+    this.tradeTime = tradeTime;
+    this.isBuyerMaker = isBuyerMaker;
+    this.wasTradeBestPriceMatch = wasTradeBestPriceMatch;
+  }
 
   public long getAggregatedTradeId() {
     return aggregatedTradeId;
-  }
-
-  public void setAggregatedTradeId(long aggregatedTradeId) {
-    this.aggregatedTradeId = aggregatedTradeId;
   }
 
   public String getPrice() {
     return price;
   }
 
-  public void setPrice(String price) {
-    this.price = price;
-  }
-
   public String getQuantity() {
     return quantity;
-  }
-
-  public void setQuantity(String quantity) {
-    this.quantity = quantity;
   }
 
   public long getFirstBreakdownTradeId() {
     return firstBreakdownTradeId;
   }
 
-  public void setFirstBreakdownTradeId(long firstBreakdownTradeId) {
-    this.firstBreakdownTradeId = firstBreakdownTradeId;
-  }
-
   public long getLastBreakdownTradeId() {
     return lastBreakdownTradeId;
   }
 
-  public void setLastBreakdownTradeId(long lastBreakdownTradeId) {
-    this.lastBreakdownTradeId = lastBreakdownTradeId;
-  }
-
-  public long getTradeTime() {
+  public OptionalLong getTradeTime() {
     return tradeTime;
-  }
-
-  public void setTradeTime(long tradeTime) {
-    this.tradeTime = tradeTime;
   }
 
   public boolean isBuyerMaker() {
     return isBuyerMaker;
   }
 
-  public void setBuyerMaker(boolean buyerMaker) {
-    isBuyerMaker = buyerMaker;
+  public boolean isWasTradeBestPriceMatch() {
+    return wasTradeBestPriceMatch;
   }
 
   @Override
@@ -98,6 +87,7 @@ public class AggTrade {
         .append("lastBreakdownTradeId", lastBreakdownTradeId)
         .append("tradeTime", tradeTime)
         .append("isBuyerMaker", isBuyerMaker)
+        .append("wasTradeBestPriceMatch", wasTradeBestPriceMatch)
         .toString();
   }
 }

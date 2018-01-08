@@ -11,6 +11,9 @@ import com.binance.api.client.domain.market.TickerStatistics;
 import com.binance.api.client.exception.BinanceApiException;
 
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Optional.empty;
 
 /**
  * Examples on how to get market data information such as the latest price of a symbol, etc., in an async way.
@@ -37,10 +40,10 @@ public class MarketDataEndpointsExampleAsync {
     });
 
     // Getting agg trades (async)
-    client.getAggTrades("NEOETH", (List<AggTrade> response) -> System.out.println(response));
+    client.getAggTrades("NEOETH", empty(), empty(), empty(), empty(), (List<AggTrade> response) -> System.out.println(response));
 
     // Weekly candlestick bars for a symbol
-    client.getCandlestickBars("NEOETH", CandlestickInterval.WEEKLY,
+    client.getCandlestickBars("NEOETH", CandlestickInterval.WEEKLY, empty(), empty(), empty(),
         (List<Candlestick> response) -> System.out.println(response));
 
     // Book tickers (async)

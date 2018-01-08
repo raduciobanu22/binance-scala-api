@@ -15,12 +15,12 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DepthEvent {
   @JsonCreator
-  public DepthEvent(@JsonProperty("eventType") String eventType,
-                    @JsonProperty("eventTime") long eventTime,
-                    @JsonProperty("symbol") String symbol,
-                    @JsonProperty("updateId") long updateId,
-                    @JsonProperty("bids") List<OrderBookEntry> bids,
-                    @JsonProperty("asks") List<OrderBookEntry> asks) {
+  public DepthEvent(@JsonProperty("e") String eventType,
+                    @JsonProperty("E") long eventTime,
+                    @JsonProperty("s") String symbol,
+                    @JsonProperty("u") long updateId,
+                    @JsonProperty("b") List<OrderBookEntry> bids,
+                    @JsonProperty("a") List<OrderBookEntry> asks) {
     this.eventType = eventType;
     this.eventTime = eventTime;
     this.symbol = symbol;
@@ -29,31 +29,25 @@ public class DepthEvent {
     this.asks = asks;
   }
 
-  @JsonProperty("e")
   private final String eventType;
 
-  @JsonProperty("E")
   private final long eventTime;
 
-  @JsonProperty("s")
   private final String symbol;
 
   /**
    * updateId to sync up with updateid in /api/v1/depth
    */
-  @JsonProperty("u")
   private final long updateId;
 
   /**
    * Bid depth delta.
    */
-  @JsonProperty("b")
   private final List<OrderBookEntry> bids;
 
   /**
    * Ask depth delta.
    */
-  @JsonProperty("a")
   private final List<OrderBookEntry> asks;
 
   public String getEventType() {
