@@ -42,25 +42,25 @@ public class CandlestickEventDeserializerTest {
     ObjectMapper mapper = new ObjectMapper();
     try {
       CandlestickEvent candlestickEvent = mapper.readValue(candlestickEventJson, CandlestickEvent.class);
-      assertEquals(candlestickEvent.getEventType(), "kline");
-      assertEquals(candlestickEvent.getEventTime(), 1L);
-      assertEquals(candlestickEvent.getSymbol(), "ETHBTC");
+      assertEquals(candlestickEvent.eventType, "kline");
+      assertEquals(candlestickEvent.eventTime, 1L);
+      assertEquals(candlestickEvent.symbol, "ETHBTC");
 
-      assertEquals((long)candlestickEvent.getOpenTime(), 1499404860000L);
-      assertEquals(candlestickEvent.getOpen(), "0.10278577");
-      assertEquals(candlestickEvent.getHigh(), "0.10278712");
-      assertEquals(candlestickEvent.getLow(), "0.10278518");
-      assertEquals(candlestickEvent.getClose(), "0.10278645");
-      assertEquals(candlestickEvent.getVolume(), "17.47929838");
-      assertEquals((long)candlestickEvent.getCloseTime(), 1499404919999L);
-      assertEquals(candlestickEvent.getIntervalId(), "1m");
-      assertEquals((long)candlestickEvent.getFirstTradeId(), 77462L);
-      assertEquals((long)candlestickEvent.getLastTradeId(), 77465L);
-      assertEquals(candlestickEvent.getQuoteAssetVolume(), "1.79662878");
-      assertEquals((long)candlestickEvent.getNumberOfTrades(), 4L);
-      assertEquals(candlestickEvent.getTakerBuyBaseAssetVolume(), "2.34879839");
-      assertEquals(candlestickEvent.getTakerBuyQuoteAssetVolume(), "0.24142166");
-      assertEquals(candlestickEvent.getBarFinal(), false);
+      assertEquals((long)candlestickEvent.openTime, 1499404860000L);
+      assertEquals(candlestickEvent.open, "0.10278577");
+      assertEquals(candlestickEvent.high, "0.10278712");
+      assertEquals(candlestickEvent.low, "0.10278518");
+      assertEquals(candlestickEvent.close, "0.10278645");
+      assertEquals(candlestickEvent.volume, "17.47929838");
+      assertEquals((long)candlestickEvent.closeTime, 1499404919999L);
+      assertEquals(candlestickEvent.intervalId, "1m");
+      assertEquals((long)candlestickEvent.firstTradeId, 77462L);
+      assertEquals((long)candlestickEvent.lastTradeId, 77465L);
+      assertEquals(candlestickEvent.quoteAssetVolume, "1.79662878");
+      assertEquals((long)candlestickEvent.numberOfTrades, 4L);
+      assertEquals(candlestickEvent.takerBuyBaseAssetVolume, "2.34879839");
+      assertEquals(candlestickEvent.takerBuyQuoteAssetVolume, "0.24142166");
+      assertEquals(candlestickEvent.isBarFinal, false);
     } catch (IOException e) {
       fail(e.getMessage());
     }

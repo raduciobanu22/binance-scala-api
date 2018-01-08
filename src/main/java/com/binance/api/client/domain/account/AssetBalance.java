@@ -1,8 +1,5 @@
 package com.binance.api.client.domain.account;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 /**
  * An asset balance in an Account.
  *
@@ -19,36 +16,16 @@ public class AssetBalance {
   /**
    * Asset symbol.
    */
-  private final String asset;
+  public final String asset;
 
   /**
    * Available balance.
    */
-  private final String free;
+  public final String free;
 
   /**
    * Locked by open orders.
    */
-  private final String locked;
+  public final String locked;
 
-  public String getAsset() {
-    return asset;
-  }
-
-  public String getFree() {
-    return free;
-  }
-
-  public String getLocked() {
-    return locked;
-  }
-
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("asset", asset)
-        .append("free", free)
-        .append("locked", locked)
-        .toString();
-  }
 }

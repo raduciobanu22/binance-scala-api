@@ -1,11 +1,7 @@
 package com.binance.api.client.security;
 
 import com.binance.api.client.constant.BinanceApiConstants;
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
 import okio.Buffer;
 import org.apache.commons.lang3.StringUtils;
 
@@ -16,9 +12,9 @@ import java.io.IOException;
  */
 public class AuthenticationInterceptor implements Interceptor {
 
-    private final String apiKey;
+    public final String apiKey;
 
-    private final String secret;
+    public final String secret;
 
     public AuthenticationInterceptor(String apiKey, String secret) {
         this.apiKey = apiKey;

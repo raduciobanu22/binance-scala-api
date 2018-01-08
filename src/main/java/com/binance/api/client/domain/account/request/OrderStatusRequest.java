@@ -2,8 +2,6 @@ package com.binance.api.client.domain.account.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Optional;
 
@@ -11,8 +9,8 @@ import java.util.Optional;
  * A specialized order request with additional filters.
  */
 public class OrderStatusRequest extends OrderRequest {
-  private final Optional<Long> orderId;
-  private final Optional<String> origClientOrderId;
+  public final Optional<Long> orderId;
+  public final Optional<String> origClientOrderId;
 
   @JsonCreator
   public OrderStatusRequest(@JsonProperty("symbol") String symbol,
@@ -37,19 +35,4 @@ public class OrderStatusRequest extends OrderRequest {
     this.origClientOrderId = Optional.of(origClientOrderId);
   }
 
-  public Optional<Long> getOrderId() {
-    return orderId;
-  }
-
-  public Optional<String> getOrigClientOrderId() {
-    return origClientOrderId;
-  }
-
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("orderId", orderId)
-        .append("origClientOrderId", origClientOrderId)
-        .toString();
-  }
 }

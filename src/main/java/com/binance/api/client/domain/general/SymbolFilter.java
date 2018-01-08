@@ -20,22 +20,22 @@ public class SymbolFilter {
 
   // PRICE_FILTER
 
-  private final FilterType filterType;
+  public final FilterType filterType;
 
   /**
    * Defines the minimum price/stopPrice allowed.
    */
-  private final String minPrice;
+  public final String minPrice;
 
   /**
    * Defines the maximum price/stopPrice allowed.
    */
-  private final String maxPrice;
+  public final String maxPrice;
 
   /**
    * Defines the intervals that a price/stopPrice can be increased/decreased by.
    */
-  private final String tickSize;
+  public final String tickSize;
 
 
   // LOT_SIZE
@@ -43,30 +43,30 @@ public class SymbolFilter {
   /**
    * Defines the minimum quantity/icebergQty allowed.
    */
-  private final String minQty;
+  public final String minQty;
 
   /**
    * Defines the maximum quantity/icebergQty allowed.
    */
-  private final String maxQty;
+  public final String maxQty;
 
   /**
    * Defines the intervals that a quantity/icebergQty can be increased/decreased by.
    */
-  private final String stepSize;
+  public final String stepSize;
 
   // MIN_NOTIONAL
 
   /**
    * Defines the minimum notional value allowed for an order on a symbol. An order's notional value is the price * quantity.
    */
-  private final String minNotional;
+  public final String minNotional;
 
   /**
    * MAX_NUM_ORDERS filter defines the maximum number of orders an account is allowed to have open on a symbol. Note that both "algo" orders and normal orders are counted for this filter.
    * MAX_ALGO_ORDERS filter defines the maximum number of "algo" orders an account is allowed to have open on a symbol. "Algo" orders are STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, and TAKE_PROFIT_LIMIT orders.
    */
-  private final String limit;
+  public final String limit;
 
   @JsonCreator
   public SymbolFilter(@JsonProperty("filterType") FilterType filterType,
@@ -88,41 +88,4 @@ public class SymbolFilter {
     this.minNotional = minNotional;
     this.limit = limit;
   }
-
-  public FilterType getFilterType() {
-    return filterType;
-  }
-
-  public String getMinPrice() {
-    return minPrice;
-  }
-
-  public String getMaxPrice() {
-    return maxPrice;
-  }
-
-  public String getTickSize() {
-    return tickSize;
-  }
-
-  public String getMinQty() {
-    return minQty;
-  }
-
-  public String getMaxQty() {
-    return maxQty;
-  }
-
-  public String getStepSize() {
-    return stepSize;
-  }
-
-  public String getMinNotional() {
-    return minNotional;
-  }
-
-  public String getLimit() {
-    return limit;
-  }
-
 }

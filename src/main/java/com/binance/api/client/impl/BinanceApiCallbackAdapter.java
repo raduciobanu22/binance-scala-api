@@ -16,7 +16,7 @@ import static com.binance.api.client.impl.BinanceApiServiceGenerator.getBinanceA
  */
 public class BinanceApiCallbackAdapter<T> implements Callback<T> {
 
-  private final BinanceApiCallback<T> callback;
+  public final BinanceApiCallback<T> callback;
 
   public BinanceApiCallbackAdapter(BinanceApiCallback<T> callback) {
     this.callback = callback;

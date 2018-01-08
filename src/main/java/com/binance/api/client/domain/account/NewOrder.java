@@ -6,8 +6,6 @@ import com.binance.api.client.domain.OrderType;
 import com.binance.api.client.domain.TimeInForce;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Optional;
 
@@ -19,57 +17,57 @@ public class NewOrder {
   /**
    * Symbol to place the order on.
    */
-  private final String symbol;
+  public final String symbol;
 
   /**
    * Buy/Sell order side.
    */
-  private final OrderSide side;
+  public final OrderSide side;
 
   /**
    * Type of order.
    */
-  private final OrderType type;
+  public final OrderType type;
 
   /**
    * Time in force to indicate how long will the order remain active.
    */
-  private final TimeInForce timeInForce;
+  public final TimeInForce timeInForce;
 
   /**
    * Quantity.
    */
-  private final String quantity;
+  public final String quantity;
 
   /**
    * Price.
    */
-  private final Optional<String> price;
+  public final Optional<String> price;
 
   /**
    * A unique id for the order. Automatically generated if not sent.
    */
-  private final Optional<String> newClientOrderId;
+  public final Optional<String> newClientOrderId;
 
   /**
    * Used with stop orders.
    */
-  private final Optional<String> stopPrice;
+  public final Optional<String> stopPrice;
 
   /**
    * Used with iceberg orders.
    */
-  private final Optional<String> icebergQty;
+  public final Optional<String> icebergQty;
 
   /**
    * Receiving window.
    */
-  private final Long recvWindow;
+  public final Long recvWindow;
 
   /**
    * Order timestamp.
    */
-  private final long timestamp;
+  public final long timestamp;
 
   @JsonCreator
   public NewOrder(@JsonProperty("symbol") String symbol,
@@ -132,49 +130,6 @@ public class NewOrder {
     );
   }
 
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public OrderSide getSide() {
-    return side;
-  }
-
-  public OrderType getType() {
-    return type;
-  }
-
-  public TimeInForce getTimeInForce() {
-    return timeInForce;
-  }
-
-  public String getQuantity() {
-    return quantity;
-  }
-
-  public Optional<String> getPrice() {
-    return price;
-  }
-
-  public Optional<String> getNewClientOrderId() {
-    return newClientOrderId;
-  }
-
-  public Optional<String> getStopPrice() {
-    return stopPrice;
-  }
-
-  public Optional<String> getIcebergQty() {
-    return icebergQty;
-  }
-
-  public Long getRecvWindow() {
-    return recvWindow;
-  }
-
-  public long getTimestamp() {
-    return timestamp;
-  }
 
   /**
    * Places a MARKET buy order for the given <code>quantity</code>.
@@ -212,20 +167,4 @@ public class NewOrder {
     return new NewOrder(symbol, OrderSide.SELL, OrderType.LIMIT, timeInForce, quantity, price);
   }
 
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("symbol", symbol)
-        .append("side", side)
-        .append("type", type)
-        .append("timeInForce", timeInForce)
-        .append("quantity", quantity)
-        .append("price", price)
-        .append("newClientOrderId", newClientOrderId)
-        .append("stopPrice", stopPrice)
-        .append("icebergQty", icebergQty)
-        .append("recvWindow", recvWindow)
-        .append("timestamp", timestamp)
-        .toString();
-  }
 }

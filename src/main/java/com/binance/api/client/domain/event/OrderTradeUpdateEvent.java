@@ -4,8 +4,6 @@ import com.binance.api.client.domain.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * Order or trade report update event.
@@ -17,93 +15,93 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderTradeUpdateEvent {
 
-  private final String eventType;
+  public final String eventType;
 
-  private final long eventTime;
+  public final long eventTime;
 
-  private final String symbol;
+  public final String symbol;
 
-  private final String newClientOrderId;
+  public final String newClientOrderId;
 
   /**
    * Buy/Sell order side.
    */
-  private final OrderSide side;
+  public final OrderSide side;
 
   /**
    * Type of order.
    */
-  private final OrderType type;
+  public final OrderType type;
 
   /**
    * Time in force to indicate how long will the order remain active.
    */
-  private final TimeInForce timeInForce;
+  public final TimeInForce timeInForce;
 
   /**
    * Original quantity in the order.
    */
-  private final String originalQuantity;
+  public final String originalQuantity;
 
   /**
    * Price.
    */
-  private final String price;
+  public final String price;
 
   /**
    * Type of execution.
    */
-  private final ExecutionType executionType;
+  public final ExecutionType executionType;
 
   /**
    * Status of the order.
    */
-  private final OrderStatus orderStatus;
+  public final OrderStatus orderStatus;
 
   /**
    * Reason why the order was rejected.
    */
-  private final OrderRejectReason orderRejectReason;
+  public final OrderRejectReason orderRejectReason;
 
   /**
    * Order id.
    */
-  private final Long orderId;
+  public final Long orderId;
 
   /**
    * Quantity of the last filled trade.
    */
-  private final String quantityLastFilledTrade;
+  public final String quantityLastFilledTrade;
 
   /**
    * Accumulated quantity of filled trades on this order.
    */
-  private final String accumulatedQuantity;
+  public final String accumulatedQuantity;
 
   /**
    * Price of last filled trade.
    */
-  private final String priceOfLastFilledTrade;
+  public final String priceOfLastFilledTrade;
 
   /**
    * Commission.
    */
-  private final String commission;
+  public final String commission;
 
   /**
    * Asset on which commission is taken
    */
-  private final String commissionAsset;
+  public final String commissionAsset;
 
   /**
    * Order/trade time.
    */
-  private final Long orderTradeTime;
+  public final Long orderTradeTime;
 
   /**
    * Trade id.
    */
-  private final Long tradeId;
+  public final Long tradeId;
 
   @JsonCreator
   public OrderTradeUpdateEvent(@JsonProperty("e") String eventType,
@@ -146,111 +144,5 @@ public class OrderTradeUpdateEvent {
     this.commissionAsset = commissionAsset;
     this.orderTradeTime = orderTradeTime;
     this.tradeId = tradeId;
-  }
-
-  public String getEventType() {
-    return eventType;
-  }
-
-  public long getEventTime() {
-    return eventTime;
-  }
-
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public String getNewClientOrderId() {
-    return newClientOrderId;
-  }
-
-  public OrderSide getSide() {
-    return side;
-  }
-
-  public OrderType getType() {
-    return type;
-  }
-
-  public TimeInForce getTimeInForce() {
-    return timeInForce;
-  }
-
-  public String getOriginalQuantity() {
-    return originalQuantity;
-  }
-
-  public String getPrice() {
-    return price;
-  }
-
-  public ExecutionType getExecutionType() {
-    return executionType;
-  }
-
-  public OrderStatus getOrderStatus() {
-    return orderStatus;
-  }
-
-  public OrderRejectReason getOrderRejectReason() {
-    return orderRejectReason;
-  }
-
-  public long getOrderId() {
-    return orderId;
-  }
-
-  public String getQuantityLastFilledTrade() {
-    return quantityLastFilledTrade;
-  }
-
-  public String getAccumulatedQuantity() {
-    return accumulatedQuantity;
-  }
-
-  public String getPriceOfLastFilledTrade() {
-    return priceOfLastFilledTrade;
-  }
-
-  public String getCommission() {
-    return commission;
-  }
-
-  public String getCommissionAsset() {
-    return commissionAsset;
-  }
-
-  public long getOrderTradeTime() {
-    return orderTradeTime;
-  }
-
-  public long getTradeId() {
-    return tradeId;
-  }
-
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("eventType", eventType)
-        .append("eventTime", eventTime)
-        .append("symbol", symbol)
-        .append("newClientOrderId", newClientOrderId)
-        .append("side", side)
-        .append("type", type)
-        .append("timeInForce", timeInForce)
-        .append("originalQuantity", originalQuantity)
-        .append("price", price)
-        .append("executionType", executionType)
-        .append("orderStatus", orderStatus)
-        .append("orderRejectReason", orderRejectReason)
-        .append("orderId", orderId)
-        .append("quantityLastFilledTrade", quantityLastFilledTrade)
-        .append("accumulatedQuantity", accumulatedQuantity)
-        .append("priceOfLastFilledTrade", priceOfLastFilledTrade)
-        .append("commission", commission)
-        .append("commissionAsset", commissionAsset)
-        .append("orderTradeTime", orderTradeTime)
-        .append("tradeId", tradeId)
-        .toString();
   }
 }

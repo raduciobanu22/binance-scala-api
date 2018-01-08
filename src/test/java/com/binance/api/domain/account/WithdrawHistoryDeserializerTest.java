@@ -26,17 +26,17 @@ public class WithdrawHistoryDeserializerTest {
     ObjectMapper mapper = new ObjectMapper();
     try {
       WithdrawHistory withdrawHistory = mapper.readValue(withdrawHistoryJson, WithdrawHistory.class);
-      assertTrue(withdrawHistory.isSuccess());
-      List<Withdraw> withdrawList = withdrawHistory.getWithdrawList();
-      assertEquals(withdrawHistory.getWithdrawList().size(), 1);
+      assertTrue(withdrawHistory.success);
+      List<Withdraw> withdrawList = withdrawHistory.withdrawList;
+      assertEquals(withdrawHistory.withdrawList.size(), 1);
       Withdraw withdraw = withdrawList.get(0);
-      assertEquals(withdraw.getAmount(), "0.1");
-      assertEquals(withdraw.getAddress(), "0x456");
-      assertEquals(withdraw.getAsset(), "ETH");
-      assertEquals(withdraw.getApplyTime(), "2017-10-13 20:59:38");
-      assertEquals(withdraw.getSuccessTime(), "2017-10-13 21:20:09");
-      assertEquals(withdraw.getTxId(), "0x123");
-      assertEquals(withdraw.getId(), "1");
+      assertEquals(withdraw.amount, "0.1");
+      assertEquals(withdraw.address, "0x456");
+      assertEquals(withdraw.asset, "ETH");
+      assertEquals(withdraw.applyTime, "2017-10-13 20:59:38");
+      assertEquals(withdraw.successTime, "2017-10-13 21:20:09");
+      assertEquals(withdraw.txId, "0x123");
+      assertEquals(withdraw.id, "1");
     } catch (IOException e) {
       fail(e.getMessage());
     }

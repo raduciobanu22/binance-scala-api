@@ -3,8 +3,6 @@ package com.binance.api.client.domain.market;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 24 hour price change statistics for a ticker.
@@ -15,82 +13,82 @@ public class TickerStatistics {
   /**
    * Price change during the last 24 hours.
    */
-  private final String priceChange;
+  public final String priceChange;
 
   /**
    * Price change, in percentage, during the last 24 hours.
    */
-  private final String priceChangePercent;
+  public final String priceChangePercent;
 
   /**
    * Weighted average price.
    */
-  private final String weightedAvgPrice;
+  public final String weightedAvgPrice;
 
   /**
    * Previous close price.
    */
-  private final String prevClosePrice;
+  public final String prevClosePrice;
 
   /**
    * Last price.
    */
-  private final String lastPrice;
+  public final String lastPrice;
 
   /**
    * Bid price.
    */
-  private final String bidPrice;
+  public final String bidPrice;
 
   /**
    * Ask price.
    */
-  private final String askPrice;
+  public final String askPrice;
 
   /**
    * Open price 24 hours ago.
    */
-  private final String openPrice;
+  public final String openPrice;
 
   /**
    * Highest price during the past 24 hours.
    */
-  private final String highPrice;
+  public final String highPrice;
 
   /**
    * Lowest price during the past 24 hours.
    */
-  private final String lowPrice;
+  public final String lowPrice;
 
   /**
    * Total volume during the past 24 hours.
    */
-  private final String volume;
+  public final String volume;
 
   /**
    * Open time.
    */
-  private final long openTime;
+  public final long openTime;
 
   /**
    * Close time.
    */
-  private final long closeTime;
+  public final long closeTime;
 
   /**
    * First trade id.
    */
-  private final long firstId;
+  public final long firstId;
 
   /**
    * Last trade id.
    */
-  private final long lastId;
+  public final long lastId;
 
   /**
    * Total number of trades during the last 24 hours.
    */
-  private final long count;
+  public final long count;
 
   @JsonCreator
   public TickerStatistics(@JsonProperty("priceChange") String priceChange,
@@ -125,92 +123,5 @@ public class TickerStatistics {
     this.firstId = firstId;
     this.lastId = lastId;
     this.count = count;
-  }
-
-  public String getPriceChange() {
-    return priceChange;
-  }
-
-  public String getPriceChangePercent() {
-    return priceChangePercent;
-  }
-
-  public String getWeightedAvgPrice() {
-    return weightedAvgPrice;
-  }
-
-  public String getPrevClosePrice() {
-    return prevClosePrice;
-  }
-
-  public String getLastPrice() {
-    return lastPrice;
-  }
-
-  public String getBidPrice() {
-    return bidPrice;
-  }
-
-  public String getAskPrice() {
-    return askPrice;
-  }
-
-  public String getOpenPrice() {
-    return openPrice;
-  }
-
-  public String getHighPrice() {
-    return highPrice;
-  }
-
-  public String getLowPrice() {
-    return lowPrice;
-  }
-
-  public String getVolume() {
-    return volume;
-  }
-
-  public long getOpenTime() {
-    return openTime;
-  }
-
-  public long getCloseTime() {
-    return closeTime;
-  }
-
-  public long getFirstId() {
-    return firstId;
-  }
-
-  public long getLastId() {
-    return lastId;
-  }
-
-  public long getCount() {
-    return count;
-  }
-
-
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("priceChange", priceChange)
-        .append("priceChangePercent", priceChangePercent)
-        .append("weightedAvgPrice", weightedAvgPrice)
-        .append("prevClosePrice", prevClosePrice)
-        .append("lastPrice", lastPrice)
-        .append("bidPrice", bidPrice)
-        .append("askPrice", askPrice)
-        .append("openPrice", openPrice)
-        .append("highPrice", highPrice)
-        .append("lowPrice", lowPrice)
-        .append("volume", volume)
-        .append("openTime", openTime)
-        .append("closeTime", closeTime)
-        .append("firstId", firstId)
-        .append("lastId", lastId)
-        .append("count", count)
-        .toString();
   }
 }

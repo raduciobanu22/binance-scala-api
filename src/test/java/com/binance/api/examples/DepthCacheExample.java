@@ -40,17 +40,17 @@ public class DepthCacheExample {
     OrderBook orderBook = client.getOrderBook(symbol.toUpperCase(), 10);
 
     this.depthCache = new HashMap<>();
-    this.lastUpdateId = orderBook.getLastUpdateId();
+    this.lastUpdateId = orderBook.lastUpdateId;
 
     NavigableMap<BigDecimal, BigDecimal> asks = new TreeMap<>(Comparator.reverseOrder());
-    for (OrderBookEntry ask : orderBook.getAsks()) {
-      asks.put(new BigDecimal(ask.getPrice()), new BigDecimal(ask.getQty()));
+    for (OrderBookEntry ask : orderBook.asks) {
+      asks.put(new BigDecimal(ask.price), new BigDecimal(ask.qty));
     }
     depthCache.put(ASKS, asks);
 
     NavigableMap<BigDecimal, BigDecimal> bids = new TreeMap<>(Comparator.reverseOrder());
-    for (OrderBookEntry bid : orderBook.getBids()) {
-      bids.put(new BigDecimal(bid.getPrice()), new BigDecimal(bid.getQty()));
+    for (OrderBookEntry bid : orderBook.bids) {
+      bids.put(new BigDecimal(bid.price), new BigDecimal(bid.qty));
     }
     depthCache.put(BIDS, bids);
   }
@@ -63,11 +63,11 @@ public class DepthCacheExample {
     BinanceApiWebSocketClient client = factory.newWebSocketClient();
 
     client.onDepthEvent(symbol.toLowerCase(), response -> {
-      if (response.getUpdateId() > lastUpdateId) {
+      if (response.updateId > lastUpdateId) {
         System.out.println(response);
-        lastUpdateId = response.getUpdateId();
-        updateOrderBook(getAsks(), response.getAsks());
-        updateOrderBook(getBids(), response.getBids());
+        lastUpdateId = response.updateId;
+        updateOrderBook(getAsks(), response.asks);
+        updateOrderBook(getBids(), response.bids);
         printDepthCache();
       }
     });
@@ -80,8 +80,8 @@ public class DepthCacheExample {
    */
   private void updateOrderBook(NavigableMap<BigDecimal, BigDecimal> lastOrderBookEntries, List<OrderBookEntry> orderBookDeltas) {
     for (OrderBookEntry orderBookDelta : orderBookDeltas) {
-      BigDecimal price = new BigDecimal(orderBookDelta.getPrice());
-      BigDecimal qty = new BigDecimal(orderBookDelta.getQty());
+      BigDecimal price = new BigDecimal(orderBookDelta.price);
+      BigDecimal qty = new BigDecimal(orderBookDelta.qty);
       if (qty.compareTo(BigDecimal.ZERO) == 0) {
         // qty=0 means remove this level
         lastOrderBookEntries.remove(price);

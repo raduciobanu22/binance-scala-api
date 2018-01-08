@@ -76,53 +76,53 @@ public class ExchangeInfoDeserializerTest {
     try {
       ExchangeInfo exchangeInfo = mapper.readValue(json, ExchangeInfo.class);
       System.out.println(exchangeInfo);
-      assertEquals(exchangeInfo.getTimezone(), "UTC");
-      assertEquals((long)exchangeInfo.getServerTime(), 1508631584636L);
+      assertEquals(exchangeInfo.timezone, "UTC");
+      assertEquals((long)exchangeInfo.serverTime, 1508631584636L);
 
-      List<RateLimit> rateLimits = exchangeInfo.getRateLimits();
+      List<RateLimit> rateLimits = exchangeInfo.rateLimits;
       assertEquals(rateLimits.size(), 3);
       testRateLimit(rateLimits.get(0), RateLimitType.REQUESTS, RateLimitInterval.MINUTE, 1200);
       testRateLimit(rateLimits.get(1), RateLimitType.ORDERS, RateLimitInterval.SECOND, 10);
       testRateLimit(rateLimits.get(2), RateLimitType.ORDERS, RateLimitInterval.DAY, 100000);
 
-      List<SymbolInfo> symbols = exchangeInfo.getSymbols();
+      List<SymbolInfo> symbols = exchangeInfo.symbols;
       assertEquals(symbols.size(), 1);
       SymbolInfo symbolInfo = symbols.get(0);
-      assertEquals(symbolInfo.getSymbol(), "ETHBTC");
-      assertEquals(symbolInfo.getStatus(), SymbolStatus.TRADING);
-      assertEquals(symbolInfo.getBaseAsset(), "ETH");
-      assertEquals((int)symbolInfo.getBaseAssetPrecision(), 8);
-      assertEquals(symbolInfo.getQuoteAsset(), "BTC");
-      assertEquals((int)symbolInfo.getQuotePrecision(), 8);
-      assertEquals(symbolInfo.getOrderTypes(), Arrays.asList(OrderType.LIMIT, OrderType.MARKET));
-      assertFalse(symbolInfo.isIcebergAllowed());
+      assertEquals(symbolInfo.symbol, "ETHBTC");
+      assertEquals(symbolInfo.status, SymbolStatus.TRADING);
+      assertEquals(symbolInfo.baseAsset, "ETH");
+      assertEquals((int)symbolInfo.baseAssetPrecision, 8);
+      assertEquals(symbolInfo.quoteAsset, "BTC");
+      assertEquals((int)symbolInfo.quotePrecision, 8);
+      assertEquals(symbolInfo.orderTypes, Arrays.asList(OrderType.LIMIT, OrderType.MARKET));
+      assertFalse(symbolInfo.icebergAllowed);
 
-      List<SymbolFilter> symbolFilters = symbolInfo.getFilters();
+      List<SymbolFilter> symbolFilters = symbolInfo.filters;
       assertEquals(symbolFilters.size(), 3);
 
       SymbolFilter priceFilter = symbolFilters.get(0);
-      assertEquals(priceFilter.getFilterType(), FilterType.PRICE_FILTER);
-      assertEquals(priceFilter.getMinPrice(), "0.00000100");
-      assertEquals(priceFilter.getMaxPrice(), "100000.00000000");
-      assertEquals(priceFilter.getTickSize(), "0.00000100");
+      assertEquals(priceFilter.filterType, FilterType.PRICE_FILTER);
+      assertEquals(priceFilter.minPrice, "0.00000100");
+      assertEquals(priceFilter.maxPrice, "100000.00000000");
+      assertEquals(priceFilter.tickSize, "0.00000100");
 
       SymbolFilter lotSizeFilter = symbolFilters.get(1);
-      assertEquals(lotSizeFilter.getFilterType(), FilterType.LOT_SIZE);
-      assertEquals(lotSizeFilter.getMinQty(), "0.00100000");
-      assertEquals(lotSizeFilter.getMaxQty(), "100000.00000000");
-      assertEquals(lotSizeFilter.getStepSize(), "0.00100000");
+      assertEquals(lotSizeFilter.filterType, FilterType.LOT_SIZE);
+      assertEquals(lotSizeFilter.minQty, "0.00100000");
+      assertEquals(lotSizeFilter.maxQty, "100000.00000000");
+      assertEquals(lotSizeFilter.stepSize, "0.00100000");
 
       SymbolFilter minNotionalFilter = symbolFilters.get(2);
-      assertEquals(minNotionalFilter.getFilterType(), FilterType.MIN_NOTIONAL);
-      assertEquals(minNotionalFilter.getMinNotional(), "0.00100000");
+      assertEquals(minNotionalFilter.filterType, FilterType.MIN_NOTIONAL);
+      assertEquals(minNotionalFilter.minNotional, "0.00100000");
     } catch (IOException e) {
       fail();
     }
   }
 
   private void testRateLimit(RateLimit rateLimit, RateLimitType expectedRateLimitType, RateLimitInterval expectedInterval, int expectedLimit) {
-    assertEquals(rateLimit.getRateLimitType(), expectedRateLimitType);
-    assertEquals(rateLimit.getInterval(), expectedInterval);
-    assertEquals((long)rateLimit.getLimit(), expectedLimit);
+    assertEquals(rateLimit.rateLimitType, expectedRateLimitType);
+    assertEquals(rateLimit.interval, expectedInterval);
+    assertEquals((long)rateLimit.limit, expectedLimit);
   }
 }

@@ -26,7 +26,7 @@ public class MarketDataEndpointsExampleAsync {
 
     // Getting depth of a symbol (async)
     client.getOrderBook("NEOETH", 10, (OrderBook response) -> {
-      System.out.println(response.getBids());
+      System.out.println(response.bids);
     });
 
     // Getting latest price of a symbol (async)

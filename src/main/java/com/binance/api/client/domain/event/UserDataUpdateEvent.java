@@ -2,8 +2,6 @@ package com.binance.api.client.domain.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Optional;
 
@@ -17,13 +15,13 @@ import java.util.Optional;
 @JsonDeserialize(using = UserDataUpdateEventDeserializer.class)
 public class UserDataUpdateEvent {
 
-  private final UserDataUpdateEventType eventType;
+  public final UserDataUpdateEventType eventType;
 
-  private final long eventTime;
+  public final long eventTime;
 
-  private final Optional<AccountUpdateEvent> accountUpdateEvent;
+  public final Optional<AccountUpdateEvent> accountUpdateEvent;
 
-  private final Optional<OrderTradeUpdateEvent> orderTradeUpdateEvent;
+  public final Optional<OrderTradeUpdateEvent> orderTradeUpdateEvent;
 
   public UserDataUpdateEvent(UserDataUpdateEventType eventType, long eventTime, Optional<AccountUpdateEvent> accountUpdateEvent, Optional<OrderTradeUpdateEvent> orderTradeUpdateEvent) {
     this.eventType = eventType;
@@ -32,47 +30,14 @@ public class UserDataUpdateEvent {
     this.orderTradeUpdateEvent = orderTradeUpdateEvent;
   }
 
-  public UserDataUpdateEventType getEventType() {
-    return eventType;
-  }
-
-  public long getEventTime() {
-    return eventTime;
-  }
-
-  public Optional<AccountUpdateEvent> getAccountUpdateEvent() {
-    return accountUpdateEvent;
-  }
-
-  public Optional<OrderTradeUpdateEvent> getOrderTradeUpdateEvent() {
-    return orderTradeUpdateEvent;
-  }
-
-  @Override
-  public String toString() {
-    ToStringBuilder sb = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("eventType", eventType)
-        .append("eventTime", eventTime);
-    if (eventType == UserDataUpdateEventType.ACCOUNT_UPDATE) {
-      sb.append("accountUpdateEvent", accountUpdateEvent);
-    } else {
-      sb.append("orderTradeUpdateEvent", orderTradeUpdateEvent);
-    }
-    return sb.toString();
-  }
-
   public enum UserDataUpdateEventType {
     ACCOUNT_UPDATE("outboundAccountInfo"),
     ORDER_TRADE_UPDATE("executionReport");
 
-    private final String eventTypeId;
+    public final String eventTypeId;
 
     UserDataUpdateEventType(String eventTypeId) {
       this.eventTypeId = eventTypeId;
-    }
-
-    public String getEventTypeId() {
-      return eventTypeId;
     }
 
     public static UserDataUpdateEventType fromEventTypeId(String eventTypeId) {

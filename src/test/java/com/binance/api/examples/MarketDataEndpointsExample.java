@@ -25,7 +25,7 @@ public class MarketDataEndpointsExample {
 
     // Getting depth of a symbol
     OrderBook orderBook = client.getOrderBook("NEOETH", 10);
-    System.out.println(orderBook.getAsks());
+    System.out.println(orderBook.asks);
 
     // Getting latest price of a symbol
     TickerStatistics tickerStatistics = client.get24HrPriceStatistics("NEOETH");

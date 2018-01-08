@@ -31,17 +31,17 @@ public class UserDataUpdateEventDeserializerTest {
     ObjectMapper mapper = new ObjectMapper();
     try {
       UserDataUpdateEvent userDataUpdateEvent = mapper.readValue(accountUpdateJson, UserDataUpdateEvent.class);
-      assertEquals(userDataUpdateEvent.getEventType().getEventTypeId(), "outboundAccountInfo");
-      assertEquals(userDataUpdateEvent.getEventTime(), 1L);
-      Optional<AccountUpdateEvent> accountUpdateEventOpt = userDataUpdateEvent.getAccountUpdateEvent();
+      assertEquals(userDataUpdateEvent.eventType.eventTypeId, "outboundAccountInfo");
+      assertEquals(userDataUpdateEvent.eventTime, 1L);
+      Optional<AccountUpdateEvent> accountUpdateEventOpt = userDataUpdateEvent.accountUpdateEvent;
       accountUpdateEventOpt.ifPresent(accountUpdateEvent -> {
-        for (AssetBalance assetBalance : accountUpdateEvent.getBalances()) {
-          if ("ETH".equals(assetBalance.getAsset())) {
-            assertEquals(assetBalance.getFree(), "0.10000000");
+        for (AssetBalance assetBalance : accountUpdateEvent.balances) {
+          if ("ETH".equals(assetBalance.asset)) {
+            assertEquals(assetBalance.free, "0.10000000");
           } else {
-            assertEquals(assetBalance.getFree(), "0.00000000");
+            assertEquals(assetBalance.free, "0.00000000");
           }
-          assertEquals(assetBalance.getLocked(), "0.00000000");
+          assertEquals(assetBalance.locked, "0.00000000");
         }
       });
     } catch (IOException e) {
@@ -55,27 +55,27 @@ public class UserDataUpdateEventDeserializerTest {
     ObjectMapper mapper = new ObjectMapper();
     try {
       UserDataUpdateEvent userDataUpdateEvent = mapper.readValue(orderUpdateEventJson, UserDataUpdateEvent.class);
-      assertEquals(userDataUpdateEvent.getEventType().getEventTypeId(), "executionReport");
-      assertEquals(userDataUpdateEvent.getEventTime(), 1L);
+      assertEquals(userDataUpdateEvent.eventType.eventTypeId, "executionReport");
+      assertEquals(userDataUpdateEvent.eventTime, 1L);
 
-      Optional<OrderTradeUpdateEvent> orderTradeUpdateEventOpt = userDataUpdateEvent.getOrderTradeUpdateEvent();
+      Optional<OrderTradeUpdateEvent> orderTradeUpdateEventOpt = userDataUpdateEvent.orderTradeUpdateEvent;
       orderTradeUpdateEventOpt.ifPresent(orderTradeUpdateEvent -> {
-        assertEquals(orderTradeUpdateEvent.getSymbol(), "NEOETH");
-        assertEquals(orderTradeUpdateEvent.getNewClientOrderId(), "XXX");
+        assertEquals(orderTradeUpdateEvent.symbol, "NEOETH");
+        assertEquals(orderTradeUpdateEvent.newClientOrderId, "XXX");
 
-        assertEquals(orderTradeUpdateEvent.getSide(), OrderSide.BUY);
-        assertEquals(orderTradeUpdateEvent.getType(), OrderType.LIMIT);
-        assertEquals(orderTradeUpdateEvent.getTimeInForce(), TimeInForce.GTC);
+        assertEquals(orderTradeUpdateEvent.side, OrderSide.BUY);
+        assertEquals(orderTradeUpdateEvent.type, OrderType.LIMIT);
+        assertEquals(orderTradeUpdateEvent.timeInForce, TimeInForce.GTC);
 
-        assertEquals(orderTradeUpdateEvent.getOriginalQuantity(), "1000.00000000");
-        assertEquals(orderTradeUpdateEvent.getPrice(), "0.00010000");
+        assertEquals(orderTradeUpdateEvent.originalQuantity, "1000.00000000");
+        assertEquals(orderTradeUpdateEvent.price, "0.00010000");
 
-        assertEquals(orderTradeUpdateEvent.getExecutionType(), ExecutionType.CANCELED);
-        assertEquals(orderTradeUpdateEvent.getOrderStatus(), OrderStatus.CANCELED);
-        assertEquals(orderTradeUpdateEvent.getOrderRejectReason(), OrderRejectReason.NONE);
+        assertEquals(orderTradeUpdateEvent.executionType, ExecutionType.CANCELED);
+        assertEquals(orderTradeUpdateEvent.orderStatus, OrderStatus.CANCELED);
+        assertEquals(orderTradeUpdateEvent.orderRejectReason, OrderRejectReason.NONE);
 
-        assertEquals(orderTradeUpdateEvent.getOrderId(), 123456L);
-        assertEquals(orderTradeUpdateEvent.getOrderTradeTime(), 1L);
+        assertEquals(orderTradeUpdateEvent.orderId, Long.valueOf(123456L));
+        assertEquals(orderTradeUpdateEvent.orderTradeTime, Long.valueOf(1L));
       });
     } catch (IOException e) {
       fail();

@@ -19,20 +19,20 @@ public class GeneralEndpointsExampleAsync {
     client.ping(response -> System.out.println("Ping succeeded."));
 
     // Check server time
-    client.getServerTime(response -> System.out.println(response.getServerTime()));
+    client.getServerTime(response -> System.out.println(response.serverTime));
 
     // Exchange info
     client.getExchangeInfo(exchangeInfo -> {
-      System.out.println(exchangeInfo.getTimezone());
-      System.out.println(exchangeInfo.getSymbols());
+      System.out.println(exchangeInfo.timezone);
+      System.out.println(exchangeInfo.symbols);
 
       // Obtain symbol information
       SymbolInfo symbolInfo = exchangeInfo.getSymbolInfo("ETHBTC");
-      System.out.println(symbolInfo.getStatus());
+      System.out.println(symbolInfo.status);
 
       SymbolFilter priceFilter = symbolInfo.getSymbolFilter(FilterType.PRICE_FILTER);
-      System.out.println(priceFilter.getMinPrice());
-      System.out.println(priceFilter.getTickSize());
+      System.out.println(priceFilter.minPrice);
+      System.out.println(priceFilter.tickSize);
     });
   }
 }

@@ -13,12 +13,12 @@ public class BinanceApiError {
   /**
    * Error code.
    */
-  private final int code;
+  public final int code;
 
   /**
    * Error message.
    */
-  private final String msg;
+  public final String msg;
 
   @JsonCreator
   public BinanceApiError(@JsonProperty("code") int code,

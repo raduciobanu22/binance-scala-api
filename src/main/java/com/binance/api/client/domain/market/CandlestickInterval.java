@@ -21,7 +21,7 @@ public enum CandlestickInterval {
   WEEKLY("1w"),
   MONTHLY("1M");
 
-  private final String intervalId;
+  public final String intervalId;
 
   CandlestickInterval(String intervalId) {
     this.intervalId = intervalId;

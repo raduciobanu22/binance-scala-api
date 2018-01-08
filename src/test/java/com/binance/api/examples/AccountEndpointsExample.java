@@ -19,7 +19,7 @@ public class AccountEndpointsExample {
 
     // Get account balances
     Account account = client.getAccount(Optional.of(6000000L), Optional.empty());
-    System.out.println(account.getBalances());
+    System.out.println(account.balances);
     System.out.println(account.getAssetBalance("ETH"));
 
     // Get list of trades

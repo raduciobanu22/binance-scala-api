@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.List;
 
@@ -29,28 +27,8 @@ public class AccountUpdateEvent {
     this.balances = balances;
   }
 
-  private final String eventType;
-  private final long eventTime;
-  private final List<AssetBalance> balances;
+  public final String eventType;
+  public final long eventTime;
+  public final List<AssetBalance> balances;
 
-  public String getEventType() {
-    return eventType;
-  }
-
-  public long getEventTime() {
-    return eventTime;
-  }
-
-  public List<AssetBalance> getBalances() {
-    return balances;
-  }
-
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("eventType", eventType)
-        .append("eventTime", eventTime)
-        .append("balances", balances)
-        .toString();
-  }
 }

@@ -33,7 +33,7 @@ public class AggTradesCacheExample {
 
     this.aggTradesCache = new HashMap<>();
     for (AggTrade aggTrade : aggTrades) {
-      aggTradesCache.put(aggTrade.getAggregatedTradeId(), aggTrade);
+      aggTradesCache.put(aggTrade.aggregatedTradeId, aggTrade);
     }
   }
 
@@ -45,7 +45,7 @@ public class AggTradesCacheExample {
     BinanceApiWebSocketClient client = factory.newWebSocketClient();
 
     client.onAggTradeEvent(symbol.toLowerCase(), response -> {
-      aggTradesCache.put(response.getAggregatedTradeId(), response);
+      aggTradesCache.put(response.aggregatedTradeId, response);
       System.out.println(response);
     });
   }

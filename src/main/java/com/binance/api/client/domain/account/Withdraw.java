@@ -3,8 +3,6 @@ package com.binance.api.client.domain.account;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A withdraw that was done to a Binance account.
@@ -33,80 +31,34 @@ public class Withdraw {
   /**
    * Amount withdrawn.
    */
-  private final String amount;
+  public final String amount;
 
   /**
    * Destination address.
    */
-  private final String address;
+  public final String address;
 
   /**
    * Symbol.
    */
-  private final String asset;
+  public final String asset;
 
-  private final String applyTime;
+  public final String applyTime;
 
-  private final String successTime;
+  public final String successTime;
 
   /**
    * Transaction id.
    */
-  private final String txId;
+  public final String txId;
 
   /**
    * Id.
    */
-  private final String id;
+  public final String id;
 
   /**
    * (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6:Completed)
    */
-  private final int status;
-
-  public String getAmount() {
-    return amount;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public String getAsset() {
-    return asset;
-  }
-
-  public String getApplyTime() {
-    return applyTime;
-  }
-
-  public String getSuccessTime() {
-    return successTime;
-  }
-
-  public String getTxId() {
-    return txId;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public int getStatus() {
-    return status;
-  }
-
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("amount", amount)
-        .append("address", address)
-        .append("asset", asset)
-        .append("applyTime", applyTime)
-        .append("successTime", successTime)
-        .append("txId", txId)
-        .append("id", id)
-        .append("status", status)
-        .toString();
-  }
+  public final int status;
 }

@@ -2,8 +2,6 @@ package com.binance.api.client.domain.account.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Optional;
 
@@ -29,23 +27,8 @@ public class AllOrdersRequest extends OrderRequest {
     this.limit = limit;
   }
 
-  private final Optional<Long> orderId;
+  public final Optional<Long> orderId;
 
-  private final Optional<Integer> limit;
+  public final Optional<Integer> limit;
 
-  public Optional<Long> getOrderId() {
-    return orderId;
-  }
-
-  public Optional<Integer> getLimit() {
-    return limit;
-  }
-
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
-        .append("orderId", orderId)
-        .append("limit", limit)
-        .toString();
-  }
 }

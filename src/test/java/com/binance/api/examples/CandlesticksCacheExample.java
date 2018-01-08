@@ -36,7 +36,7 @@ public class CandlesticksCacheExample {
 
     this.candlesticksCache = new TreeMap<>();
     for (Candlestick candlestickBar : candlestickBars) {
-      candlesticksCache.put(candlestickBar.getOpenTime(), candlestickBar);
+      candlesticksCache.put(candlestickBar.openTime, candlestickBar);
     }
   }
 
@@ -48,24 +48,8 @@ public class CandlesticksCacheExample {
     BinanceApiWebSocketClient client = factory.newWebSocketClient();
 
     client.onCandlestickEvent(symbol.toLowerCase(), interval, response -> {
-      Long openTime = response.getOpenTime();
-
-      // Store the updated candlestick in the cache
-      Candlestick updated = new Candlestick(
-          response.getOpenTime(),
-          response.getOpen(),
-          response.getHigh(),
-          response.getLow(),
-          response.getClose(),
-          response.getVolume(),
-          response.getCloseTime(),
-          response.getQuoteAssetVolume(),
-          response.getNumberOfTrades(),
-          response.getTakerBuyBaseAssetVolume(),
-          response.getTakerBuyQuoteAssetVolume()
-      );
-      candlesticksCache.put(openTime, updated);
-      System.out.println(updated);
+      candlesticksCache.put(response.openTime, response);
+      System.out.println(response);
     });
   }
 

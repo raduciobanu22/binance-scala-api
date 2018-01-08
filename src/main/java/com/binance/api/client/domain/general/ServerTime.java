@@ -1,24 +1,16 @@
 package com.binance.api.client.domain.general;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Time of the server running Binance's REST API.
  */
 public class ServerTime {
-  private final Long serverTime;
+  public final Long serverTime;
 
   @JsonCreator
-  public ServerTime(Long serverTime) {
+  public ServerTime(@JsonProperty("serverTime") Long serverTime) {
     this.serverTime = serverTime;
-  }
-
-  public Long getServerTime() {
-    return serverTime;
-  }
-
-  @Override
-  public String toString() {
-    return String.valueOf(serverTime);
   }
 }

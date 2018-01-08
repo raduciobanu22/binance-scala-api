@@ -24,20 +24,20 @@ public class UserDataStreamExample {
 
     // Listen for changes in the account
     webSocketClient.onUserDataUpdateEvent(listenKey, response -> {
-      response.getAccountUpdateEvent().ifPresent(accountUpdateEvent -> {
+      response.accountUpdateEvent.ifPresent(accountUpdateEvent -> {
         // Print new balances of every available asset
-        System.out.println(accountUpdateEvent.getBalances());
+        System.out.println(accountUpdateEvent.balances);
       });
 
-      response.getOrderTradeUpdateEvent().ifPresent(orderTradeUpdateEvent -> {
+      response.orderTradeUpdateEvent.ifPresent(orderTradeUpdateEvent -> {
         // Print details about an order/trade
         System.out.println(orderTradeUpdateEvent);
 
         // Print original quantity
-        System.out.println(orderTradeUpdateEvent.getOriginalQuantity());
+        System.out.println(orderTradeUpdateEvent.originalQuantity);
 
         // Or price
-        System.out.println(orderTradeUpdateEvent.getPrice());
+        System.out.println(orderTradeUpdateEvent.price);
 
       });
     });

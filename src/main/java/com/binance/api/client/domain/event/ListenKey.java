@@ -7,19 +7,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  */
 public class ListenKey {
 
-  private final String listenKey;
+  public final String listenKey;
 
   @JsonCreator
   public ListenKey(String listenKey) {
     this.listenKey = listenKey;
-  }
-
-  public String getListenKey() {
-    return listenKey;
-  }
-
-  @Override
-  public String toString() {
-    return listenKey;
   }
 }

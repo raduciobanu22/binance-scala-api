@@ -43,8 +43,8 @@ public class AccountBalanceCacheExample {
     Account account = client.getAccount(Optional.empty(), Optional.empty());
 
     this.accountBalanceCache = new TreeMap<>();
-    for (AssetBalance assetBalance : account.getBalances()) {
-      accountBalanceCache.put(assetBalance.getAsset(), assetBalance);
+    for (AssetBalance assetBalance : account.balances) {
+      accountBalanceCache.put(assetBalance.asset, assetBalance);
     }
 
     return client.startUserDataStream();
@@ -57,10 +57,10 @@ public class AccountBalanceCacheExample {
     BinanceApiWebSocketClient client = clientFactory.newWebSocketClient();
 
     client.onUserDataUpdateEvent(listenKey, response -> {
-        response.getAccountUpdateEvent().ifPresent(
+        response.accountUpdateEvent.ifPresent(
             (updated) -> {
-                for (AssetBalance assetBalance : updated.getBalances()) {
-                    accountBalanceCache.put(assetBalance.getAsset(), assetBalance);
+                for (AssetBalance assetBalance : updated.balances) {
+                    accountBalanceCache.put(assetBalance.asset, assetBalance);
                 }
                 System.out.println(accountBalanceCache);
 

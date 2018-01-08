@@ -7,8 +7,6 @@ import com.binance.api.client.domain.TimeInForce;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * Trade order information.
@@ -47,136 +45,67 @@ public class Order {
   /**
    * Symbol that the order was put on.
    */
-  private final String symbol;
+  public final String symbol;
 
   /**
    * Order id.
    */
-  private final Long orderId;
+  public final Long orderId;
 
   /**
    * Client order id.
    */
-  private final String clientOrderId;
+  public final String clientOrderId;
 
   /**
    * Price.
    */
-  private final String price;
+  public final String price;
 
   /**
    * Original quantity.
    */
-  private final String origQty;
+  public final String origQty;
 
   /**
    * Original quantity.
    */
-  private final String executedQty;
+  public final String executedQty;
 
   /**
    * Order status.
    */
-  private final OrderStatus status;
+  public final OrderStatus status;
 
   /**
    * Time in force to indicate how long will the order remain active.
    */
-  private final TimeInForce timeInForce;
+  public final TimeInForce timeInForce;
 
   /**
    * Type of order.
    */
-  private final OrderType type;
+  public final OrderType type;
 
   /**
    * Buy/Sell order side.
    */
-  private final OrderSide side;
+  public final OrderSide side;
 
   /**
    * Used with stop orders.
    */
-  private final String stopPrice;
+  public final String stopPrice;
 
   /**
    * Used with iceberg orders.
    */
-  private final String icebergQty;
+  public final String icebergQty;
 
   /**
    * Order timestamp.
    */
-  private final long time;
+  public final long time;
 
-  public String getSymbol() {
-    return symbol;
-  }
 
-  public Long getOrderId() {
-    return orderId;
-  }
-
-  public String getClientOrderId() {
-    return clientOrderId;
-  }
-
-  public String getPrice() {
-    return price;
-  }
-
-  public String getOrigQty() {
-    return origQty;
-  }
-
-  public String getExecutedQty() {
-    return executedQty;
-  }
-
-  public OrderStatus getStatus() {
-    return status;
-  }
-
-  public TimeInForce getTimeInForce() {
-    return timeInForce;
-  }
-
-  public OrderType getType() {
-    return type;
-  }
-
-  public OrderSide getSide() {
-    return side;
-  }
-
-  public String getStopPrice() {
-    return stopPrice;
-  }
-
-  public String getIcebergQty() {
-    return icebergQty;
-  }
-
-  public long getTime() {
-    return time;
-  }
-
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("symbol", symbol)
-        .append("orderId", orderId)
-        .append("clientOrderId", clientOrderId)
-        .append("price", price)
-        .append("origQty", origQty)
-        .append("executedQty", executedQty)
-        .append("status", status)
-        .append("timeInForce", timeInForce)
-        .append("type", type)
-        .append("side", side)
-        .append("stopPrice", stopPrice)
-        .append("icebergQty", icebergQty)
-        .append("time", time)
-        .toString();
-  }
 }
