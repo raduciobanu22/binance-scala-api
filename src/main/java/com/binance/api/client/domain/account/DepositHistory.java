@@ -1,5 +1,6 @@
 package com.binance.api.client.domain.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -12,26 +13,24 @@ import java.util.List;
  * @see Deposit
  */
 public class DepositHistory {
+  @JsonCreator
+  public DepositHistory(@JsonProperty("depositList") List<Deposit> depositList,
+                        @JsonProperty("success") boolean success) {
+    this.depositList = depositList;
+    this.success = success;
+  }
 
   @JsonProperty("depositList")
-  private List<Deposit> depositList;
+  private final List<Deposit> depositList;
 
-  private boolean success;
+  private final boolean success;
 
   public List<Deposit> getDepositList() {
     return depositList;
   }
 
-  public void setDepositList(List<Deposit> depositList) {
-    this.depositList = depositList;
-  }
-
   public boolean isSuccess() {
     return success;
-  }
-
-  public void setSuccess(boolean success) {
-    this.success = success;
   }
 
   @Override

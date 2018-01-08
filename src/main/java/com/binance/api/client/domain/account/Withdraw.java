@@ -1,6 +1,8 @@
 package com.binance.api.client.domain.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -9,103 +11,89 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Withdraw {
+  @JsonCreator
+  public Withdraw(@JsonProperty("amount") String amount,
+                  @JsonProperty("address") String address,
+                  @JsonProperty("asset") String asset,
+                  @JsonProperty("applyTime") String applyTime,
+                  @JsonProperty("successTime") String successTime,
+                  @JsonProperty("txId") String txId,
+                  @JsonProperty("id") String id,
+                  @JsonProperty("status") int status) {
+    this.amount = amount;
+    this.address = address;
+    this.asset = asset;
+    this.applyTime = applyTime;
+    this.successTime = successTime;
+    this.txId = txId;
+    this.id = id;
+    this.status = status;
+  }
 
   /**
    * Amount withdrawn.
    */
-  private String amount;
+  private final String amount;
 
   /**
    * Destination address.
    */
-  private String address;
+  private final String address;
 
   /**
    * Symbol.
    */
-  private String asset;
+  private final String asset;
 
-  private String applyTime;
+  private final String applyTime;
 
-  private String successTime;
+  private final String successTime;
 
   /**
    * Transaction id.
    */
-  private String txId;
+  private final String txId;
 
   /**
    * Id.
    */
-  private String id;
+  private final String id;
 
   /**
    * (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6:Completed)
    */
-  private int status;
+  private final int status;
 
   public String getAmount() {
     return amount;
-  }
-
-  public void setAmount(String amount) {
-    this.amount = amount;
   }
 
   public String getAddress() {
     return address;
   }
 
-  public void setAddress(String address) {
-    this.address = address;
-  }
-
   public String getAsset() {
     return asset;
-  }
-
-  public void setAsset(String asset) {
-    this.asset = asset;
   }
 
   public String getApplyTime() {
     return applyTime;
   }
 
-  public void setApplyTime(String applyTime) {
-    this.applyTime = applyTime;
-  }
-
   public String getSuccessTime() {
     return successTime;
-  }
-
-  public void setSuccessTime(String successTime) {
-    this.successTime = successTime;
   }
 
   public String getTxId() {
     return txId;
   }
 
-  public void setTxId(String txId) {
-    this.txId = txId;
-  }
-
   public String getId() {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
   public int getStatus() {
     return status;
-  }
-
-  public void setStatus(int status) {
-    this.status = status;
   }
 
   @Override

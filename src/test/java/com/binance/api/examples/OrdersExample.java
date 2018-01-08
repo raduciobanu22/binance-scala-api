@@ -12,6 +12,7 @@ import com.binance.api.client.domain.account.request.OrderStatusRequest;
 import com.binance.api.client.exception.BinanceApiException;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.binance.api.client.domain.account.NewOrder.limitBuy;
 import static com.binance.api.client.domain.account.NewOrder.marketBuy;
@@ -30,7 +31,7 @@ public class OrdersExample {
     System.out.println(openOrders);
 
     // Getting list of all orders with a limit of 10
-    List<Order> allOrders = client.getAllOrders(new AllOrdersRequest("LINKETH").limit(10));
+    List<Order> allOrders = client.getAllOrders(new AllOrdersRequest("LINKETH", Optional.empty(), 10));
     System.out.println(allOrders);
 
     // Get status of a particular order

@@ -4,7 +4,9 @@ import com.binance.api.client.domain.OrderSide;
 import com.binance.api.client.domain.OrderStatus;
 import com.binance.api.client.domain.OrderType;
 import com.binance.api.client.domain.TimeInForce;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -13,174 +15,150 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Order {
+  @JsonCreator
+  public Order(@JsonProperty("symbol") String symbol,
+               @JsonProperty("orderId") Long orderId,
+               @JsonProperty("clientOrderId") String clientOrderId,
+               @JsonProperty("price") String price,
+               @JsonProperty("origQty") String origQty,
+               @JsonProperty("executedQty") String executedQty,
+               @JsonProperty("status") OrderStatus status,
+               @JsonProperty("timeInForce") TimeInForce timeInForce,
+               @JsonProperty("type") OrderType type,
+               @JsonProperty("side") OrderSide side,
+               @JsonProperty("stopPrice") String stopPrice,
+               @JsonProperty("icebergQty") String icebergQty,
+               @JsonProperty("time") long time) {
+    this.symbol = symbol;
+    this.orderId = orderId;
+    this.clientOrderId = clientOrderId;
+    this.price = price;
+    this.origQty = origQty;
+    this.executedQty = executedQty;
+    this.status = status;
+    this.timeInForce = timeInForce;
+    this.type = type;
+    this.side = side;
+    this.stopPrice = stopPrice;
+    this.icebergQty = icebergQty;
+    this.time = time;
+  }
 
   /**
    * Symbol that the order was put on.
    */
-  private String symbol;
+  private final String symbol;
 
   /**
    * Order id.
    */
-  private Long orderId;
+  private final Long orderId;
 
   /**
    * Client order id.
    */
-  private String clientOrderId;
+  private final String clientOrderId;
 
   /**
    * Price.
    */
-  private String price;
+  private final String price;
 
   /**
    * Original quantity.
    */
-  private String origQty;
+  private final String origQty;
 
   /**
    * Original quantity.
    */
-  private String executedQty;
+  private final String executedQty;
 
   /**
    * Order status.
    */
-  private OrderStatus status;
+  private final OrderStatus status;
 
   /**
    * Time in force to indicate how long will the order remain active.
    */
-  private TimeInForce timeInForce;
+  private final TimeInForce timeInForce;
 
   /**
    * Type of order.
    */
-  private OrderType type;
+  private final OrderType type;
 
   /**
    * Buy/Sell order side.
    */
-  private OrderSide side;
+  private final OrderSide side;
 
   /**
    * Used with stop orders.
    */
-  private String stopPrice;
+  private final String stopPrice;
 
   /**
    * Used with iceberg orders.
    */
-  private String icebergQty;
+  private final String icebergQty;
 
   /**
    * Order timestamp.
    */
-  private long time;
+  private final long time;
 
   public String getSymbol() {
     return symbol;
-  }
-
-  public void setSymbol(String symbol) {
-    this.symbol = symbol;
   }
 
   public Long getOrderId() {
     return orderId;
   }
 
-  public void setOrderId(Long orderId) {
-    this.orderId = orderId;
-  }
-
   public String getClientOrderId() {
     return clientOrderId;
-  }
-
-  public void setClientOrderId(String clientOrderId) {
-    this.clientOrderId = clientOrderId;
   }
 
   public String getPrice() {
     return price;
   }
 
-  public void setPrice(String price) {
-    this.price = price;
-  }
-
   public String getOrigQty() {
     return origQty;
-  }
-
-  public void setOrigQty(String origQty) {
-    this.origQty = origQty;
   }
 
   public String getExecutedQty() {
     return executedQty;
   }
 
-  public void setExecutedQty(String executedQty) {
-    this.executedQty = executedQty;
-  }
-
   public OrderStatus getStatus() {
     return status;
-  }
-
-  public void setStatus(OrderStatus status) {
-    this.status = status;
   }
 
   public TimeInForce getTimeInForce() {
     return timeInForce;
   }
 
-  public void setTimeInForce(TimeInForce timeInForce) {
-    this.timeInForce = timeInForce;
-  }
-
   public OrderType getType() {
     return type;
-  }
-
-  public void setType(OrderType type) {
-    this.type = type;
   }
 
   public OrderSide getSide() {
     return side;
   }
 
-  public void setSide(OrderSide side) {
-    this.side = side;
-  }
-
   public String getStopPrice() {
     return stopPrice;
-  }
-
-  public void setStopPrice(String stopPrice) {
-    this.stopPrice = stopPrice;
   }
 
   public String getIcebergQty() {
     return icebergQty;
   }
 
-  public void setIcebergQty(String icebergQty) {
-    this.icebergQty = icebergQty;
-  }
-
   public long getTime() {
     return time;
-  }
-
-  public void setTime(long time) {
-    this.time = time;
   }
 
   @Override

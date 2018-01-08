@@ -20,31 +20,28 @@ public class CandlestickEventDeserializer extends JsonDeserializer<CandlestickEv
     ObjectCodec oc = jp.getCodec();
     JsonNode node = oc.readTree(jp);
 
-    CandlestickEvent candlestickEvent = new CandlestickEvent();
-
-    // Parse header
-    candlestickEvent.setEventType(node.get("e").asText());
-    candlestickEvent.setEventTime(node.get("E").asLong());
-    candlestickEvent.setSymbol(node.get("s").asText());
-
     // Parse candlestick data
     JsonNode candlestickNode = node.get("k");
-    candlestickEvent.setOpenTime(candlestickNode.get("t").asLong());
-    candlestickEvent.setCloseTime(candlestickNode.get("T").asLong());
-    candlestickEvent.setIntervalId(candlestickNode.get("i").asText());
-    candlestickEvent.setFirstTradeId(candlestickNode.get("f").asLong());
-    candlestickEvent.setLastTradeId(candlestickNode.get("L").asLong());
-    candlestickEvent.setOpen(candlestickNode.get("o").asText());
-    candlestickEvent.setClose(candlestickNode.get("c").asText());
-    candlestickEvent.setHigh(candlestickNode.get("h").asText());
-    candlestickEvent.setLow(candlestickNode.get("l").asText());
-    candlestickEvent.setVolume(candlestickNode.get("v").asText());
-    candlestickEvent.setNumberOfTrades(candlestickNode.get("n").asLong());
-    candlestickEvent.setBarFinal(candlestickNode.get("x").asBoolean());
-    candlestickEvent.setQuoteAssetVolume(candlestickNode.get("q").asText());
-    candlestickEvent.setTakerBuyBaseAssetVolume(candlestickNode.get("V").asText());
-    candlestickEvent.setTakerBuyQuoteAssetVolume(candlestickNode.get("Q").asText());
 
-    return candlestickEvent;
+    return new CandlestickEvent(
+        node.get("e").asText(),
+        node.get("E").asLong(),
+        node.get("s").asText(),
+        candlestickNode.get("t").asLong(),
+        candlestickNode.get("o").asText(),
+        candlestickNode.get("h").asText(),
+        candlestickNode.get("l").asText(),
+        candlestickNode.get("c").asText(),
+        candlestickNode.get("v").asText(),
+        candlestickNode.get("T").asLong(),
+        candlestickNode.get("i").asText(),
+        candlestickNode.get("f").asLong(),
+        candlestickNode.get("L").asLong(),
+        candlestickNode.get("q").asText(),
+        candlestickNode.get("n").asLong(),
+        candlestickNode.get("V").asText(),
+        candlestickNode.get("Q").asText(),
+        candlestickNode.get("x").asBoolean()
+    );
   }
 }

@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -32,15 +33,17 @@ public class UserDataUpdateEventDeserializerTest {
       UserDataUpdateEvent userDataUpdateEvent = mapper.readValue(accountUpdateJson, UserDataUpdateEvent.class);
       assertEquals(userDataUpdateEvent.getEventType().getEventTypeId(), "outboundAccountInfo");
       assertEquals(userDataUpdateEvent.getEventTime(), 1L);
-      AccountUpdateEvent accountUpdateEvent = userDataUpdateEvent.getAccountUpdateEvent();
-      for (AssetBalance assetBalance : accountUpdateEvent.getBalances()) {
-        if ("ETH".equals(assetBalance.getAsset())) {
-          assertEquals(assetBalance.getFree(), "0.10000000");
-        } else {
-          assertEquals(assetBalance.getFree(), "0.00000000");
+      Optional<AccountUpdateEvent> accountUpdateEventOpt = userDataUpdateEvent.getAccountUpdateEvent();
+      accountUpdateEventOpt.ifPresent(accountUpdateEvent -> {
+        for (AssetBalance assetBalance : accountUpdateEvent.getBalances()) {
+          if ("ETH".equals(assetBalance.getAsset())) {
+            assertEquals(assetBalance.getFree(), "0.10000000");
+          } else {
+            assertEquals(assetBalance.getFree(), "0.00000000");
+          }
+          assertEquals(assetBalance.getLocked(), "0.00000000");
         }
-        assertEquals(assetBalance.getLocked(), "0.00000000");
-      }
+      });
     } catch (IOException e) {
       fail();
     }
@@ -55,23 +58,25 @@ public class UserDataUpdateEventDeserializerTest {
       assertEquals(userDataUpdateEvent.getEventType().getEventTypeId(), "executionReport");
       assertEquals(userDataUpdateEvent.getEventTime(), 1L);
 
-      OrderTradeUpdateEvent orderTradeUpdateEvent = userDataUpdateEvent.getOrderTradeUpdateEvent();
-      assertEquals(orderTradeUpdateEvent.getSymbol(), "NEOETH");
-      assertEquals(orderTradeUpdateEvent.getNewClientOrderId(), "XXX");
+      Optional<OrderTradeUpdateEvent> orderTradeUpdateEventOpt = userDataUpdateEvent.getOrderTradeUpdateEvent();
+      orderTradeUpdateEventOpt.ifPresent(orderTradeUpdateEvent -> {
+        assertEquals(orderTradeUpdateEvent.getSymbol(), "NEOETH");
+        assertEquals(orderTradeUpdateEvent.getNewClientOrderId(), "XXX");
 
-      assertEquals(orderTradeUpdateEvent.getSide(), OrderSide.BUY);
-      assertEquals(orderTradeUpdateEvent.getType(), OrderType.LIMIT);
-      assertEquals(orderTradeUpdateEvent.getTimeInForce(), TimeInForce.GTC);
+        assertEquals(orderTradeUpdateEvent.getSide(), OrderSide.BUY);
+        assertEquals(orderTradeUpdateEvent.getType(), OrderType.LIMIT);
+        assertEquals(orderTradeUpdateEvent.getTimeInForce(), TimeInForce.GTC);
 
-      assertEquals(orderTradeUpdateEvent.getOriginalQuantity(), "1000.00000000");
-      assertEquals(orderTradeUpdateEvent.getPrice(), "0.00010000");
+        assertEquals(orderTradeUpdateEvent.getOriginalQuantity(), "1000.00000000");
+        assertEquals(orderTradeUpdateEvent.getPrice(), "0.00010000");
 
-      assertEquals(orderTradeUpdateEvent.getExecutionType(), ExecutionType.CANCELED);
-      assertEquals(orderTradeUpdateEvent.getOrderStatus(), OrderStatus.CANCELED);
-      assertEquals(orderTradeUpdateEvent.getOrderRejectReason(), OrderRejectReason.NONE);
+        assertEquals(orderTradeUpdateEvent.getExecutionType(), ExecutionType.CANCELED);
+        assertEquals(orderTradeUpdateEvent.getOrderStatus(), OrderStatus.CANCELED);
+        assertEquals(orderTradeUpdateEvent.getOrderRejectReason(), OrderRejectReason.NONE);
 
-      assertEquals(orderTradeUpdateEvent.getOrderId(), 123456L);
-      assertEquals(orderTradeUpdateEvent.getOrderTradeTime(), 1L);
+        assertEquals(orderTradeUpdateEvent.getOrderId(), 123456L);
+        assertEquals(orderTradeUpdateEvent.getOrderTradeTime(), 1L);
+      });
     } catch (IOException e) {
       fail();
     }

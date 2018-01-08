@@ -1,6 +1,7 @@
 package com.binance.api.client.domain.event;
 
 import com.binance.api.client.domain.market.OrderBookEntry;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,80 +14,70 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DepthEvent {
+  @JsonCreator
+  public DepthEvent(@JsonProperty("eventType") String eventType,
+                    @JsonProperty("eventTime") long eventTime,
+                    @JsonProperty("symbol") String symbol,
+                    @JsonProperty("updateId") long updateId,
+                    @JsonProperty("bids") List<OrderBookEntry> bids,
+                    @JsonProperty("asks") List<OrderBookEntry> asks) {
+    this.eventType = eventType;
+    this.eventTime = eventTime;
+    this.symbol = symbol;
+    this.updateId = updateId;
+    this.bids = bids;
+    this.asks = asks;
+  }
 
   @JsonProperty("e")
-  private String eventType;
+  private final String eventType;
 
   @JsonProperty("E")
-  private long eventTime;
+  private final long eventTime;
 
   @JsonProperty("s")
-  private String symbol;
+  private final String symbol;
 
   /**
    * updateId to sync up with updateid in /api/v1/depth
    */
   @JsonProperty("u")
-  private long updateId;
+  private final long updateId;
 
   /**
    * Bid depth delta.
    */
   @JsonProperty("b")
-  private List<OrderBookEntry> bids;
+  private final List<OrderBookEntry> bids;
 
   /**
    * Ask depth delta.
    */
   @JsonProperty("a")
-  private List<OrderBookEntry> asks;
+  private final List<OrderBookEntry> asks;
 
   public String getEventType() {
     return eventType;
-  }
-
-  public void setEventType(String eventType) {
-    this.eventType = eventType;
   }
 
   public long getEventTime() {
     return eventTime;
   }
 
-  public void setEventTime(long eventTime) {
-    this.eventTime = eventTime;
-  }
-
   public String getSymbol() {
     return symbol;
-  }
-
-  public void setSymbol(String symbol) {
-    this.symbol = symbol;
   }
 
   public long getUpdateId() {
     return updateId;
   }
 
-  public void setUpdateId(long updateId) {
-    this.updateId = updateId;
-  }
-
   public List<OrderBookEntry> getBids() {
     return bids;
   }
 
-  public void setBids(List<OrderBookEntry> bids) {
-    this.bids = bids;
-  }
-
   public List<OrderBookEntry> getAsks() {
     return asks;
-  }
-
-  public void setAsks(List<OrderBookEntry> asks) {
-    this.asks = asks;
   }
 
   @Override

@@ -1,6 +1,7 @@
 package com.binance.api.client.domain.event;
 
 import com.binance.api.client.domain.account.AssetBalance;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -19,38 +20,29 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountUpdateEvent {
 
-  @JsonProperty("e")
-  private String eventType;
+  @JsonCreator
+  public AccountUpdateEvent(@JsonProperty("e") String eventType,
+                            @JsonProperty("E") long eventTime,
+                            @JsonDeserialize(contentUsing = AssetBalanceDeserializer.class) @JsonProperty("B") List<AssetBalance> balances) {
+    this.eventType = eventType;
+    this.eventTime = eventTime;
+    this.balances = balances;
+  }
 
-  @JsonProperty("E")
-  private long eventTime;
-
-  @JsonProperty("B")
-  @JsonDeserialize(contentUsing = AssetBalanceDeserializer.class)
-  private List<AssetBalance> balances;
+  private final String eventType;
+  private final long eventTime;
+  private final List<AssetBalance> balances;
 
   public String getEventType() {
     return eventType;
-  }
-
-  public void setEventType(String eventType) {
-    this.eventType = eventType;
   }
 
   public long getEventTime() {
     return eventTime;
   }
 
-  public void setEventTime(long eventTime) {
-    this.eventTime = eventTime;
-  }
-
   public List<AssetBalance> getBalances() {
     return balances;
-  }
-
-  public void setBalances(List<AssetBalance> balances) {
-    this.balances = balances;
   }
 
   @Override

@@ -6,6 +6,7 @@ import com.binance.api.client.domain.OrderSide;
 import com.binance.api.client.domain.OrderStatus;
 import com.binance.api.client.domain.OrderType;
 import com.binance.api.client.domain.TimeInForce;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -21,274 +22,216 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderTradeUpdateEvent {
 
-  @JsonProperty("e")
-  private String eventType;
+  private final String eventType;
 
-  @JsonProperty("E")
-  private long eventTime;
+  private final long eventTime;
 
-  @JsonProperty("s")
-  private String symbol;
+  private final String symbol;
 
-  @JsonProperty("c")
-  private String newClientOrderId;
+  private final String newClientOrderId;
 
   /**
    * Buy/Sell order side.
    */
-  @JsonProperty("S")
-  private OrderSide side;
+  private final OrderSide side;
 
   /**
    * Type of order.
    */
-  @JsonProperty("o")
-  private OrderType type;
+  private final OrderType type;
 
   /**
    * Time in force to indicate how long will the order remain active.
    */
-  @JsonProperty("f")
-  private TimeInForce timeInForce;
+  private final TimeInForce timeInForce;
 
   /**
    * Original quantity in the order.
    */
-  @JsonProperty("q")
-  private String originalQuantity;
+  private final String originalQuantity;
 
   /**
    * Price.
    */
-  @JsonProperty("p")
-  private String price;
+  private final String price;
 
   /**
    * Type of execution.
    */
-  @JsonProperty("x")
-  private ExecutionType executionType;
+  private final ExecutionType executionType;
 
   /**
    * Status of the order.
    */
-  @JsonProperty("X")
-  private OrderStatus orderStatus;
+  private final OrderStatus orderStatus;
 
   /**
    * Reason why the order was rejected.
    */
-  @JsonProperty("r")
-  private OrderRejectReason orderRejectReason;
+  private final OrderRejectReason orderRejectReason;
 
   /**
    * Order id.
    */
-  @JsonProperty("i")
-  private Long orderId;
+  private final Long orderId;
 
   /**
    * Quantity of the last filled trade.
    */
-  @JsonProperty("l")
-  private String quantityLastFilledTrade;
+  private final String quantityLastFilledTrade;
 
   /**
    * Accumulated quantity of filled trades on this order.
    */
-  @JsonProperty("z")
-  private String accumulatedQuantity;
+  private final String accumulatedQuantity;
 
   /**
    * Price of last filled trade.
    */
-  @JsonProperty("L")
-  private String priceOfLastFilledTrade;
+  private final String priceOfLastFilledTrade;
 
   /**
    * Commission.
    */
-  @JsonProperty("n")
-  private String commission;
+  private final String commission;
 
   /**
    * Asset on which commission is taken
    */
-  @JsonProperty("N")
-  private String commissionAsset;
+  private final String commissionAsset;
 
   /**
    * Order/trade time.
    */
-  @JsonProperty("T")
-  private Long orderTradeTime;
+  private final Long orderTradeTime;
 
   /**
    * Trade id.
    */
-  @JsonProperty("t")
-  private Long tradeId;
+  private final Long tradeId;
+
+  @JsonCreator
+  public OrderTradeUpdateEvent(@JsonProperty("e") String eventType,
+                               @JsonProperty("E") long eventTime,
+                               @JsonProperty("s") String symbol,
+                               @JsonProperty("c") String newClientOrderId,
+                               @JsonProperty("S") OrderSide side,
+                               @JsonProperty("o") OrderType type,
+                               @JsonProperty("f") TimeInForce timeInForce,
+                               @JsonProperty("q") String originalQuantity,
+                               @JsonProperty("p") String price,
+                               @JsonProperty("x") ExecutionType executionType,
+                               @JsonProperty("X") OrderStatus orderStatus,
+                               @JsonProperty("r") OrderRejectReason orderRejectReason,
+                               @JsonProperty("i") Long orderId,
+                               @JsonProperty("l") String quantityLastFilledTrade,
+                               @JsonProperty("z") String accumulatedQuantity,
+                               @JsonProperty("L") String priceOfLastFilledTrade,
+                               @JsonProperty("n") String commission,
+                               @JsonProperty("N") String commissionAsset,
+                               @JsonProperty("T") Long orderTradeTime,
+                               @JsonProperty("t") Long tradeId) {
+    this.eventType = eventType;
+    this.eventTime = eventTime;
+    this.symbol = symbol;
+    this.newClientOrderId = newClientOrderId;
+    this.side = side;
+    this.type = type;
+    this.timeInForce = timeInForce;
+    this.originalQuantity = originalQuantity;
+    this.price = price;
+    this.executionType = executionType;
+    this.orderStatus = orderStatus;
+    this.orderRejectReason = orderRejectReason;
+    this.orderId = orderId;
+    this.quantityLastFilledTrade = quantityLastFilledTrade;
+    this.accumulatedQuantity = accumulatedQuantity;
+    this.priceOfLastFilledTrade = priceOfLastFilledTrade;
+    this.commission = commission;
+    this.commissionAsset = commissionAsset;
+    this.orderTradeTime = orderTradeTime;
+    this.tradeId = tradeId;
+  }
 
   public String getEventType() {
     return eventType;
-  }
-
-  public void setEventType(String eventType) {
-    this.eventType = eventType;
   }
 
   public long getEventTime() {
     return eventTime;
   }
 
-  public void setEventTime(long eventTime) {
-    this.eventTime = eventTime;
-  }
-
   public String getSymbol() {
     return symbol;
-  }
-
-  public void setSymbol(String symbol) {
-    this.symbol = symbol;
   }
 
   public String getNewClientOrderId() {
     return newClientOrderId;
   }
 
-  public void setNewClientOrderId(String newClientOrderId) {
-    this.newClientOrderId = newClientOrderId;
-  }
-
   public OrderSide getSide() {
     return side;
-  }
-
-  public void setSide(OrderSide side) {
-    this.side = side;
   }
 
   public OrderType getType() {
     return type;
   }
 
-  public void setType(OrderType type) {
-    this.type = type;
-  }
-
   public TimeInForce getTimeInForce() {
     return timeInForce;
-  }
-
-  public void setTimeInForce(TimeInForce timeInForce) {
-    this.timeInForce = timeInForce;
   }
 
   public String getOriginalQuantity() {
     return originalQuantity;
   }
 
-  public void setOriginalQuantity(String originalQuantity) {
-    this.originalQuantity = originalQuantity;
-  }
-
   public String getPrice() {
     return price;
-  }
-
-  public void setPrice(String price) {
-    this.price = price;
   }
 
   public ExecutionType getExecutionType() {
     return executionType;
   }
 
-  public void setExecutionType(ExecutionType executionType) {
-    this.executionType = executionType;
-  }
-
   public OrderStatus getOrderStatus() {
     return orderStatus;
-  }
-
-  public void setOrderStatus(OrderStatus orderStatus) {
-    this.orderStatus = orderStatus;
   }
 
   public OrderRejectReason getOrderRejectReason() {
     return orderRejectReason;
   }
 
-  public void setOrderRejectReason(OrderRejectReason orderRejectReason) {
-    this.orderRejectReason = orderRejectReason;
-  }
-
   public long getOrderId() {
     return orderId;
-  }
-
-  public void setOrderId(Long orderId) {
-    this.orderId = orderId;
   }
 
   public String getQuantityLastFilledTrade() {
     return quantityLastFilledTrade;
   }
 
-  public void setQuantityLastFilledTrade(String quantityLastFilledTrade) {
-    this.quantityLastFilledTrade = quantityLastFilledTrade;
-  }
-
   public String getAccumulatedQuantity() {
     return accumulatedQuantity;
-  }
-
-  public void setAccumulatedQuantity(String accumulatedQuantity) {
-    this.accumulatedQuantity = accumulatedQuantity;
   }
 
   public String getPriceOfLastFilledTrade() {
     return priceOfLastFilledTrade;
   }
 
-  public void setPriceOfLastFilledTrade(String priceOfLastFilledTrade) {
-    this.priceOfLastFilledTrade = priceOfLastFilledTrade;
-  }
-
   public String getCommission() {
     return commission;
-  }
-
-  public void setCommission(String commission) {
-    this.commission = commission;
   }
 
   public String getCommissionAsset() {
     return commissionAsset;
   }
 
-  public void setCommissionAsset(String commissionAsset) {
-    this.commissionAsset = commissionAsset;
-  }
-
   public long getOrderTradeTime() {
     return orderTradeTime;
-  }
-
-  public void setOrderTradeTime(long orderTradeTime) {
-    this.orderTradeTime = orderTradeTime;
   }
 
   public long getTradeId() {
     return tradeId;
   }
-
-  public void setTradeId(long tradeId) {
-    this.tradeId = tradeId;
-  }
-
 
   @Override
   public String toString() {

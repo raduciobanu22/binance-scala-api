@@ -10,43 +10,37 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class AssetBalance {
 
+  public AssetBalance(String asset, String free, String locked) {
+    this.asset = asset;
+    this.free = free;
+    this.locked = locked;
+  }
+
   /**
    * Asset symbol.
    */
-  private String asset;
+  private final String asset;
 
   /**
    * Available balance.
    */
-  private String free;
+  private final String free;
 
   /**
    * Locked by open orders.
    */
-  private String locked;
+  private final String locked;
 
   public String getAsset() {
     return asset;
-  }
-
-  public void setAsset(String asset) {
-    this.asset = asset;
   }
 
   public String getFree() {
     return free;
   }
 
-  public void setFree(String free) {
-    this.free = free;
-  }
-
   public String getLocked() {
     return locked;
-  }
-
-  public void setLocked(String locked) {
-    this.locked = locked;
   }
 
   @Override

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Custom deserializer for a User Data stream event, since the API can return two different responses in this stream.
@@ -23,26 +24,31 @@ public class UserDataUpdateEventDeserializer extends JsonDeserializer<UserDataUp
     JsonNode node = oc.readTree(jp);
     String json = node.toString();
 
-    final String eventTypeId = node.get("e").asText();
-    final Long eventTime = node.get("E").asLong();
-    UserDataUpdateEventType userDataUpdateEventType = UserDataUpdateEventType.fromEventTypeId(eventTypeId);
+    UserDataUpdateEventType type = UserDataUpdateEventType.fromEventTypeId(node.get("e").asText());
 
-    UserDataUpdateEvent userDataUpdateEvent = new UserDataUpdateEvent();
-    userDataUpdateEvent.setEventType(userDataUpdateEventType);
-    userDataUpdateEvent.setEventTime(eventTime);
-
-    if (userDataUpdateEventType == UserDataUpdateEventType.ACCOUNT_UPDATE) {
-      AccountUpdateEvent accountUpdateEvent = getUserDataUpdateEventDetail(json, AccountUpdateEvent.class);
-      userDataUpdateEvent.setAccountUpdateEvent(accountUpdateEvent);
-    } else { // userDataUpdateEventType == UserDataUpdateEventType.ORDER_TRADE_UPDATE
-      OrderTradeUpdateEvent orderTradeUpdateEvent = getUserDataUpdateEventDetail(json, OrderTradeUpdateEvent.class);
-      userDataUpdateEvent.setOrderTradeUpdateEvent(orderTradeUpdateEvent);
-    }
-
-    return userDataUpdateEvent;
+    return new UserDataUpdateEvent(
+        type,
+        node.get("E").asLong(),
+        accountUpdateEventOpt(type, json),
+        orderTradeUpdateEventOpt(type, json)
+      );
   }
 
-  public <T> T getUserDataUpdateEventDetail(String json, Class<T> clazz) {
+  static Optional<AccountUpdateEvent> accountUpdateEventOpt(UserDataUpdateEventType type, String json) {
+    if (type == UserDataUpdateEventType.ACCOUNT_UPDATE) {
+      return Optional.of(getUserDataUpdateEventDetail(json, AccountUpdateEvent.class));
+    }
+    return Optional.empty();
+  }
+
+  static Optional<OrderTradeUpdateEvent> orderTradeUpdateEventOpt(UserDataUpdateEventType type, String json) {
+    if (type != UserDataUpdateEventType.ACCOUNT_UPDATE) {
+      return Optional.of(getUserDataUpdateEventDetail(json, OrderTradeUpdateEvent.class));
+    }
+    return Optional.empty();
+  }
+
+  public static <T> T getUserDataUpdateEventDetail(String json, Class<T> clazz) {
     ObjectMapper mapper = new ObjectMapper();
     try {
       return mapper.readValue(json, clazz);

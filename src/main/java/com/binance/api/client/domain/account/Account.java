@@ -1,6 +1,8 @@
 package com.binance.api.client.domain.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,41 +13,61 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Account {
+  @JsonCreator
+  public Account(@JsonProperty("makerCommission") int makerCommission,
+                 @JsonProperty("takerCommission") int takerCommission,
+                 @JsonProperty("buyerCommission") int buyerCommission,
+                 @JsonProperty("sellerCommission") int sellerCommission,
+                 @JsonProperty("canTrade") boolean canTrade,
+                 @JsonProperty("canWithdraw") boolean canWithdraw,
+                 @JsonProperty("canDeposit") boolean canDeposit,
+                 @JsonProperty("updateTime") long updateTime,
+                 @JsonProperty("balances") List<AssetBalance> balances) {
+    this.makerCommission = makerCommission;
+    this.takerCommission = takerCommission;
+    this.buyerCommission = buyerCommission;
+    this.sellerCommission = sellerCommission;
+    this.canTrade = canTrade;
+    this.canWithdraw = canWithdraw;
+    this.canDeposit = canDeposit;
+    this.updateTime = updateTime;
+    this.balances = balances;
+  }
 
   /**
    * Maker commission.
    */
-  private int makerCommission;
+  private final int makerCommission;
 
   /**
    * Taker commission.
    */
-  private int takerCommission;
+  private final int takerCommission;
 
   /**
    * Buyer commission.
    */
-  private int buyerCommission;
+  private final int buyerCommission;
 
   /**
    * Seller commission.
    */
-  private int sellerCommission;
+  private final int sellerCommission;
 
   /**
    * Whether or not this account can trade.
    */
-  private boolean canTrade;
+  private final boolean canTrade;
 
   /**
    * Whether or not it is possible to withdraw from this account.
    */
-  private boolean canWithdraw;
+  private final boolean canWithdraw;
 
   /**
    * Whether or not it is possible to deposit into this account.
    */
-  private boolean canDeposit;
+  private final boolean canDeposit;
 
   /**
    * Last account update time.
@@ -61,56 +83,28 @@ public class Account {
     return makerCommission;
   }
 
-  public void setMakerCommission(int makerCommission) {
-    this.makerCommission = makerCommission;
-  }
-
   public int getTakerCommission() {
     return takerCommission;
-  }
-
-  public void setTakerCommission(int takerCommission) {
-    this.takerCommission = takerCommission;
   }
 
   public int getBuyerCommission() {
     return buyerCommission;
   }
 
-  public void setBuyerCommission(int buyerCommission) {
-    this.buyerCommission = buyerCommission;
-  }
-
   public int getSellerCommission() {
     return sellerCommission;
-  }
-
-  public void setSellerCommission(int sellerCommission) {
-    this.sellerCommission = sellerCommission;
   }
 
   public boolean isCanTrade() {
     return canTrade;
   }
 
-  public void setCanTrade(boolean canTrade) {
-    this.canTrade = canTrade;
-  }
-
   public boolean isCanWithdraw() {
     return canWithdraw;
   }
 
-  public void setCanWithdraw(boolean canWithdraw) {
-    this.canWithdraw = canWithdraw;
-  }
-
   public boolean isCanDeposit() {
     return canDeposit;
-  }
-
-  public void setCanDeposit(boolean canDeposit) {
-    this.canDeposit = canDeposit;
   }
 
   public long getUpdateTime() {
@@ -141,10 +135,7 @@ public class Account {
         return assetBalance;
       }
     }
-    AssetBalance emptyBalance = new AssetBalance();
-    emptyBalance.setAsset(symbol);
-    emptyBalance.setFree("0");
-    emptyBalance.setLocked("0");
+    AssetBalance emptyBalance = new AssetBalance(symbol, "0", "0");
     return emptyBalance;
   }
 

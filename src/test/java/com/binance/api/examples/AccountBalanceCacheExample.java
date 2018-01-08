@@ -58,13 +58,15 @@ public class AccountBalanceCacheExample {
     BinanceApiWebSocketClient client = clientFactory.newWebSocketClient();
 
     client.onUserDataUpdateEvent(listenKey, response -> {
-      if (response.getEventType() == ACCOUNT_UPDATE) {
-        // Override cached asset balances
-        for (AssetBalance assetBalance : response.getAccountUpdateEvent().getBalances()) {
-          accountBalanceCache.put(assetBalance.getAsset(), assetBalance);
-        }
-        System.out.println(accountBalanceCache);
-      }
+        response.getAccountUpdateEvent().ifPresent(
+            (updated) -> {
+                for (AssetBalance assetBalance : updated.getBalances()) {
+                    accountBalanceCache.put(assetBalance.getAsset(), assetBalance);
+                }
+                System.out.println(accountBalanceCache);
+
+            }
+        );
     });
   }
 

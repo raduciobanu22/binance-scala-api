@@ -103,14 +103,14 @@ public class BinanceApiAsyncRestClientImpl implements BinanceApiAsyncRestClient 
   @Override
   public void newOrder(NewOrder order, BinanceApiCallback<NewOrderResponse> callback) {
     binanceApiService.newOrder(order.getSymbol(), order.getSide(), order.getType(),
-        order.getTimeInForce(), order.getQuantity(), order.getPrice(), order.getStopPrice(), order.getIcebergQty(),
+        order.getTimeInForce(), order.getQuantity(), order.getPrice().orElse(null), order.getStopPrice().orElse(null), order.getIcebergQty().orElse(null),
         order.getRecvWindow(), order.getTimestamp()).enqueue(new BinanceApiCallbackAdapter<>(callback));
   }
 
   @Override
   public void newOrderTest(NewOrder order, BinanceApiCallback<Void> callback) {
     binanceApiService.newOrderTest(order.getSymbol(), order.getSide(), order.getType(),
-        order.getTimeInForce(), order.getQuantity(), order.getPrice(), order.getStopPrice(), order.getIcebergQty(),
+        order.getTimeInForce(), order.getQuantity(), order.getPrice().orElse(null), order.getStopPrice().orElse(null), order.getIcebergQty().orElse(null),
         order.getRecvWindow(), order.getTimestamp()).enqueue(new BinanceApiCallbackAdapter<>(callback));
   }
 
@@ -126,7 +126,7 @@ public class BinanceApiAsyncRestClientImpl implements BinanceApiAsyncRestClient 
   @Override
   public void cancelOrder(CancelOrderRequest cancelOrderRequest, BinanceApiCallback<Void> callback) {
     binanceApiService.cancelOrder(cancelOrderRequest.getSymbol(),
-        cancelOrderRequest.getOrderId(), cancelOrderRequest.getOrigClientOrderId(), cancelOrderRequest.getNewClientOrderId(),
+        cancelOrderRequest.getOrderId().orElse(null), cancelOrderRequest.getOrigClientOrderId().orElse(null), cancelOrderRequest.getNewClientOrderId().orElse(null),
         cancelOrderRequest.getRecvWindow(), cancelOrderRequest.getTimestamp()).enqueue(new BinanceApiCallbackAdapter<>(callback));
   }
 
@@ -139,7 +139,7 @@ public class BinanceApiAsyncRestClientImpl implements BinanceApiAsyncRestClient 
   @Override
   public void getAllOrders(AllOrdersRequest orderRequest, BinanceApiCallback<List<Order>> callback) {
     binanceApiService.getAllOrders(orderRequest.getSymbol(),
-        orderRequest.getOrderId(), orderRequest.getLimit(),
+        orderRequest.getOrderId().orElse(null), orderRequest.getLimit(),
         orderRequest.getRecvWindow(), orderRequest.getTimestamp()).enqueue(new BinanceApiCallbackAdapter<>(callback));
   }
 

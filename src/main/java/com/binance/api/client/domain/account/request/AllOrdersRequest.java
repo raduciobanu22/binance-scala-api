@@ -1,40 +1,43 @@
 package com.binance.api.client.domain.account.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.Optional;
 
 /**
  * A specialized order request with additional filters.
  */
+
 public class AllOrdersRequest extends OrderRequest {
+  @JsonCreator
+  public AllOrdersRequest(@JsonProperty("symbol") String symbol,
+                          @JsonProperty("orderId") Optional<Long> orderId,
+                          @JsonProperty("limit") Integer limit) {
+    super(symbol);
+    this.orderId = orderId;
+    this.limit = limit;
+  }
+
+  public AllOrdersRequest(String symbol) {
+    this(symbol, Optional.empty(), DEFAULT_LIMIT);
+  }
 
   private static final Integer DEFAULT_LIMIT = 500;
 
-  private Long orderId;
+  private final Optional<Long> orderId;
 
-  private Integer limit;
+  private final Integer limit;
 
-  public AllOrdersRequest(String symbol) {
-    super(symbol);
-    this.limit = DEFAULT_LIMIT;
-  }
 
-  public Long getOrderId() {
+  public Optional<Long> getOrderId() {
     return orderId;
-  }
-
-  public AllOrdersRequest orderId(Long orderId) {
-    this.orderId = orderId;
-    return this;
   }
 
   public Integer getLimit() {
     return limit;
-  }
-
-  public AllOrdersRequest limit(Integer limit) {
-    this.limit = limit;
-    return this;
   }
 
   @Override

@@ -101,14 +101,14 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
   @Override
   public NewOrderResponse newOrder(NewOrder order) {
     return executeSync(binanceApiService.newOrder(order.getSymbol(), order.getSide(), order.getType(),
-        order.getTimeInForce(), order.getQuantity(), order.getPrice(), order.getStopPrice(), order.getIcebergQty(),
+        order.getTimeInForce(), order.getQuantity(), order.getPrice().orElse(null), order.getStopPrice().orElse(null), order.getIcebergQty().orElse(null),
         order.getRecvWindow(), order.getTimestamp()));
   }
 
   @Override
   public void newOrderTest(NewOrder order) {
     executeSync(binanceApiService.newOrderTest(order.getSymbol(), order.getSide(), order.getType(),
-        order.getTimeInForce(), order.getQuantity(), order.getPrice(), order.getStopPrice(), order.getIcebergQty(),
+        order.getTimeInForce(), order.getQuantity(), order.getPrice().orElse(null), order.getStopPrice().orElse(null), order.getIcebergQty().orElse(null),
         order.getRecvWindow(), order.getTimestamp()));
   }
 
@@ -124,7 +124,7 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
   @Override
   public void cancelOrder(CancelOrderRequest cancelOrderRequest) {
     executeSync(binanceApiService.cancelOrder(cancelOrderRequest.getSymbol(),
-        cancelOrderRequest.getOrderId(), cancelOrderRequest.getOrigClientOrderId(), cancelOrderRequest.getNewClientOrderId(),
+        cancelOrderRequest.getOrderId().orElse(null), cancelOrderRequest.getOrigClientOrderId().orElse(null), cancelOrderRequest.getNewClientOrderId().orElse(null),
         cancelOrderRequest.getRecvWindow(), cancelOrderRequest.getTimestamp()));
   }
 
@@ -136,7 +136,7 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
   @Override
   public List<Order> getAllOrders(AllOrdersRequest orderRequest) {
     return executeSync(binanceApiService.getAllOrders(orderRequest.getSymbol(),
-        orderRequest.getOrderId(), orderRequest.getLimit(),
+        orderRequest.getOrderId().orElse(null), orderRequest.getLimit(),
         orderRequest.getRecvWindow(), orderRequest.getTimestamp()));
   }
 

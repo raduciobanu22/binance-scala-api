@@ -8,6 +8,8 @@ import com.binance.api.client.domain.account.request.CancelOrderRequest;
 import com.binance.api.client.domain.account.request.OrderRequest;
 import com.binance.api.client.domain.account.request.OrderStatusRequest;
 
+import java.util.Optional;
+
 import static com.binance.api.client.domain.account.NewOrder.limitBuy;
 import static com.binance.api.client.domain.account.NewOrder.marketBuy;
 
@@ -28,7 +30,7 @@ public class OrdersExampleAsync {
         response -> System.out.println(response));
 
     // Getting list of all orders with a limit of 10
-    client.getAllOrders(new AllOrdersRequest("LINKETH").limit(10), response -> System.out.println(response));
+    client.getAllOrders(new AllOrdersRequest("LINKETH", Optional.empty(), 10), response -> System.out.println(response));
 
     // Canceling an order
     client.cancelOrder(new CancelOrderRequest("LINKETH", 756703L),

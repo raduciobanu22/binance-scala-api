@@ -4,8 +4,12 @@ import com.binance.api.client.constant.BinanceApiConstants;
 import com.binance.api.client.domain.OrderSide;
 import com.binance.api.client.domain.OrderType;
 import com.binance.api.client.domain.TimeInForce;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.Optional;
 
 /**
  * A trade order to enter or exit a position.
@@ -15,176 +19,161 @@ public class NewOrder {
   /**
    * Symbol to place the order on.
    */
-  private String symbol;
+  private final String symbol;
 
   /**
    * Buy/Sell order side.
    */
-  private OrderSide side;
+  private final OrderSide side;
 
   /**
    * Type of order.
    */
-  private OrderType type;
+  private final OrderType type;
 
   /**
    * Time in force to indicate how long will the order remain active.
    */
-  private TimeInForce timeInForce;
+  private final TimeInForce timeInForce;
 
   /**
    * Quantity.
    */
-  private String quantity;
+  private final String quantity;
 
   /**
    * Price.
    */
-  private String price;
+  private final Optional<String> price;
 
   /**
    * A unique id for the order. Automatically generated if not sent.
    */
-  private String newClientOrderId;
+  private final Optional<String> newClientOrderId;
 
   /**
    * Used with stop orders.
    */
-  private String stopPrice;
+  private final Optional<String> stopPrice;
 
   /**
    * Used with iceberg orders.
    */
-  private String icebergQty;
+  private final Optional<String> icebergQty;
 
   /**
    * Receiving window.
    */
-  private Long recvWindow;
+  private final Long recvWindow;
 
   /**
    * Order timestamp.
    */
-  private long timestamp;
+  private final long timestamp;
 
-  /**
-   * Creates a new order with all required parameters.
-   */
-  public NewOrder(String symbol, OrderSide side, OrderType type, TimeInForce timeInForce, String quantity) {
+  @JsonCreator
+  public NewOrder(@JsonProperty("symbol") String symbol,
+                  @JsonProperty("OrderSide") OrderSide side,
+                  @JsonProperty("OrderType") OrderType type,
+                  @JsonProperty("timeInForce") TimeInForce timeInForce,
+                  @JsonProperty("quantity") String quantity,
+                  @JsonProperty("price") Optional<String> price,
+                  @JsonProperty("newClientOrderId") Optional<String> newClientOrderId,
+                  @JsonProperty("stopPrice") Optional<String> stopPrice,
+                  @JsonProperty("icebergQty") Optional<String> icebergQty,
+                  @JsonProperty("recvWindow") Long recvWindow,
+                  @JsonProperty("timestamp") long timestamp) {
     this.symbol = symbol;
     this.side = side;
     this.type = type;
     this.timeInForce = timeInForce;
     this.quantity = quantity;
-    this.timestamp = System.currentTimeMillis();
-    this.recvWindow = BinanceApiConstants.DEFAULT_RECEIVING_WINDOW;
+    this.price = price;
+    this.newClientOrderId = newClientOrderId;
+    this.stopPrice = stopPrice;
+    this.icebergQty = icebergQty;
+    this.recvWindow = recvWindow;
+    this.timestamp = timestamp;
+  }
+
+  /**
+   * Creates a new order with all required parameters.
+   */
+  public NewOrder(String symbol, OrderSide side, OrderType type, TimeInForce timeInForce, String quantity) {
+    this(symbol,
+        side,
+        type,
+        timeInForce,
+        quantity,
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        BinanceApiConstants.DEFAULT_RECEIVING_WINDOW,
+        System.currentTimeMillis()
+    );
   }
 
   /**
    * Creates a new order with all required parameters plus price, which is optional for MARKET orders.
    */
   public NewOrder(String symbol, OrderSide side, OrderType type, TimeInForce timeInForce, String quantity, String price) {
-    this(symbol, side, type, timeInForce, quantity);
-    this.price = price;
+    this(symbol,
+        side,
+        type,
+        timeInForce,
+        quantity,
+        Optional.of(price),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        BinanceApiConstants.DEFAULT_RECEIVING_WINDOW,
+        System.currentTimeMillis()
+    );
   }
 
   public String getSymbol() {
     return symbol;
   }
 
-  public NewOrder symbol(String symbol) {
-    this.symbol = symbol;
-    return this;
-  }
-
   public OrderSide getSide() {
     return side;
-  }
-
-  public NewOrder side(OrderSide side) {
-    this.side = side;
-    return this;
   }
 
   public OrderType getType() {
     return type;
   }
 
-  public NewOrder type(OrderType type) {
-    this.type = type;
-    return this;
-  }
-
   public TimeInForce getTimeInForce() {
     return timeInForce;
-  }
-
-  public NewOrder timeInForce(TimeInForce timeInForce) {
-    this.timeInForce = timeInForce;
-    return this;
   }
 
   public String getQuantity() {
     return quantity;
   }
 
-  public NewOrder quantity(String quantity) {
-    this.quantity = quantity;
-    return this;
-  }
-
-  public String getPrice() {
+  public Optional<String> getPrice() {
     return price;
   }
 
-  public NewOrder price(String price) {
-    this.price = price;
-    return this;
-  }
-
-  public String getNewClientOrderId() {
+  public Optional<String> getNewClientOrderId() {
     return newClientOrderId;
   }
 
-  public NewOrder newClientOrderId(String newClientOrderId) {
-    this.newClientOrderId = newClientOrderId;
-    return this;
-  }
-
-  public String getStopPrice() {
+  public Optional<String> getStopPrice() {
     return stopPrice;
   }
 
-  public NewOrder stopPrice(String stopPrice) {
-    this.stopPrice = stopPrice;
-    return this;
-  }
-
-  public String getIcebergQty() {
+  public Optional<String> getIcebergQty() {
     return icebergQty;
-  }
-
-  public NewOrder icebergQty(String icebergQty) {
-    this.icebergQty = icebergQty;
-    return this;
   }
 
   public Long getRecvWindow() {
     return recvWindow;
   }
 
-  public NewOrder recvWindow(Long recvWindow) {
-    this.recvWindow = recvWindow;
-    return this;
-  }
-
   public long getTimestamp() {
     return timestamp;
-  }
-
-  public NewOrder timestamp(long timestamp) {
-    this.timestamp = timestamp;
-    return this;
   }
 
   /**

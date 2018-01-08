@@ -1,6 +1,8 @@
 package com.binance.api.client.domain.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,58 +13,52 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NewOrderResponse {
+  @JsonCreator
+  public NewOrderResponse(@JsonProperty("symbol") String symbol,
+                          @JsonProperty("orderId") Long orderId,
+                          @JsonProperty("clientOrderId") String clientOrderId,
+                          @JsonProperty("transactTime") Long transactTime) {
+    this.symbol = symbol;
+    this.orderId = orderId;
+    this.clientOrderId = clientOrderId;
+    this.transactTime = transactTime;
+  }
 
   /**
    * Order symbol.
    */
-  private String symbol;
+  private final String symbol;
 
   /**
    * Order id.
    */
-  private Long orderId;
+  private final Long orderId;
 
   /**
    * This will be either a generated one, or the newClientOrderId parameter
    * which was passed when creating the new order.
    */
-  private String clientOrderId;
+  private final String clientOrderId;
 
   /**
    * Transact time for this order.
    */
-  private Long transactTime;
+  private final Long transactTime;
 
   public String getSymbol() {
     return symbol;
-  }
-
-  public void setSymbol(String symbol) {
-    this.symbol = symbol;
   }
 
   public Long getOrderId() {
     return orderId;
   }
 
-  public void setOrderId(Long orderId) {
-    this.orderId = orderId;
-  }
-
   public String getClientOrderId() {
     return clientOrderId;
   }
 
-  public void setClientOrderId(String clientOrderId) {
-    this.clientOrderId = clientOrderId;
-  }
-
   public Long getTransactTime() {
     return transactTime;
-  }
-
-  public void setTransactTime(Long transactTime) {
-    this.transactTime = transactTime;
   }
 
   @Override

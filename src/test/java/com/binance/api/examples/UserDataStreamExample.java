@@ -7,6 +7,8 @@ import com.binance.api.client.domain.event.AccountUpdateEvent;
 import com.binance.api.client.domain.event.OrderTradeUpdateEvent;
 import com.binance.api.client.domain.event.UserDataUpdateEvent.UserDataUpdateEventType;
 
+import java.util.Optional;
+
 /**
  * User data stream endpoints examples.
  *
@@ -27,12 +29,12 @@ public class UserDataStreamExample {
 
     // Listen for changes in the account
     webSocketClient.onUserDataUpdateEvent(listenKey, response -> {
-      if (response.getEventType() == UserDataUpdateEventType.ACCOUNT_UPDATE) {
-        AccountUpdateEvent accountUpdateEvent = response.getAccountUpdateEvent();
+      response.getAccountUpdateEvent().ifPresent(accountUpdateEvent -> {
         // Print new balances of every available asset
         System.out.println(accountUpdateEvent.getBalances());
-      } else {
-        OrderTradeUpdateEvent orderTradeUpdateEvent = response.getOrderTradeUpdateEvent();
+      });
+
+      response.getOrderTradeUpdateEvent().ifPresent(orderTradeUpdateEvent -> {
         // Print details about an order/trade
         System.out.println(orderTradeUpdateEvent);
 
@@ -41,7 +43,8 @@ public class UserDataStreamExample {
 
         // Or price
         System.out.println(orderTradeUpdateEvent.getPrice());
-      }
+
+      });
     });
     System.out.println("Waiting for events...");
 

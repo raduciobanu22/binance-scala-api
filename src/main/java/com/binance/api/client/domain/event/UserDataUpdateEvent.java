@@ -1,9 +1,12 @@
 package com.binance.api.client.domain.event;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.Optional;
 
 /**
  * User data update event which can be of two types:
@@ -15,44 +18,35 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @JsonDeserialize(using = UserDataUpdateEventDeserializer.class)
 public class UserDataUpdateEvent {
 
-  private UserDataUpdateEventType eventType;
+  private final UserDataUpdateEventType eventType;
 
-  private long eventTime;
+  private final long eventTime;
 
-  private AccountUpdateEvent accountUpdateEvent;
+  private final Optional<AccountUpdateEvent> accountUpdateEvent;
 
-  private OrderTradeUpdateEvent orderTradeUpdateEvent;
+  private final Optional<OrderTradeUpdateEvent> orderTradeUpdateEvent;
+
+  public UserDataUpdateEvent(UserDataUpdateEventType eventType, long eventTime, Optional<AccountUpdateEvent> accountUpdateEvent, Optional<OrderTradeUpdateEvent> orderTradeUpdateEvent) {
+    this.eventType = eventType;
+    this.eventTime = eventTime;
+    this.accountUpdateEvent = accountUpdateEvent;
+    this.orderTradeUpdateEvent = orderTradeUpdateEvent;
+  }
 
   public UserDataUpdateEventType getEventType() {
     return eventType;
-  }
-
-  public void setEventType(UserDataUpdateEventType eventType) {
-    this.eventType = eventType;
   }
 
   public long getEventTime() {
     return eventTime;
   }
 
-  public void setEventTime(long eventTime) {
-    this.eventTime = eventTime;
-  }
-
-  public AccountUpdateEvent getAccountUpdateEvent() {
+  public Optional<AccountUpdateEvent> getAccountUpdateEvent() {
     return accountUpdateEvent;
   }
 
-  public void setAccountUpdateEvent(AccountUpdateEvent accountUpdateEvent) {
-    this.accountUpdateEvent = accountUpdateEvent;
-  }
-
-  public OrderTradeUpdateEvent getOrderTradeUpdateEvent() {
+  public Optional<OrderTradeUpdateEvent> getOrderTradeUpdateEvent() {
     return orderTradeUpdateEvent;
-  }
-
-  public void setOrderTradeUpdateEvent(OrderTradeUpdateEvent orderTradeUpdateEvent) {
-    this.orderTradeUpdateEvent = orderTradeUpdateEvent;
   }
 
   @Override

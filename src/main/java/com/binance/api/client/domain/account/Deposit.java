@@ -1,5 +1,6 @@
 package com.binance.api.client.domain.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -9,70 +10,58 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Deposit {
+  @JsonCreator
+  public Deposit(String amount, String asset, String insertTime, String txId, int status) {
+    this.amount = amount;
+    this.asset = asset;
+    this.insertTime = insertTime;
+    this.txId = txId;
+    this.status = status;
+  }
 
   /**
    * Amount deposited.
    */
-  private String amount;
+  private final String amount;
 
   /**
    * Symbol.
    */
-  private String asset;
+  private final String asset;
 
   /**
    * Deposit time.
    */
-  private String insertTime;
+  private final String insertTime;
 
   /**
    * Transaction id
    */
-  private String txId;
+  private final String txId;
 
   /**
    * (0:pending,1:success)
    */
-  private int status;
+  private final int status;
 
   public String getAmount() {
     return amount;
-  }
-
-  public void setAmount(String amount) {
-    this.amount = amount;
   }
 
   public String getAsset() {
     return asset;
   }
 
-  public void setAsset(String asset) {
-    this.asset = asset;
-  }
-
   public String getInsertTime() {
     return insertTime;
-  }
-
-  public void setInsertTime(String insertTime) {
-    this.insertTime = insertTime;
   }
 
   public String getTxId() {
     return txId;
   }
 
-  public void setTxId(String txId) {
-    this.txId = txId;
-  }
-
   public int getStatus() {
     return status;
-  }
-
-  public void setStatus(int status) {
-    this.status = status;
   }
 
   @Override

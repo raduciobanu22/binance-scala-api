@@ -1,6 +1,8 @@
 package com.binance.api.client.domain.account.request;
 
 import com.binance.api.client.constant.BinanceApiConstants;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -8,18 +10,24 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * Base request parameters for order-related methods.
  */
 public class OrderRequest {
+  @JsonCreator
+  public OrderRequest(@JsonProperty("symbol") String symbol,
+                      @JsonProperty("recvWindow") Long recvWindow,
+                      @JsonProperty("timestamp") Long timestamp) {
+    this.symbol = symbol;
+    this.recvWindow = recvWindow;
+    this.timestamp = timestamp;
+  }
+
+  public OrderRequest(String symbol) {
+    this(symbol, BinanceApiConstants.DEFAULT_RECEIVING_WINDOW, System.currentTimeMillis());
+  }
 
   private final String symbol;
 
-  private Long recvWindow;
+  private final Long recvWindow;
 
-  private Long timestamp;
-
-  public OrderRequest(String symbol) {
-    this.symbol = symbol;
-    this.timestamp = System.currentTimeMillis();
-    this.recvWindow = BinanceApiConstants.DEFAULT_RECEIVING_WINDOW;
-  }
+  private final Long timestamp;
 
   public String getSymbol() {
     return symbol;
@@ -29,18 +37,8 @@ public class OrderRequest {
     return recvWindow;
   }
 
-  public OrderRequest recvWindow(Long recvWindow) {
-    this.recvWindow = recvWindow;
-    return this;
-  }
-
   public Long getTimestamp() {
     return timestamp;
-  }
-
-  public OrderRequest timestamp(Long timestamp) {
-    this.timestamp = timestamp;
-    return this;
   }
 
   @Override
