@@ -12,6 +12,7 @@ import com.binance.api.client.domain.market.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Binance API façade, supporting asynchronous/non-blocking access Binance's REST API.
@@ -23,17 +24,17 @@ public interface BinanceApiAsyncRestClient {
   /**
    * Test connectivity to the Rest API.
    */
-  void ping(BinanceApiCallback<Void> callback);
+  CompletableFuture<Void> ping();
 
   /**
    * Check server time.
    */
-  void getServerTime(BinanceApiCallback<ServerTime> callback);
+  CompletableFuture<ServerTime> getServerTime();
 
   /**
    * Current exchange trading rules and symbol information
    */
-  void getExchangeInfo(BinanceApiCallback<ExchangeInfo> callback);
+  CompletableFuture<ExchangeInfo> getExchangeInfo();
 
   // Market Data endpoints
 
@@ -41,10 +42,8 @@ public interface BinanceApiAsyncRestClient {
    * Get order book of a symbol (asynchronous)
    *
    * @param symbol ticker symbol (e.g. ETHBTC)
-   * @param limit depth of the order book (max 100)
-   * @param callback the callback that handles the response
    */
-  void getOrderBook(String symbol, Integer limit, BinanceApiCallback<OrderBook> callback);
+  CompletableFuture<OrderBook> getOrderBook(String symbol, Integer limit);
 
   /**
    * Get compressed, aggregate trades. Trades that fill at the time, from the same order, with
@@ -57,11 +56,9 @@ public interface BinanceApiAsyncRestClient {
    * @param fromId ID to get aggregate trades from INCLUSIVE (optional)
    * @param limit Default 500; max 500 (optional)
    * @param startTime Timestamp in ms to get aggregate trades from INCLUSIVE (optional).
-   * @param endTime Timestamp in ms to get aggregate trades until INCLUSIVE (optional).
-   * @param callback the callback that handles the response
    * @return a list of aggregate trades for the given symbol
    */
-  void getAggTrades(String symbol, Optional<String> fromId, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime, BinanceApiCallback<List<AggTrade>> callback);
+  CompletableFuture<List<AggTrade>> getAggTrades(String symbol, Optional<String> fromId, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime);
 
   /**
   /**
@@ -71,97 +68,75 @@ public interface BinanceApiAsyncRestClient {
    * @param interval candlestick interval (mandatory)
    * @param limit Default 500; max 500 (optional)
    * @param startTime Timestamp in ms to get candlestick bars from INCLUSIVE (optional).
-   * @param endTime Timestamp in ms to get candlestick bars until INCLUSIVE (optional).
-   * @param callback the callback that handles the response containing a candlestick bar for the given symbol and interval
    */
-  void getCandlestickBars(String symbol, CandlestickInterval interval, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime, BinanceApiCallback<List<Candlestick>> callback);
+  CompletableFuture<List<Candlestick>> getCandlestickBars(String symbol, CandlestickInterval interval, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime);
 
   /**
    * Get 24 hour price change statistics (asynchronous).
    *
-   * @param symbol ticker symbol (e.g. ETHBTC)
-   * @param callback the callback that handles the response
    */
-  void get24HrPriceStatistics(String symbol, BinanceApiCallback<TickerStatistics> callback);
+  CompletableFuture<TickerStatistics> get24HrPriceStatistics(String symbol);
 
   /**
    * Get Latest price for all symbols (asynchronous).
-   *
-   * @param callback the callback that handles the response
    */
-  void getAllPrices(BinanceApiCallback<List<TickerPrice>> callback);
+  CompletableFuture<List<TickerPrice>> getAllPrices();
 
   /**
    * Get best price/qty on the order book for all symbols (asynchronous).
-   *
-   * @param callback the callback that handles the response
    */
-  void getBookTickers(BinanceApiCallback<List<BookTicker>> callback);
+  CompletableFuture<List<BookTicker>> getBookTickers();
 
   // Account endpoints
 
   /**
    * Send in a new order (asynchronous)
    *
-   * @param order the new order to submit.
-   * @param callback the callback that handles the response
    */
-  void newOrder(NewOrder order, BinanceApiCallback<NewOrderResponse> callback);
+  CompletableFuture<NewOrderResponse> newOrder(NewOrder order);
 
   /**
    * Test new order creation and signature/recvWindow long. Creates and validates a new order but does not send it into the matching engine.
    *
-   * @param order the new TEST order to submit.
-   * @param callback the callback that handles the response
    */
-  void newOrderTest(NewOrder order, BinanceApiCallback<Void> callback);
+  CompletableFuture<Void> newOrderTest(NewOrder order);
 
   /**
    * Check an order's status (asynchronous).
    *
-   * @param orderStatusRequest order status request parameters
-   * @param callback the callback that handles the response
    */
-  void getOrderStatus(OrderStatusRequest orderStatusRequest, BinanceApiCallback<Order> callback);
+  CompletableFuture<Order> getOrderStatus(OrderStatusRequest orderStatusRequest);
 
   /**
    * Cancel an active order (asynchronous).
    *
-   * @param cancelOrderRequest order status request parameters
-   * @param callback the callback that handles the response
    */
-  void cancelOrder(CancelOrderRequest cancelOrderRequest, BinanceApiCallback<Void> callback);
+  CompletableFuture<Void> cancelOrder(CancelOrderRequest cancelOrderRequest);
 
   /**
    * Get all open orders on a symbol (asynchronous).
    *
-   * @param orderRequest order request parameters
-   * @param callback the callback that handles the response
    */
-  void getOpenOrders(OrderRequest orderRequest, BinanceApiCallback<List<Order>> callback);
+  CompletableFuture<List<Order>> getOpenOrders(OrderRequest orderRequest);
 
   /**
    * Get all account orders; active, canceled, or filled.
    *
-   * @param orderRequest order request parameters
-   * @param callback the callback that handles the response
    */
-  void getAllOrders(AllOrdersRequest orderRequest, BinanceApiCallback<List<Order>> callback);
+  CompletableFuture<List<Order>> getAllOrders(AllOrdersRequest orderRequest);
 
   /**
    * Get current account information (async).
    */
-  void getAccount(Optional<Long> recvWindow, Optional<Long> timestamp, BinanceApiCallback<Account> callback);
+  CompletableFuture<Account> getAccount(Optional<Long> recvWindow, Optional<Long> timestamp);
 
   /**
    * Get trades for a specific account and symbol.
    *
    * @param symbol symbol to get trades from
    * @param limit default 500; max 500
-   * @param fromId TradeId to fetch from. Default gets most recent trades.
-   * @param callback the callback that handles the response with a list of trades
    */
-  void getMyTrades(String symbol, Optional<Integer> limit, Optional<Long> fromId, Optional<Long> recvWindow, Optional<Long> timestamp, BinanceApiCallback<List<Trade>> callback);
+  CompletableFuture<List<Trade>> getMyTrades(String symbol, Optional<Integer> limit, Optional<Long> fromId, Optional<Long> recvWindow, Optional<Long> timestamp);
 
   /**
    * Submit a withdraw request.
@@ -173,51 +148,39 @@ public interface BinanceApiAsyncRestClient {
    * @param amount amount to withdraw
    * @param name description/alias of the address
    */
-  void withdraw(String asset, String address, String amount, String name, BinanceApiCallback<Void> callback);
+  CompletableFuture<Void> withdraw(String asset, String address, String amount, Optional<String> name);
 
   /**
    * Fetch account deposit history.
-   *
-   * @param callback the callback that handles the response and returns the deposit history
    */
-  void getDepositHistory(String asset, BinanceApiCallback<DepositHistory> callback);
+  CompletableFuture<DepositHistory> getDepositHistory(String asset);
 
   /**
    * Fetch account withdraw history.
-   *
-   * @param callback the callback that handles the response and returns the withdraw history
    */
-  void getWithdrawHistory(String asset, BinanceApiCallback<WithdrawHistory> callback);
+  CompletableFuture<WithdrawHistory> getWithdrawHistory(String asset);
 
   /**
    * Fetch deposit address.
-   *
-   * @param callback the callback that handles the response and returns the deposit address
    */
-   void getDepositAddress(String asset, BinanceApiCallback<DepositAddress> callback);
+   CompletableFuture<DepositAddress> getDepositAddress(String asset);
 
   // User stream endpoints
 
   /**
    * Start a new user data stream.
-   *
-   * @param callback the callback that handles the response which contains a listenKey
    */
-  void startUserDataStream(BinanceApiCallback<ListenKey> callback);
+  CompletableFuture<ListenKey> startUserDataStream();
 
   /**
    * PING a user data stream to prevent a time out.
    *
-   * @param listenKey listen key that identifies a data stream
-   * @param callback the callback that handles the response which contains a listenKey
    */
-  void keepAliveUserDataStream(String listenKey, BinanceApiCallback<Void> callback);
+  CompletableFuture<Void> keepAliveUserDataStream(ListenKey listenKey);
 
   /**
    * Close out a new user data stream.
    *
-   * @param listenKey listen key that identifies a data stream
-   * @param callback the callback that handles the response which contains a listenKey
    */
-  void closeUserDataStream(String listenKey, BinanceApiCallback<Void> callback);
+  CompletableFuture<Void> closeUserDataStream(ListenKey listenKey);
 }

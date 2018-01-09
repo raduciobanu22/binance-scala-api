@@ -1,7 +1,6 @@
 package com.binance.api.client.impl;
 
 import com.binance.api.client.BinanceApiAsyncRestClient;
-import com.binance.api.client.BinanceApiCallback;
 import com.binance.api.client.domain.account.*;
 import com.binance.api.client.domain.account.request.AllOrdersRequest;
 import com.binance.api.client.domain.account.request.CancelOrderRequest;
@@ -11,9 +10,12 @@ import com.binance.api.client.domain.event.ListenKey;
 import com.binance.api.client.domain.general.ExchangeInfo;
 import com.binance.api.client.domain.general.ServerTime;
 import com.binance.api.client.domain.market.*;
+import com.binance.api.client.exception.BinanceApiException;
+import retrofit2.Call;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import static com.binance.api.client.constant.BinanceApiConstants.DEFAULT_RECEIVING_WINDOW;
 import static com.binance.api.client.impl.BinanceApiServiceGenerator.createService;
@@ -30,70 +32,86 @@ public class BinanceApiAsyncRestClientImpl implements BinanceApiAsyncRestClient 
     binanceApiService = createService(BinanceApiService.class, apiKey, secret);
   }
 
+  static <T> CompletableFuture<T> futureGlue(Call<T> call) {
+    CompletableFuture<T> ret = new CompletableFuture<>();
+
+    try {
+      call.enqueue(new BinanceApiCallbackAdapter<T>(ret::complete) {
+        @Override
+        public void onFailure(Call call, Throwable throwable) {
+          ret.completeExceptionally(throwable);
+        }
+      });
+    } catch (BinanceApiException throwable) {
+      ret.completeExceptionally(throwable);
+    }
+    return ret;
+  }
+
   // General endpoints
 
   @Override
-  public void ping(BinanceApiCallback<Void> callback) {
-    binanceApiService.ping().enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<Void> ping() {
+    return futureGlue(binanceApiService.ping());
   }
 
   @Override
-  public void getServerTime(BinanceApiCallback<ServerTime> callback) {
-    binanceApiService.getServerTime().enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<ServerTime> getServerTime() {
+    return futureGlue(binanceApiService.getServerTime());
   }
 
   @Override
-  public void getExchangeInfo(BinanceApiCallback<ExchangeInfo> callback) {
-    binanceApiService.getExchangeInfo().enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<ExchangeInfo> getExchangeInfo() {
+    return futureGlue(binanceApiService.getExchangeInfo());
   }
 
   // Market Data endpoints
 
   @Override
-  public void getOrderBook(String symbol, Integer limit, BinanceApiCallback<OrderBook> callback) {
-    binanceApiService.getOrderBook(symbol, limit).enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<OrderBook> getOrderBook(String symbol, Integer limit) {
+    return futureGlue(binanceApiService.getOrderBook(symbol, limit));
   }
 
   @Override
-  public void getAggTrades(String symbol, Optional<String> fromId, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime, BinanceApiCallback<List<AggTrade>> callback) {
-    binanceApiService.getAggTrades(
+  public CompletableFuture<List<AggTrade>> getAggTrades(String symbol, Optional<String> fromId, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime) {
+    return futureGlue(binanceApiService.getAggTrades(
         symbol,
         fromId.orElse(null),
         limit.orElse(null),
         startTime.orElse(null),
         endTime.orElse(null)
-    ).enqueue(new BinanceApiCallbackAdapter<>(callback));
+    ));
   }
 
   @Override
-  public void getCandlestickBars(String symbol, CandlestickInterval interval, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime, BinanceApiCallback<List<Candlestick>> callback) {
-    binanceApiService.getCandlestickBars(
+  public CompletableFuture<List<Candlestick>> getCandlestickBars(String symbol, CandlestickInterval interval, Optional<Integer> limit, Optional<Long> startTime, Optional<Long> endTime) {
+    return futureGlue(binanceApiService.getCandlestickBars(
         symbol,
         interval.getIntervalId(),
         limit.orElse(null),
         startTime.orElse(null),
         endTime.orElse(null)
-    ).enqueue(new BinanceApiCallbackAdapter<>(callback));
+    ));
   }
 
   @Override
-  public void get24HrPriceStatistics(String symbol, BinanceApiCallback<TickerStatistics> callback) {
-    binanceApiService.get24HrPriceStatistics(symbol).enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<TickerStatistics> get24HrPriceStatistics(String symbol) {
+    return futureGlue(binanceApiService.get24HrPriceStatistics(symbol));
   }
 
   @Override
-  public void getAllPrices(BinanceApiCallback<List<TickerPrice>> callback) {
-    binanceApiService.getLatestPrices().enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<List<TickerPrice>> getAllPrices() {
+    return futureGlue(binanceApiService.getLatestPrices());
   }
 
   @Override
-  public void getBookTickers(BinanceApiCallback<List<BookTicker>> callback) {
-    binanceApiService.getBookTickers().enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<List<BookTicker>> getBookTickers() {
+    return futureGlue(binanceApiService.getBookTickers());
   }
 
   @Override
-  public void newOrder(NewOrder order, BinanceApiCallback<NewOrderResponse> callback) {
-    binanceApiService.newOrder(
+  public CompletableFuture<NewOrderResponse> newOrder(NewOrder order) {
+    return futureGlue(binanceApiService.newOrder(
         order.symbol,
         order.side,
         order.type,
@@ -104,127 +122,128 @@ public class BinanceApiAsyncRestClientImpl implements BinanceApiAsyncRestClient 
         order.icebergQty.orElse(null),
         order.recvWindow,
         order.timestamp
-    ).enqueue(new BinanceApiCallbackAdapter<>(callback));
+    ));
   }
 
   @Override
-  public void newOrderTest(NewOrder order, BinanceApiCallback<Void> callback) {
-    binanceApiService.newOrderTest(
-        order.symbol,
-        order.side,
-        order.type,
-        order.timeInForce,
-        order.quantity,
-        order.price.orElse(null),
-        order.stopPrice.orElse(null),
-        order.icebergQty.orElse(null),
-        order.recvWindow,
-        order.timestamp
-    ).enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<Void> newOrderTest(NewOrder in) {
+    return futureGlue(binanceApiService.newOrderTest(
+        in.symbol,
+        in.side,
+        in.type,
+        in.timeInForce,
+        in.quantity,
+        in.price.orElse(null),
+        in.stopPrice.orElse(null),
+        in.icebergQty.orElse(null),
+        in.recvWindow,
+        in.timestamp
+    ));
   }
 
   // Account endpoints
 
   @Override
-  public void getOrderStatus(OrderStatusRequest orderStatusRequest, BinanceApiCallback<Order> callback) {
-    binanceApiService.orderStatus(
-        orderStatusRequest.symbol,
-        orderStatusRequest.orderId.orElse(null),
-        orderStatusRequest.origClientOrderId.orElse(null),
-        orderStatusRequest.recvWindow.orElse(DEFAULT_RECEIVING_WINDOW),
-        orderStatusRequest.timestamp.orElse(currentTimeMillis())
-    ).enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<Order> getOrderStatus(OrderStatusRequest in) {
+    return futureGlue(binanceApiService.orderStatus(
+        in.symbol,
+        in.orderId.orElse(null),
+        in.origClientOrderId.orElse(null),
+        in.recvWindow.orElse(DEFAULT_RECEIVING_WINDOW),
+        in.timestamp.orElse(currentTimeMillis())
+    ));
   }
 
   @Override
-  public void cancelOrder(CancelOrderRequest cancelOrderRequest, BinanceApiCallback<Void> callback) {
-    binanceApiService.cancelOrder(
-        cancelOrderRequest.symbol,
-        cancelOrderRequest.orderId.orElse(null),
-        cancelOrderRequest.origClientOrderId.orElse(null),
-        cancelOrderRequest.newClientOrderId.orElse(null),
-        cancelOrderRequest.recvWindow.orElse(DEFAULT_RECEIVING_WINDOW),
-        cancelOrderRequest.timestamp.orElse(currentTimeMillis())
-    ).enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<Void> cancelOrder(CancelOrderRequest in) {
+    return futureGlue(binanceApiService.cancelOrder(
+        in.symbol,
+        in.orderId.orElse(null),
+        in.origClientOrderId.orElse(null),
+        in.newClientOrderId.orElse(null),
+        in.recvWindow.orElse(DEFAULT_RECEIVING_WINDOW),
+        in.timestamp.orElse(currentTimeMillis())
+    ));
   }
 
   @Override
-  public void getOpenOrders(OrderRequest orderRequest, BinanceApiCallback<List<Order>> callback) {
-    binanceApiService.openOrders(
-        orderRequest.symbol,
-        orderRequest.recvWindow.orElse(DEFAULT_RECEIVING_WINDOW),
-        orderRequest.timestamp.orElse(currentTimeMillis())
-    ).enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<List<Order>> getOpenOrders(OrderRequest in) {
+    return futureGlue(binanceApiService.openOrders(
+        in.symbol,
+        in.recvWindow.orElse(DEFAULT_RECEIVING_WINDOW),
+        in.timestamp.orElse(currentTimeMillis())
+    ));
   }
 
   @Override
-  public void getAllOrders(AllOrdersRequest orderRequest, BinanceApiCallback<List<Order>> callback) {
-    binanceApiService.allOrders(
-        orderRequest.symbol,
-        orderRequest.orderId.orElse(null),
-        orderRequest.limit.orElse(null),
-        orderRequest.recvWindow.orElse(DEFAULT_RECEIVING_WINDOW),
-        orderRequest.timestamp.orElse(currentTimeMillis())
-    ).enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<List<Order>> getAllOrders(AllOrdersRequest in) {
+    return futureGlue(binanceApiService.allOrders(
+        in.symbol,
+        in.orderId.orElse(null),
+        in.limit.orElse(null),
+        in.recvWindow.orElse(DEFAULT_RECEIVING_WINDOW),
+        in.timestamp.orElse(currentTimeMillis())
+    ));
   }
 
   @Override
-  public void getAccount(Optional<Long> recvWindow, Optional<Long> timestamp, BinanceApiCallback<Account> callback) {
-    binanceApiService.account(
+  public CompletableFuture<Account> getAccount(Optional<Long> recvWindow, Optional<Long> timestamp) {
+    return futureGlue(binanceApiService.account(
         recvWindow.orElse(DEFAULT_RECEIVING_WINDOW),
         timestamp.orElse(currentTimeMillis())
-    ).enqueue(new BinanceApiCallbackAdapter<>(callback));
+    ));
   }
 
   @Override
-  public void getMyTrades(String symbol, Optional<Integer> limit, Optional<Long> fromId, Optional<Long> recvWindow, Optional<Long> timestamp, BinanceApiCallback<List<Trade>> callback) {
+  public CompletableFuture<List<Trade>> getMyTrades(String symbol, Optional<Integer> limit, Optional<Long> fromId, Optional<Long> recvWindow, Optional<Long> timestamp) {
+    return futureGlue(
     binanceApiService.getMyTrades(
         symbol,
         limit.orElse(null),
         fromId.orElse(null),
         recvWindow.orElse(DEFAULT_RECEIVING_WINDOW),
         timestamp.orElse(currentTimeMillis())
-    ).enqueue(new BinanceApiCallbackAdapter<>(callback));
+    ));
   }
 
   @Override
-  public void withdraw(String asset, String address, String amount, String name, BinanceApiCallback<Void> callback) {
-    binanceApiService.withdraw(asset, address, amount, name, DEFAULT_RECEIVING_WINDOW, currentTimeMillis())
-        .enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<Void> withdraw(String asset, String address, String amount, Optional<String> name) {
+    return futureGlue(binanceApiService.withdraw(asset, address, amount, name.orElse(null), DEFAULT_RECEIVING_WINDOW, currentTimeMillis())
+        );
   }
 
   @Override
-  public void getDepositHistory(String asset, BinanceApiCallback<DepositHistory> callback) {
-    binanceApiService.depositHistory(asset, DEFAULT_RECEIVING_WINDOW, currentTimeMillis())
-        .enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<DepositHistory> getDepositHistory(String asset) {
+    return futureGlue(binanceApiService.depositHistory(asset, DEFAULT_RECEIVING_WINDOW, currentTimeMillis())
+        );
   }
 
   @Override
-  public void getWithdrawHistory(String asset, BinanceApiCallback<WithdrawHistory> callback) {
-    binanceApiService.withdrawHistory(asset, DEFAULT_RECEIVING_WINDOW, currentTimeMillis())
-        .enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<WithdrawHistory> getWithdrawHistory(String asset) {
+    return futureGlue(binanceApiService.withdrawHistory(asset, DEFAULT_RECEIVING_WINDOW, currentTimeMillis())
+        );
   }
 
   @Override
-  public void getDepositAddress(String asset, BinanceApiCallback<DepositAddress> callback) {
-    binanceApiService.depositAddress(asset, DEFAULT_RECEIVING_WINDOW, currentTimeMillis())
-        .enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<DepositAddress> getDepositAddress(String asset) {
+    return futureGlue(binanceApiService.depositAddress(asset, DEFAULT_RECEIVING_WINDOW, currentTimeMillis())
+        );
   }
 
   // User stream endpoints
 
   @Override
-  public void startUserDataStream(BinanceApiCallback<ListenKey> callback) {
-    binanceApiService.startUserDataStream().enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<ListenKey> startUserDataStream() {
+    return futureGlue(binanceApiService.startUserDataStream());
   }
 
   @Override
-  public void keepAliveUserDataStream(String listenKey, BinanceApiCallback<Void> callback) {
-    binanceApiService.keepAliveUserDataStream(listenKey).enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<Void> keepAliveUserDataStream(ListenKey listenKey) {
+    return futureGlue(binanceApiService.keepAliveUserDataStream(listenKey.listenKey));
   }
 
   @Override
-  public void closeUserDataStream(String listenKey, BinanceApiCallback<Void> callback) {
-    binanceApiService.closeAliveUserDataStream(listenKey).enqueue(new BinanceApiCallbackAdapter<>(callback));
+  public CompletableFuture<Void> closeUserDataStream(ListenKey listenKey) {
+    return futureGlue(binanceApiService.closeAliveUserDataStream(listenKey.listenKey));
   }
 }

@@ -1,18 +1,16 @@
 package com.binance.api.examples;
 
+import com.binance.api.client.BinanceApiAsyncRestClient;
 import com.binance.api.client.BinanceApiClientFactory;
-import com.binance.api.client.BinanceApiRestClient;
 import com.binance.api.client.domain.TimeInForce;
-import com.binance.api.client.domain.account.NewOrderResponse;
-import com.binance.api.client.domain.account.Order;
 import com.binance.api.client.domain.account.request.AllOrdersRequest;
 import com.binance.api.client.domain.account.request.CancelOrderRequest;
 import com.binance.api.client.domain.account.request.OrderRequest;
 import com.binance.api.client.domain.account.request.OrderStatusRequest;
 import com.binance.api.client.exception.BinanceApiException;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import static com.binance.api.client.domain.account.NewOrder.limitBuy;
 import static com.binance.api.client.domain.account.NewOrder.marketBuy;
@@ -24,19 +22,17 @@ public class OrdersExample {
 
   public static void main(String[] args) {
     BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance("YOUR_API_KEY", "YOUR_SECRET");
-    BinanceApiRestClient client = factory.newRestClient();
+    BinanceApiAsyncRestClient client = factory.newAsyncRestClient();
+    Consumer<Object> print = System.out::println;
 
     // Getting list of open orders
-    List<Order> openOrders = client.getOpenOrders(new OrderRequest("LINKETH"));
-    System.out.println(openOrders);
+    client.getOpenOrders(new OrderRequest("LINKETH")).thenAccept(print);
 
     // Getting list of all orders with a limit of 10
-    List<Order> allOrders = client.getAllOrders(new AllOrdersRequest("LINKETH", Optional.empty(), Optional.of(10)));
-    System.out.println(allOrders);
+    client.getAllOrders(new AllOrdersRequest("LINKETH", Optional.empty(), Optional.of(10))).thenAccept(print);
 
     // Get status of a particular order
-    Order order = client.getOrderStatus(new OrderStatusRequest("LINKETH", 751698L));
-    System.out.println(order);
+    client.getOrderStatus(new OrderStatusRequest("LINKETH", 751698L)).thenAccept(print);
 
     // Canceling an order
     try {
@@ -52,8 +48,7 @@ public class OrdersExample {
     client.newOrderTest(marketBuy("LINKETH", "1000"));
 
     // Placing a real LIMIT order
-    NewOrderResponse newOrderResponse = client.newOrder(limitBuy("LINKETH", TimeInForce.GTC, "1000", "0.0001"));
-    System.out.println(newOrderResponse);
+    client.newOrder(limitBuy("LINKETH", TimeInForce.GTC, "1000", "0.0001")).thenAccept(print);
   }
 
 }

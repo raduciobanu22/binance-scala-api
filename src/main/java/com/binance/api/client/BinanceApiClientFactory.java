@@ -1,7 +1,6 @@
 package com.binance.api.client;
 
 import com.binance.api.client.impl.BinanceApiAsyncRestClientImpl;
-import com.binance.api.client.impl.BinanceApiRestClientImpl;
 import com.binance.api.client.impl.BinanceApiWebSocketClientImpl;
 
 /**
@@ -49,13 +48,6 @@ public class BinanceApiClientFactory {
    */
   public static BinanceApiClientFactory newInstance() {
     return new BinanceApiClientFactory(null, null);
-  }
-
-  /**
-   * Creates a new synchronous/blocking REST client.
-   */
-  public BinanceApiRestClient newRestClient() {
-    return new BinanceApiRestClientImpl(apiKey, secret);
   }
 
   /**
