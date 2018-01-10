@@ -9,13 +9,13 @@ case class AssetBalance(
     /**
       * Asset symbol.
       */
-    asset: String,
+    asset: Asset,
     /**
       * Available balance.
       */
-    free: String,
+    free: Amount,
     /**
       * Locked by open orders.
       */
-    locked: String
+    locked: Amount
 )

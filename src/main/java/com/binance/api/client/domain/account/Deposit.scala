@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.account
 
+import com.binance.api.client.domain.{Amount, Asset, Instant}
+
 /**
   * A deposit that was done to a Binance account.
   */
@@ -7,15 +9,15 @@ case class Deposit(
     /**
       * Amount deposited.
       */
-    amount: BigDecimal,
+    amount: Amount,
     /**
       * Symbol.
       */
-    asset: String,
+    asset: Asset,
     /**
       * Deposit time.
       */
-    insertTime: Long,
+    insertTime: Instant,
     /**
       * Transaction id
       */

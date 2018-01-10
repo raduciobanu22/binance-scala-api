@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.account
 
+import com.binance.api.client.domain.{Instant, OrderId, Price, Quantity}
+
 /**
   * Represents an executed trade.
   */
@@ -11,11 +13,11 @@ case class Trade(
     /**
       * Price.
       */
-    price: String,
+    price: Price,
     /**
       * Quantity.
       */
-    qty: String,
+    qty: Quantity,
     /**
       * Commission.
       */
@@ -27,9 +29,9 @@ case class Trade(
     /**
       * Trade execution time.
       */
-    time: Long,
-    buyer: Boolean,
-    maker: Boolean,
+    time:      Instant,
+    buyer:     Boolean,
+    maker:     Boolean,
     bestMatch: Boolean,
-    orderId: String
+    orderId:   OrderId
 )

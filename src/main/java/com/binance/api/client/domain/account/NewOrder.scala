@@ -1,6 +1,6 @@
 package com.binance.api.client.domain.account
 
-import com.binance.api.client.domain.{OrderSide, OrderType, TimeInForce}
+import com.binance.api.client.domain._
 
 /**
   * A trade order to enter or exit a position.
@@ -12,7 +12,7 @@ object NewOrder {
     *
     * @return a new order which is pre-configured with MARKET as the order type and BUY as the order side.
     */
-  def marketBuy(symbol: String, quantity: String) =
+  def marketBuy(symbol: Symbol, quantity: Quantity) =
     new NewOrder(symbol, OrderSide.BUY, OrderType.MARKET, None, quantity)
 
   /**
@@ -20,7 +20,7 @@ object NewOrder {
     *
     * @return a new order which is pre-configured with MARKET as the order type and SELL as the order side.
     */
-  def marketSell(symbol: String, quantity: String) =
+  def marketSell(symbol: Symbol, quantity: Quantity) =
     new NewOrder(symbol, OrderSide.SELL, OrderType.MARKET, None, quantity)
 
   /**
@@ -28,7 +28,7 @@ object NewOrder {
     *
     * @return a new order which is pre-configured with LIMIT as the order type and BUY as the order side.
     */
-  def limitBuy(symbol: String, timeInForce: TimeInForce, quantity: String, price: String) =
+  def limitBuy(symbol: Symbol, timeInForce: TimeInForce, quantity: Quantity, price: Price) =
     new NewOrder(symbol, OrderSide.BUY, OrderType.LIMIT, Some(timeInForce), quantity, Some(price))
 
   /**
@@ -36,7 +36,7 @@ object NewOrder {
     *
     * @return a new order which is pre-configured with LIMIT as the order type and SELL as the order side.
     */
-  def limitSell(symbol: String, timeInForce: TimeInForce, quantity: String, price: String) =
+  def limitSell(symbol: Symbol, timeInForce: TimeInForce, quantity: Quantity, price: Price) =
     new NewOrder(symbol, OrderSide.SELL, OrderType.LIMIT, Some(timeInForce), quantity, Some(price))
 }
 
@@ -44,7 +44,7 @@ case class NewOrder(
     /**
       * Symbol to place the order on.
       */
-    symbol: String,
+    symbol: Symbol,
     /**
       * Buy/Sell order side.
       */
@@ -60,11 +60,11 @@ case class NewOrder(
     /**
       * Quantity.
       */
-    quantity: String,
+    quantity: Quantity,
     /**
       * Price.
       */
-    price: Option[String] = None,
+    price: Option[Price] = None,
     /**
       * A unique id for the order. Automatically generated if not sent.
       */
@@ -72,11 +72,11 @@ case class NewOrder(
     /**
       * Used with stop orders.
       */
-    stopPrice: Option[String] = None,
+    stopPrice: Option[Price] = None,
     /**
       * Used with iceberg orders.
       */
-    icebergQty: Option[String] = None,
+    icebergQty: Option[Quantity] = None,
     /**
       * Receiving window.
       */
@@ -84,5 +84,5 @@ case class NewOrder(
     /**
       * Order timestamp.
       */
-    timestamp: Option[Long] = None
+    timestamp: Option[Instant] = None
 )

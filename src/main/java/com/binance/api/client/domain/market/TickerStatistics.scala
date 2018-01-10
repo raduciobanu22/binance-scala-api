@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.market
 
+import com.binance.api.client.domain._
+
 /**
   * 24 hour price change statistics for a ticker.
   */
@@ -7,55 +9,55 @@ case class TickerStatistics(
     /**
       * Price change during the last 24 hours.
       */
-    priceChange: String,
+    priceChange: PriceDiff,
     /**
       * Price change, in percentage, during the last 24 hours.
       */
-    priceChangePercent: String,
+    priceChangePercent: Percent,
     /**
       * Weighted average price.
       */
-    weightedAvgPrice: String,
+    weightedAvgPrice: Price,
     /**
       * Previous close price.
       */
-    prevClosePrice: String,
+    prevClosePrice: Price,
     /**
       * Last price.
       */
-    lastPrice: String,
+    lastPrice: Price,
     /**
       * Bid price.
       */
-    bidPrice: String,
+    bidPrice: Price,
     /**
       * Ask price.
       */
-    askPrice: String,
+    askPrice: Price,
     /**
       * Open price 24 hours ago.
       */
-    openPrice: String,
+    openPrice: Price,
     /**
       * Highest price during the past 24 hours.
       */
-    highPrice: String,
+    highPrice: Price,
     /**
       * Lowest price during the past 24 hours.
       */
-    lowPrice: String,
+    lowPrice: Price,
     /**
       * Total volume during the past 24 hours.
       */
-    volume: String,
+    volume: Volume,
     /**
       * Open time.
       */
-    openTime: Long,
+    openTime: Instant,
     /**
       * Close time.
       */
-    closeTime: Long,
+    closeTime: Instant,
     /**
       * First trade id.
       */

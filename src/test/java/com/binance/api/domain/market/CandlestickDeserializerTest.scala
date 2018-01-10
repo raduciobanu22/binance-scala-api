@@ -1,5 +1,6 @@
 package com.binance.api.domain.market
 
+import com.binance.api.client.domain.{Instant, Price, Volume}
 import com.binance.api.client.domain.market.Candlestick
 import io.circe._
 import org.junit.Assert.assertEquals
@@ -28,13 +29,13 @@ class CandlestickDeserializerTest {
     assertEquals(
       Right(
         Candlestick(
-          openTime = 1499040000000L,
-          open = "0.01634790",
-          high = "0.80000000",
-          low = "0.01575800",
-          close = "0.01577100",
-          volume = "148976.11427815",
-          closeTime = 1499644799999L,
+          openTime = Instant(1499040000000L),
+          open = Price(BigDecimal("0.01634790")),
+          high = Price(BigDecimal("0.80000000")),
+          low = Price(BigDecimal("0.01575800")),
+          close = Price(BigDecimal("0.01577100")),
+          volume = Volume(BigDecimal("148976.11427815")),
+          closeTime = Instant(1499644799999L),
           quoteAssetVolume = "2434.19055334",
           numberOfTrades = 308,
           takerBuyBaseAssetVolume = "1756.87402397",

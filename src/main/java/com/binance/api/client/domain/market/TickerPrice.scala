@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.market
 
+import com.binance.api.client.domain.{Price, Symbol}
+
 /**
   * Wraps a symbol and its corresponding latest price.
   */
@@ -7,9 +9,9 @@ case class TickerPrice(
     /**
       * Ticker symbol.
       */
-    symbol: String,
+    symbol: Symbol,
     /**
       * Latest price.
       */
-    price: String
+    price: Price
 )

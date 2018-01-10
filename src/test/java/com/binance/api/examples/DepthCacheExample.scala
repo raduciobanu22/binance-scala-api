@@ -1,11 +1,10 @@
 package com.binance.api.examples
 
-import java.math.BigDecimal
 import java.util
 
-import com.binance.api.client.domain.OrderBookEntry
 import com.binance.api.client.domain.event.DepthEvent
 import com.binance.api.client.domain.market.OrderBook
+import com.binance.api.client.domain.{Symbol, OrderBookEntry, Price, Quantity}
 import com.binance.api.client.impl.BinanceApiWebSocketClientImpl
 import com.binance.api.client.{BinanceApiAsyncRestClient, BinanceApiClientFactory}
 
@@ -16,23 +15,26 @@ import scala.concurrent.ExecutionContext.Implicits.global
   */
 object DepthCacheExample extends App {
   class Cache(var lastUpdateId: Long,
-              var bids:         util.NavigableMap[BigDecimal, BigDecimal],
-              var asks:         util.NavigableMap[BigDecimal, BigDecimal])
+              var bids:         util.NavigableMap[Price, Quantity],
+              var asks:         util.NavigableMap[Price, Quantity])
+
+  val PriceOrdering: Ordering[Price] =
+    Ordering[BigDecimal].on[Price](_.value).reverse
 
   /**
     * Initializes the depth cache by using the REST API.
     */
-  private def initializeDepthCache(client: BinanceApiAsyncRestClient, symbol: String) =
+  private def initializeDepthCache(client: BinanceApiAsyncRestClient, symbol: Symbol) =
     client
-      .getOrderBook(symbol.toUpperCase, 10)
+      .getOrderBook(symbol, 10)
       .map { (orderBook: OrderBook) =>
-        val asks = new util.TreeMap[BigDecimal, BigDecimal](util.Comparator.reverseOrder[BigDecimal])
+        val asks = new util.TreeMap[Price, Quantity](PriceOrdering)
         for (ask <- orderBook.asks) {
-          asks.put(new BigDecimal(ask.price), new BigDecimal(ask.qty))
+          asks.put(ask.price, ask.qty)
         }
-        val bids = new util.TreeMap[BigDecimal, BigDecimal](util.Comparator.reverseOrder[BigDecimal])
+        val bids = new util.TreeMap[Price, Quantity](PriceOrdering)
         for (bid <- orderBook.bids) {
-          bids.put(new BigDecimal(bid.price), new BigDecimal(bid.qty))
+          bids.put(bid.price, bid.qty)
         }
         new Cache(orderBook.lastUpdateId, bids, asks)
       }
@@ -40,8 +42,8 @@ object DepthCacheExample extends App {
   /**
     * Begins streaming of depth events.
     */
-  private def startDepthEventStreaming(client: BinanceApiWebSocketClientImpl, cache: Cache, symbol: String) =
-    client.onDepthEvent(symbol.toLowerCase)((response: DepthEvent) => {
+  private def startDepthEventStreaming(client: BinanceApiWebSocketClientImpl, cache: Cache, symbol: Symbol) =
+    client.onDepthEvent(symbol)((response: DepthEvent) => {
 
       if (response.updateId > cache.lastUpdateId) {
         println(response)
@@ -57,14 +59,11 @@ object DepthCacheExample extends App {
     * <p>
     * Whenever the qty specified is ZERO, it means the price should was removed from the order book.
     */
-  private def updateOrderBook(lastOrderBookEntries: util.NavigableMap[BigDecimal, BigDecimal],
-                              orderBookDeltas:      List[OrderBookEntry]) =
-    for (orderBookDelta <- orderBookDeltas) {
-      val price = new BigDecimal(orderBookDelta.price)
-      val qty   = new BigDecimal(orderBookDelta.qty)
-      if (qty.compareTo(BigDecimal.ZERO) == 0) { // qty=0 means remove this level
-        lastOrderBookEntries.remove(price)
-      } else lastOrderBookEntries.put(price, qty)
+  private def updateOrderBook(lastOrderBookEntries: util.NavigableMap[Price, Quantity], entries: List[OrderBookEntry]) =
+    for (entry <- entries) {
+      if (entry.qty.value == BigDecimal(0)) { // qty=0 means remove this level
+        lastOrderBookEntries.remove(entry.price)
+      } else lastOrderBookEntries.put(entry.price, entry.qty)
     }
 
   /**
@@ -80,13 +79,13 @@ object DepthCacheExample extends App {
   /**
     * Prints the cached order book / depth of a symbol as well as the best ask and bid price in the book.
     */
-  private def printDepthCache(cache: Cache) = {
+  private def printDepthCache(cache: Cache): Unit = {
 
     /**
       * Pretty prints an order book entry in the format "price / quantity".
       */
-    def format(entry: util.Map.Entry[BigDecimal, BigDecimal]) =
-      entry.getKey.toPlainString + " / " + entry.getValue
+    def format(entry: util.Map.Entry[Price, Quantity]) =
+      entry.getKey.value.toString() + " / " + entry.getValue.value
 
     println("ASKS:")
     cache.asks.entrySet.forEach((entry) => println(format(entry)))
@@ -96,12 +95,13 @@ object DepthCacheExample extends App {
     println("BEST BID: " + format(getBestBid(cache)))
   }
 
-  val symbol = "ETHBTC"
-  val factory: BinanceApiClientFactory   = new BinanceApiClientFactory("", "")
-  val client:  BinanceApiAsyncRestClient = factory.newAsyncRestClient
+  val symbol  = Symbol("ETHBTC")
+  val factory = new BinanceApiClientFactory("", "")
+  val client  = factory.newAsyncRestClient
 
-  initializeDepthCache(client, symbol).map(
-    cache => startDepthEventStreaming(factory.newWebSocketClient, cache, symbol)
-  ).failed.foreach(println)
+  initializeDepthCache(client, symbol)
+    .map(cache => startDepthEventStreaming(factory.newWebSocketClient, cache, symbol))
+    .failed
+    .foreach(println)
 
 }

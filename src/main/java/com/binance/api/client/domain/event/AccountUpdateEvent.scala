@@ -1,6 +1,6 @@
 package com.binance.api.client.domain.event
 
-import com.binance.api.client.domain.AssetBalance
+import com.binance.api.client.domain.{AssetBalance, Instant}
 
 /**
   * Account update event which will reflect the current position/balances of the account.
@@ -11,6 +11,6 @@ import com.binance.api.client.domain.AssetBalance
   */
 case class AccountUpdateEvent(
     eventType: String,
-    eventTime: Long,
-    balances: List[AssetBalance]
+    eventTime: Instant,
+    balances:  List[AssetBalance]
 )

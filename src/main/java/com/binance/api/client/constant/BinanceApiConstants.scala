@@ -4,6 +4,7 @@ package com.binance.api.client.constant
   * Constants used throughout Binance's API.
   */
 object BinanceApiConstants {
+
   /**
     * REST API base URL.
     */

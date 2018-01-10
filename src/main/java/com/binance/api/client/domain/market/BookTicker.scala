@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.market
 
+import com.binance.api.client.domain.{Price, Quantity, Symbol}
+
 /**
   * Represents the best price/qty on the order book for a given symbol.
   */
@@ -7,21 +9,21 @@ case class BookTicker(
     /**
       * Ticker symbol.
       */
-    symbol: String,
+    symbol: Symbol,
     /**
       * Bid price.
       */
-    bidPrice: String,
+    bidPrice: Price,
     /**
       * Bid quantity
       */
-    bidQty: String,
+    bidQty: Quantity,
     /**
       * Ask price.
       */
-    askPrice: String,
+    askPrice: Price,
     /**
       * Ask quantity.
       */
-    askQty: String
+    askQty: Quantity
 )

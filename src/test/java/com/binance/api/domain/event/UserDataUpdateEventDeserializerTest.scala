@@ -54,13 +54,13 @@ class UserDataUpdateEventDeserializerTest {
       Right(
         AccountUpdateEvent(
           "outboundAccountInfo",
-          1,
+          Instant(1),
           List(
-            AssetBalance("BTC", "0.00000000", "0.00000000"),
-            AssetBalance("LTC", "0.00000000", "0.00000000"),
-            AssetBalance("ETH", "0.10000000", "0.00000000"),
-            AssetBalance("ENG", "0.00000000", "0.00000000"),
-            AssetBalance("ZEC", "0.00000000", "0.00000000")
+            AssetBalance(Asset("BTC"), Amount(BigDecimal("0.00000000")), Amount(BigDecimal("0.00000000"))),
+            AssetBalance(Asset("LTC"), Amount(BigDecimal("0.00000000")), Amount(BigDecimal("0.00000000"))),
+            AssetBalance(Asset("ETH"), Amount(BigDecimal("0.10000000")), Amount(BigDecimal("0.00000000"))),
+            AssetBalance(Asset("ENG"), Amount(BigDecimal("0.00000000")), Amount(BigDecimal("0.00000000"))),
+            AssetBalance(Asset("ZEC"), Amount(BigDecimal("0.00000000")), Amount(BigDecimal("0.00000000")))
           )
         )
       ),
@@ -104,24 +104,24 @@ class UserDataUpdateEventDeserializerTest {
       Right(
         OrderTradeUpdateEvent(
           eventType = "executionReport",
-          eventTime = 1L,
-          symbol = "NEOETH",
+          eventTime = Instant(1),
+          symbol = Symbol("NEOETH"),
           newClientOrderId = "XXX",
           side = OrderSide.BUY,
           `type` = OrderType.LIMIT,
           timeInForce = TimeInForce.GTC,
-          originalQuantity = "1000.00000000",
-          price = "0.00010000",
+          originalQuantity = Quantity(BigDecimal("1000.00000000")),
+          price = Price(BigDecimal("0.00010000")),
           executionType = ExecutionType.CANCELED,
           orderStatus = OrderStatus.CANCELED,
           orderRejectReason = OrderRejectReason.NONE,
           orderId = 123456,
-          quantityLastFilledTrade = "0.00000000",
-          accumulatedQuantity = "0.00000000",
-          priceOfLastFilledTrade = "0.00000000",
-          commission = "0",
+          quantityLastFilledTrade = Quantity(BigDecimal("0.00000000")),
+          accumulatedQuantity = Quantity(BigDecimal("0.00000000")),
+          priceOfLastFilledTrade = Price(BigDecimal("0.00000000")),
+          commission = Amount(BigDecimal("0")),
           commissionAsset = None,
-          orderTradeTime = 1,
+          orderTradeTime = Instant(1),
           tradeId = -1
         )
       ),

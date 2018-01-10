@@ -1,31 +1,31 @@
 package com.binance.api.client.domain.event
 
-import com.binance.api.client.domain.CandlestickBase
+import com.binance.api.client.domain._
 
 /**
   * An interval candlestick for a symbol providing information on price that can be used to produce candlestick charts.
   */
 case class CandlestickEvent(
-    eventType: String,
-    eventTime: Long,
-    symbol: String,
+    eventType:   String,
+    eventTime:   Instant,
+    symbol:      Symbol,
     candlestick: CandlestickDetailed,
 )
 
 case class CandlestickDetailed(
-    openTime: Long,
-    open: String,
-    high: String,
-    low: String,
-    close: String,
-    volume: String,
-    closeTime: Long,
-    intervalId: String,
-    firstTradeId: Long,
-    lastTradeId: Long,
-    quoteAssetVolume: String,
-    numberOfTrades: Long,
-    takerBuyBaseAssetVolume: String,
+    openTime:                 Instant,
+    open:                     Price,
+    high:                     Price,
+    low:                      Price,
+    close:                    Price,
+    volume:                   Volume,
+    closeTime:                Instant,
+    intervalId:               String,
+    firstTradeId:             Long,
+    lastTradeId:              Long,
+    quoteAssetVolume:         String,
+    numberOfTrades:           Long,
+    takerBuyBaseAssetVolume:  String,
     takerBuyQuoteAssetVolume: String,
-    isBarFinal: Boolean
+    isBarFinal:               Boolean
 ) extends CandlestickBase

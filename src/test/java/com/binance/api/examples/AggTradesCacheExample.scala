@@ -1,6 +1,6 @@
 package com.binance.api.examples
 
-import com.binance.api.client.domain.AggTradeBase
+import com.binance.api.client.domain.{AggTradeBase, Symbol}
 import com.binance.api.client.domain.event.AggTradeEvent
 import com.binance.api.client.domain.market.AggTrade
 import com.binance.api.client.impl.{BinanceApiAsyncRestClientImpl, BinanceApiWebSocketClientImpl}
@@ -19,7 +19,7 @@ object AggTradesCacheExample extends App {
   val factory         = new BinanceApiClientFactory("", "")
   val restClient      = factory.newAsyncRestClient
   val webSocketClient = factory.newWebSocketClient
-  val symbol          = "ETHBTC"
+  val symbol          = Symbol("ETHBTC")
 
   /**
     * Initializes the aggTrades cache by using the REST API.
@@ -27,9 +27,9 @@ object AggTradesCacheExample extends App {
     * @return Key is the aggregate trade id, and the value contains the aggregated trade data, which is
     *         automatically updated whenever a new agg data stream event arrives.
     */
-  def initialCache(client: BinanceApiAsyncRestClient, symbol: String): Future[Cache] =
+  def initialCache(client: BinanceApiAsyncRestClient, symbol: Symbol): Future[Cache] =
     client
-      .getAggTrades(symbol.toUpperCase)
+      .getAggTrades(symbol)
       .map(trades => mutable.Map.empty ++ trades.map(trade => trade.aggregatedTradeId -> trade))
 
   /**
@@ -37,8 +37,8 @@ object AggTradesCacheExample extends App {
     */
   def startAggTradesEventStreaming(webSocketClient: BinanceApiWebSocketClient,
                                    aggTradesCache:  Cache,
-                                   symbol:          String): Unit =
-    webSocketClient.onAggTradeEvent(symbol.toLowerCase)((response: AggTradeEvent) => {
+                                   symbol:          Symbol): Unit =
+    webSocketClient.onAggTradeEvent(symbol)((response: AggTradeEvent) => {
       aggTradesCache.put(response.aggregatedTradeId, response)
       System.out.println(response)
     })

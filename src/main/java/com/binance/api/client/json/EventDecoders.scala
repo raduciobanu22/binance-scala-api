@@ -9,21 +9,9 @@ trait EventDecoders extends DomainDecoders {
     Decoder.forProduct3("e", "E", "B")(AccountUpdateEvent.apply)
 
   implicit lazy val CandlestickDetailedDecoder: Decoder[CandlestickDetailed] =
-    Decoder.forProduct15("t",
-                         "o",
-                         "h",
-                         "l",
-                         "c",
-                         "v",
-                         "T",
-                         "i",
-                         "f",
-                         "L",
-                         "q",
-                         "n",
-                         "V",
-                         "Q",
-                         "x")(CandlestickDetailed.apply)
+    Decoder.forProduct15("t", "o", "h", "l", "c", "v", "T", "i", "f", "L", "q", "n", "V", "Q", "x")(
+      CandlestickDetailed.apply
+    )
 
   implicit lazy val CandlestickEventDecoder: Decoder[CandlestickEvent] =
     Decoder.forProduct4("e", "E", "s", "k")(CandlestickEvent.apply)
@@ -50,8 +38,7 @@ trait EventDecoders extends DomainDecoders {
                          "T",
                          "t")(OrderTradeUpdateEvent.apply)
 
-  implicit lazy val UserDataUpdateEventDecoder
-    : Decoder[Either[OrderTradeUpdateEvent, AccountUpdateEvent]] =
+  implicit lazy val UserDataUpdateEventDecoder: Decoder[Either[OrderTradeUpdateEvent, AccountUpdateEvent]] =
     Decoder.decodeJsonObject.flatMap { (obj: JsonObject) =>
       obj("e").flatMap(_.asString) match {
         case Some("executionReport") =>
@@ -65,8 +52,7 @@ trait EventDecoders extends DomainDecoders {
     }
 
   implicit lazy val AggTradeEventDecoder: Decoder[AggTradeEvent] =
-    Decoder.forProduct11("e", "E", "s", "a", "p", "q", "f", "l", "T", "m", "M")(
-      AggTradeEvent.apply)
+    Decoder.forProduct11("e", "E", "s", "a", "p", "q", "f", "l", "T", "m", "M")(AggTradeEvent.apply)
 
   implicit lazy val DepthEventDecoder: Decoder[DepthEvent] =
     Decoder.forProduct6("e", "E", "s", "u", "b", "a")(DepthEvent.apply)

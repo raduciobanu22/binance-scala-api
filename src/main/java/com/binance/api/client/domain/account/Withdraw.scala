@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.account
 
+import com.binance.api.client.domain.{Amount, Asset, Instant}
+
 /**
   * A withdraw that was done to a Binance account.
   */
@@ -7,7 +9,7 @@ case class Withdraw(
     /**
       * Amount withdrawn.
       */
-    amount: BigDecimal,
+    amount: Amount,
     /**
       * Destination address.
       */
@@ -15,8 +17,8 @@ case class Withdraw(
     /**
       * Symbol.
       */
-    asset: String,
-    applyTime: String,
+    asset:       Asset,
+    applyTime:   String,
     successTime: String,
     /**
       * Transaction id.

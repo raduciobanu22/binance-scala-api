@@ -1,5 +1,6 @@
 package com.binance.api.domain.event
 
+import com.binance.api.client.domain.{Symbol, Instant, Price, Volume}
 import com.binance.api.client.domain.event.{CandlestickDetailed, CandlestickEvent}
 import com.binance.api.client.json.Decoders._
 import io.circe._
@@ -38,16 +39,16 @@ class CandlestickEventDeserializerTest {
       Right(
         CandlestickEvent(
           eventType = "kline",
-          eventTime = 1,
-          symbol = "ETHBTC",
+          eventTime = Instant(1),
+          symbol = Symbol("ETHBTC"),
           candlestick = CandlestickDetailed(
-            openTime = 1499404860000L,
-            open = "0.10278577",
-            high = "0.10278712",
-            low = "0.10278518",
-            close = "0.10278645",
-            volume = "17.47929838",
-            closeTime = 1499404919999L,
+            openTime = Instant(1499404860000L),
+            open = Price(BigDecimal("0.10278577")),
+            high = Price(BigDecimal("0.10278712")),
+            low = Price(BigDecimal("0.10278518")),
+            close = Price(BigDecimal("0.10278645")),
+            volume = Volume(BigDecimal("17.47929838")),
+            closeTime = Instant(1499404919999L),
             intervalId = "1m",
             firstTradeId = 77462,
             lastTradeId = 77465,

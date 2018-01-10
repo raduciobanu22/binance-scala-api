@@ -1,10 +1,16 @@
 package com.binance.api.client
 
 import com.binance.api.client.domain.account._
-import com.binance.api.client.domain.account.request.{AllOrdersRequest, CancelOrderRequest, OrderRequest, OrderStatusRequest}
+import com.binance.api.client.domain.account.request.{
+  AllOrdersRequest,
+  CancelOrderRequest,
+  OrderRequest,
+  OrderStatusRequest
+}
 import com.binance.api.client.domain.event.ListenKey
 import com.binance.api.client.domain.general.{ExchangeInfo, ServerTime}
 import com.binance.api.client.domain.market._
+import com.binance.api.client.domain.{Asset, Instant, Symbol}
 
 import scala.concurrent.Future
 
@@ -29,11 +35,11 @@ trait BinanceApiAsyncRestClient {
   def getExchangeInfo: Future[ExchangeInfo]
 
   /**
-    * Get order book of a symbol (asynchronous)
+    * Get order book of a symbol
     *
     * @param symbol ticker symbol (e.g. ETHBTC)
     */
-  def getOrderBook(symbol: String, limit: Int): Future[OrderBook]
+  def getOrderBook(symbol: Symbol, limit: Int): Future[OrderBook]
 
   /**
     * Get compressed, aggregate trades. Trades that fill at the time, from the same order, with
@@ -48,12 +54,11 @@ trait BinanceApiAsyncRestClient {
     * @param startTime Timestamp in ms to get aggregate trades from INCLUSIVE (Option).
     * @return a list of aggregate trades for the given symbol
     */
-  def getAggTrades(
-      symbol: String,
-      fromId: Option[String] = None,
-      limit: Option[Int] = None,
-      startTime: Option[Long] = None,
-      endTime: Option[Long] = None): Future[List[AggTrade]]
+  def getAggTrades(symbol:    Symbol,
+                   fromId:    Option[String] = None,
+                   limit:     Option[Int] = None,
+                   startTime: Option[Instant] = None,
+                   endTime:   Option[Instant] = None): Future[List[AggTrade]]
 
   /**
     *
@@ -64,32 +69,30 @@ trait BinanceApiAsyncRestClient {
     * @param limit     Default 500; max 500 (Option)
     * @param startTime Timestamp in ms to get candlestick bars from INCLUSIVE (Option).
     */
-  def getCandlestickBars(
-      symbol: String,
-      interval: CandlestickInterval,
-      limit: Option[Int] = None,
-      startTime: Option[Long] = None,
-      endTime: Option[Long] = None): Future[List[Candlestick]]
+  def getCandlestickBars(symbol:    Symbol,
+                         interval:  CandlestickInterval,
+                         limit:     Option[Int] = None,
+                         startTime: Option[Instant] = None,
+                         endTime:   Option[Instant] = None): Future[List[Candlestick]]
 
   /**
-    * Get 24 hour price change statistics (asynchronous).
+    * Get 24 hour price change statistics.
     *
     */
-  def get24HrPriceStatistics(
-      symbol: String): Future[TickerStatistics]
+  def get24HrPriceStatistics(symbol: Symbol): Future[TickerStatistics]
 
   /**
-    * Get Latest price for all symbols (asynchronous).
+    * Get Latest price for all symbols.
     */
   def getAllPrices: Future[List[TickerPrice]]
 
   /**
-    * Get best price/qty on the order book for all symbols (asynchronous).
+    * Get best price/qty on the order book for all symbols.
     */
   def getBookTickers: Future[List[BookTicker]]
 
   /**
-    * Send in a new order (asynchronous)
+    * Send in a new order
     *
     */
   def newOrder(order: NewOrder): Future[NewOrderResponse]
@@ -101,38 +104,33 @@ trait BinanceApiAsyncRestClient {
   def newOrderTest(order: NewOrder): Future[Unit]
 
   /**
-    * Check an order's status (asynchronous).
+    * Check an order's status.
     *
     */
-  def getOrderStatus(
-      orderStatusRequest: OrderStatusRequest): Future[Order]
+  def getOrderStatus(orderStatusRequest: OrderStatusRequest): Future[Order]
 
   /**
-    * Cancel an active order (asynchronous).
+    * Cancel an active order.
     *
     */
-  def cancelOrder(
-      cancelOrderRequest: CancelOrderRequest): Future[Unit]
+  def cancelOrder(cancelOrderRequest: CancelOrderRequest): Future[Unit]
 
   /**
-    * Get all open orders on a symbol (asynchronous).
+    * Get all open orders on a symbol.
     *
     */
-  def getOpenOrders(
-      orderRequest: OrderRequest): Future[List[Order]]
+  def getOpenOrders(orderRequest: OrderRequest): Future[List[Order]]
 
   /**
     * Get all account orders; active, canceled, or filled.
     *
     */
-  def getAllOrders(
-      orderRequest: AllOrdersRequest): Future[List[Order]]
+  def getAllOrders(orderRequest: AllOrdersRequest): Future[List[Order]]
 
   /**
     * Get current account information (async).
     */
-  def getAccount(recvWindow: Option[Long] = None,
-                 timestamp: Option[Long] = None): Future[Account]
+  def getAccount(recvWindow: Option[Long] = None, timestamp: Option[Instant] = None): Future[Account]
 
   /**
     * Get trades for a specific account and symbol.
@@ -140,12 +138,11 @@ trait BinanceApiAsyncRestClient {
     * @param symbol symbol to get trades from
     * @param limit default 500; max 500
     */
-  def getMyTrades(
-      symbol: String,
-      limit: Option[Int] = None,
-      fromId: Option[Long] = None,
-      recvWindow: Option[Long] = None,
-      timestamp: Option[Long] = None): Future[List[Trade]]
+  def getMyTrades(symbol:     Symbol,
+                  limit:      Option[Int] = None,
+                  fromId:     Option[Long] = None,
+                  recvWindow: Option[Long] = None,
+                  timestamp:  Option[Instant] = None): Future[List[Trade]]
 
   /**
     * Submit a withdraw request.
@@ -157,25 +154,22 @@ trait BinanceApiAsyncRestClient {
     * @param amount amount to withdraw
     * @param name description/alias of the address
     */
-  def withdraw(asset: String,
-               address: String,
-               amount: String,
-               name: Option[String]): Future[Unit]
+  def withdraw(asset: Asset, address: String, amount: String, name: Option[String]): Future[Unit]
 
   /**
     * Fetch account deposit history.
     */
-  def getDepositHistory(asset: String): Future[DepositHistory]
+  def getDepositHistory(asset: Asset): Future[DepositHistory]
 
   /**
     * Fetch account withdraw history.
     */
-  def getWithdrawHistory(asset: String): Future[WithdrawHistory]
+  def getWithdrawHistory(asset: Asset): Future[WithdrawHistory]
 
   /**
     * Fetch deposit address.
     */
-  def getDepositAddress(asset: String): Future[DepositAddress]
+  def getDepositAddress(asset: Asset): Future[DepositAddress]
 
   /**
     * Start a new user data stream.

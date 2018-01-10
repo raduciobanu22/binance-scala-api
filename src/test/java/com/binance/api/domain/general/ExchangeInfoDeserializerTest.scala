@@ -1,6 +1,6 @@
 package com.binance.api.domain.general
 
-import com.binance.api.client.domain.OrderType
+import com.binance.api.client.domain.{Instant, OrderType, Price, Quantity}
 import com.binance.api.client.json.Decoders._
 import com.binance.api.client.domain.general._
 import io.circe._
@@ -60,7 +60,7 @@ class ExchangeInfoDeserializerTest {
       Right(
         ExchangeInfo(
           timezone = "UTC",
-          serverTime = 1508631584636L,
+          serverTime = Instant(1508631584636L),
           rateLimits = List(
             RateLimit(rateLimitType = RateLimitType.REQUESTS, interval = RateLimitInterval.MINUTE, limit = 1200),
             RateLimit(rateLimitType = RateLimitType.ORDERS, interval = RateLimitInterval.SECOND, limit = 10),
@@ -79,8 +79,8 @@ class ExchangeInfoDeserializerTest {
               filters = List(
                 SymbolFilter(
                   FilterType.PRICE_FILTER,
-                  minPrice = Some("0.00000100"),
-                  maxPrice = Some("100000.00000000"),
+                  minPrice = Some(Price(BigDecimal("0.00000100"))),
+                  maxPrice = Some(Price(BigDecimal("100000.00000000"))),
                   tickSize = Some("0.00000100"),
                   minQty = None,
                   maxQty = None,
@@ -93,8 +93,8 @@ class ExchangeInfoDeserializerTest {
                   minPrice = None,
                   maxPrice = None,
                   tickSize = None,
-                  minQty = Some("0.00100000"),
-                  maxQty = Some("100000.00000000"),
+                  minQty = Some(Quantity(BigDecimal("0.00100000"))),
+                  maxQty = Some(Quantity(BigDecimal("100000.00000000"))),
                   stepSize = Some("0.00100000"),
                   minNotional = None,
                   limit = None

@@ -1,6 +1,6 @@
 package com.binance.api.client.domain.account
 
-import com.binance.api.client.domain.AssetBalance
+import com.binance.api.client.domain.{Asset, AssetBalance, Instant}
 
 /**
   * Account information.
@@ -37,7 +37,7 @@ case class Account(
     /**
       * Last account update time.
       */
-    updateTime: Long,
+    updateTime: Instant,
     /**
       * List of asset balances of this account.
       */
@@ -50,6 +50,6 @@ case class Account(
     * @param symbol asset symbol to obtain the balances from
     * @return an asset balance for the given symbol which can be 0 in case the symbol has no balance in the account
     */
-  def getAssetBalance(symbol: String): Option[AssetBalance] =
+  def getAssetBalance(symbol: Asset): Option[AssetBalance] =
     balances.find(_.asset == symbol)
 }

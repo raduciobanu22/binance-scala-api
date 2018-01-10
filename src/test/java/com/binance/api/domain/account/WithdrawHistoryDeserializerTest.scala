@@ -1,5 +1,6 @@
 package com.binance.api.domain.account
 
+import com.binance.api.client.domain.{Amount, Asset, Instant, Price}
 import com.binance.api.client.domain.account.{Withdraw, WithdrawHistory}
 import com.binance.api.client.json.Decoders._
 import io.circe._
@@ -32,9 +33,9 @@ class WithdrawHistoryDeserializerTest {
       Right(
         WithdrawHistory(
           withdrawList = List(
-            Withdraw(amount = 0.1,
+            Withdraw(amount = Amount(BigDecimal("0.1")),
                      address = "0x456",
-                     asset = "ETH",
+                     asset = Asset("ETH"),
                      applyTime = "2017-10-13 20:59:38",
                      successTime = "2017-10-13 21:20:09",
                      txId = "0x123",

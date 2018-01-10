@@ -8,9 +8,9 @@ import com.binance.api.client.domain.OrderType
 case class SymbolInfo(symbol:             String,
                       status:             SymbolStatus,
                       baseAsset:          String,
-                      baseAssetPrecision: Integer,
+                      baseAssetPrecision: Int,
                       quoteAsset:         String,
-                      quotePrecision:     Integer,
+                      quotePrecision:     Int,
                       orderTypes:         List[OrderType],
                       icebergAllowed:     Boolean,
                       filters:            List[SymbolFilter]) {

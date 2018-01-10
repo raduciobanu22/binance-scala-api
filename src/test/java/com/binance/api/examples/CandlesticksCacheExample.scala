@@ -2,7 +2,7 @@ package com.binance.api.examples
 
 import java.util
 
-import com.binance.api.client.domain.CandlestickBase
+import com.binance.api.client.domain.{CandlestickBase, Symbol, Instant}
 import com.binance.api.client.domain.event.CandlestickEvent
 import com.binance.api.client.domain.market.CandlestickInterval
 import com.binance.api.client.{BinanceApiAsyncRestClient, BinanceApiClientFactory, BinanceApiWebSocketClient}
@@ -14,9 +14,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
   * Illustrates how to use the klines/candlesticks event stream to create a local cache of bids/asks for a symbol.
   */
 object CandlesticksCacheExample extends App {
-  type Cache = util.TreeMap[Long, CandlestickBase]
+  type Cache = util.TreeMap[Instant, CandlestickBase]
 
-  val symbol          = "ETHBTC"
+  val symbol          = Symbol("ETHBTC")
   val interval        = CandlestickInterval.ONE_MINUTE
   val factory         = new BinanceApiClientFactory("", "")
   val client          = factory.newAsyncRestClient
@@ -26,9 +26,9 @@ object CandlesticksCacheExample extends App {
     * Initializes the candlestick cache by using the REST API.
     */
   def initializeCandlestickCache(client:   BinanceApiAsyncRestClient,
-                                 symbol:   String,
+                                 symbol:   Symbol,
                                  interval: CandlestickInterval): Future[Cache] =
-    client.getCandlestickBars(symbol.toUpperCase, interval).map { candlestickBars =>
+    client.getCandlestickBars(symbol, interval).map { candlestickBars =>
       val candlesticksCache = new Cache
       for (candlestickBar <- candlestickBars) {
         candlesticksCache.put(candlestickBar.openTime, candlestickBar)
@@ -41,9 +41,9 @@ object CandlesticksCacheExample extends App {
     */
   def startCandlestickEventStreaming(client:            BinanceApiWebSocketClient,
                                      candlesticksCache: Cache,
-                                     symbol:            String,
+                                     symbol:            Symbol,
                                      interval:          CandlestickInterval) =
-    client.onCandlestickEvent(symbol.toLowerCase, interval) { (response: CandlestickEvent) =>
+    client.onCandlestickEvent(symbol, interval) { (response: CandlestickEvent) =>
       candlesticksCache.put(response.candlestick.openTime, response.candlestick)
       System.out.println(response)
     }

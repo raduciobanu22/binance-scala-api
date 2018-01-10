@@ -1,5 +1,7 @@
 package com.binance.api.client.domain.general
 
+import com.binance.api.client.domain.{Price, Quantity}
+
 /**
   * Filters define trading rules on a symbol or an exchange. Filters come in two forms: symbol filters and exchange filters.
   *
@@ -18,11 +20,11 @@ case class SymbolFilter(
     /**
       * Defines the minimum price/stopPrice allowed.
       */
-    minPrice: Option[String],
+    minPrice: Option[Price],
     /**
       * Defines the maximum price/stopPrice allowed.
       */
-    maxPrice: Option[String],
+    maxPrice: Option[Price],
     /**
       * Defines the intervals that a price/stopPrice can be increased/decreased by.
       */
@@ -30,11 +32,11 @@ case class SymbolFilter(
     /**
       * Defines the minimum quantity/icebergQty allowed.
       */
-    minQty: Option[String],
+    minQty: Option[Quantity],
     /**
       * Defines the maximum quantity/icebergQty allowed.
       */
-    maxQty: Option[String],
+    maxQty: Option[Quantity],
     /**
       * Defines the intervals that a quantity/icebergQty can be increased/decreased by.
       */

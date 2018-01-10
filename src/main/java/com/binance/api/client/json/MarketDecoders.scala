@@ -1,5 +1,6 @@
 package com.binance.api.client.json
 
+import com.binance.api.client.domain.{Instant, Price, Volume}
 import com.binance.api.client.domain.market._
 import io.circe._
 
@@ -16,9 +17,10 @@ trait MarketDecoders extends DomainDecoders {
 
   implicit lazy val CandlestickDecoder: Decoder[Candlestick] =
     Decoder
-      .decodeTuple12[Long, String, String, String, String, String, Long, String, Long, String, String, String]
-      .map{
-        case (a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, _) => Candlestick(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+      .decodeTuple12[Instant, Price, Price, Price, Price, Volume, Instant, String, Long, String, String, String]
+      .map {
+        case (a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, _) =>
+          Candlestick(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
       }
 
   implicit lazy val OrderBookDecoder: Decoder[OrderBook] =

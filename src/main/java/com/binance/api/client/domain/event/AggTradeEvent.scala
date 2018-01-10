@@ -1,20 +1,20 @@
 package com.binance.api.client.domain.event
 
-import com.binance.api.client.domain.AggTradeBase
+import com.binance.api.client.domain._
 
 /**
   * An aggregated trade event for a symbol.
   */
 case class AggTradeEvent(
-    eventType: String,
-    eventTime: Long,
-    symbol: String,
-    aggregatedTradeId: Long,
-    price: String,
-    quantity: String,
-    firstBreakdownTradeId: Long,
-    lastBreakdownTradeId: Long,
-    tradeTime: Option[Long],
-    isBuyerMaker: Boolean,
+    eventType:              String,
+    eventTime:              Instant,
+    symbol:                 Symbol,
+    aggregatedTradeId:      Long,
+    price:                  Price,
+    quantity:               Quantity,
+    firstBreakdownTradeId:  Long,
+    lastBreakdownTradeId:   Long,
+    tradeTime:              Option[Instant],
+    isBuyerMaker:           Boolean,
     wasTradeBestPriceMatch: Boolean
 ) extends AggTradeBase

@@ -1,6 +1,6 @@
 package com.binance.api.domain.market
 
-import com.binance.api.client.domain.OrderBookEntry
+import com.binance.api.client.domain.{OrderBookEntry, Price, Quantity}
 import com.binance.api.client.domain.market.OrderBook
 import com.binance.api.client.json.Decoders._
 import io.circe._
@@ -32,8 +32,8 @@ class OrderbookDeserializerTest {
     assertEquals(
       Right(
         OrderBook(1027024,
-                  List(OrderBookEntry("4.00000000", "431.00000000")),
-                  List(OrderBookEntry("4.00000200", "12.00000000")))
+                  List(OrderBookEntry(Price(BigDecimal("4.00000000")), Quantity(BigDecimal("431.00000000")))),
+                  List(OrderBookEntry(Price(BigDecimal("4.00000200")), Quantity(BigDecimal("12.00000000")))))
       ),
       parser.decode[OrderBook](json)
     )

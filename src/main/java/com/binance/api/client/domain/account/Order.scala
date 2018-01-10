@@ -1,6 +1,6 @@
 package com.binance.api.client.domain.account
 
-import com.binance.api.client.domain.{OrderSide, OrderStatus, OrderType, TimeInForce}
+import com.binance.api.client.domain._
 
 /**
   * Trade order information.
@@ -9,11 +9,11 @@ case class Order(
     /**
       * Symbol that the order was put on.
       */
-    symbol: String,
+    symbol: Asset,
     /**
       * Order id.
       */
-    orderId: Long,
+    orderId: OrderId,
     /**
       * Client order id.
       */
@@ -21,12 +21,12 @@ case class Order(
     /**
       * Price.
       */
-    price: String,
+    price: Price,
     /**
       * Original quantity.
       */
-    origQty: String,
-    executedQty: String,
+    origQty:     Quantity,
+    executedQty: Quantity,
     /**
       * Order status.
       */
@@ -46,13 +46,13 @@ case class Order(
     /**
       * Used with stop orders.
       */
-    stopPrice: String,
+    stopPrice: Price,
     /**
       * Used with iceberg orders.
       */
-    icebergQty: String,
+    icebergQty: Quantity,
     /**
       * Order timestamp.
       */
-    time: Long
+    time: Instant
 )

@@ -134,5 +134,7 @@ trait BinanceApiService {
   @PUT("/api/v1/userDataStream") def keepAliveUserDataStream(@Query("listenKey") listenKey: String): Call[ResponseBody]
 
   @Headers(Array("APIKEY: #"))
-  @DELETE("/api/v1/userDataStream") def closeAliveUserDataStream(@Query("listenKey") listenKey: String): Call[ResponseBody]
+  @DELETE("/api/v1/userDataStream") def closeAliveUserDataStream(
+      @Query("listenKey") listenKey: String
+  ): Call[ResponseBody]
 }

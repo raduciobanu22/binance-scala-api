@@ -14,7 +14,7 @@ import scala.concurrent.ExecutionContext
   * @param apiKey the API key
   * @param secret the Secret
   */
-class BinanceApiClientFactory (val apiKey: String, val secret: String)(implicit ex: ExecutionContext) {
+class BinanceApiClientFactory(val apiKey: String, val secret: String)(implicit ex: ExecutionContext) {
 
   final lazy val service: BinanceApiService = {
     val httpClient = new OkHttpClient.Builder

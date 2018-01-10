@@ -10,9 +10,9 @@ import com.binance.api.client.domain._
   * @see UserDataUpdateEvent
   */
 case class OrderTradeUpdateEvent(
-    eventType: String,
-    eventTime: Long,
-    symbol: String,
+    eventType:        String,
+    eventTime:        Instant,
+    symbol:           Symbol,
     newClientOrderId: String,
     /**
       * Buy/Sell order side.
@@ -29,11 +29,11 @@ case class OrderTradeUpdateEvent(
     /**
       * Original quantity in the order.
       */
-    originalQuantity: String,
+    originalQuantity: Quantity,
     /**
       * Price.
       */
-    price: String,
+    price: Price,
     /**
       * Type of execution.
       */
@@ -53,27 +53,27 @@ case class OrderTradeUpdateEvent(
     /**
       * Quantity of the last filled trade.
       */
-    quantityLastFilledTrade: String,
+    quantityLastFilledTrade: Quantity,
     /**
       * Accumulated quantity of filled trades on this order.
       */
-    accumulatedQuantity: String,
+    accumulatedQuantity: Quantity,
     /**
       * Price of last filled trade.
       */
-    priceOfLastFilledTrade: String,
+    priceOfLastFilledTrade: Price,
     /**
       * Commission.
       */
-    commission: String,
+    commission: Amount,
     /**
       * Asset on which commission is taken
       */
-    commissionAsset: Option[String],
+    commissionAsset: Option[Asset],
     /**
       * Order/trade time.
       */
-    orderTradeTime: Long,
+    orderTradeTime: Instant,
     /**
       * Trade id.
       */

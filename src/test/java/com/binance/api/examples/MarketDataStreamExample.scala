@@ -1,8 +1,10 @@
 package com.binance.api.examples
 
 import com.binance.api.client.BinanceApiClientFactory
+import com.binance.api.client.domain.Symbol
 import com.binance.api.client.domain.event.{AggTradeEvent, CandlestickEvent, DepthEvent}
 import com.binance.api.client.domain.market.CandlestickInterval
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
@@ -12,7 +14,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   */
 object MarketDataStreamExample extends App {
   val webSocket = new BinanceApiClientFactory("", "").newWebSocketClient
-  val symbol    = "ethbtc"
+  val symbol    = Symbol("ethbtc")
 
   // Listen for aggregated trade events for ETH/BTC
   webSocket.onAggTradeEvent(symbol)((response: AggTradeEvent) => println(response))
