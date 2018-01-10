@@ -2,6 +2,7 @@ package com.binance.api.examples
 
 import com.binance.api.client.BinanceApiClientFactory
 import com.binance.api.client.domain.general.FilterType
+import com.binance.api.client.domain.Symbol
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
@@ -22,11 +23,10 @@ object GeneralEndpointsExample extends App {
     println(exchangeInfo.timezone)
     println(exchangeInfo.symbols)
     // Obtain symbol information
-    val symbolInfo = exchangeInfo.getSymbolInfo("ETHBTC")
+    val symbolInfo = exchangeInfo.getSymbolInfo(Symbol("ETHBTC"))
     println(symbolInfo.status)
     val priceFilter = symbolInfo.getSymbolFilter(FilterType.PRICE_FILTER)
     println(priceFilter.minPrice)
     println(priceFilter.tickSize)
   }
-
 }

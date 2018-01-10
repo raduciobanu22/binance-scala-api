@@ -1,15 +1,15 @@
 package com.binance.api.client.domain.general
 
-import com.binance.api.client.domain.OrderType
+import com.binance.api.client.domain.{Asset, OrderType, Symbol}
 
 /**
   * Symbol information (base/quote).
   */
-case class SymbolInfo(symbol:             String,
+case class SymbolInfo(symbol:             Symbol,
                       status:             SymbolStatus,
-                      baseAsset:          String,
+                      baseAsset:          Asset,
                       baseAssetPrecision: Int,
-                      quoteAsset:         String,
+                      quoteAsset:         Asset,
                       quotePrecision:     Int,
                       orderTypes:         List[OrderType],
                       icebergAllowed:     Boolean,

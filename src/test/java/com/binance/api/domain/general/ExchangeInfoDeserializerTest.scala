@@ -1,6 +1,6 @@
 package com.binance.api.domain.general
 
-import com.binance.api.client.domain.{Instant, OrderType, Price, Quantity}
+import com.binance.api.client.domain._
 import com.binance.api.client.json.Decoders._
 import com.binance.api.client.domain.general._
 import io.circe._
@@ -68,11 +68,11 @@ class ExchangeInfoDeserializerTest {
           ),
           symbols = List(
             SymbolInfo(
-              symbol = "ETHBTC",
+              symbol = Symbol("ETHBTC"),
               status = SymbolStatus.TRADING,
-              baseAsset = "ETH",
+              baseAsset = Asset("ETH"),
               baseAssetPrecision = 8,
-              quoteAsset = "BTC",
+              quoteAsset = Asset("BTC"),
               quotePrecision = 8,
               orderTypes = List(OrderType.LIMIT, OrderType.MARKET),
               icebergAllowed = false,

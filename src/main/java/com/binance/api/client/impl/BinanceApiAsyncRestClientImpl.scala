@@ -48,6 +48,7 @@ object AsJava {
   implicit val x6: AsJava[Price, String]           = _.value.toString
   implicit val x7: AsJava[OrderId, java.lang.Long] = _.value
   implicit val x8: AsJava[Symbol, String]          = _.value.toUpperCase
+  implicit val x9: AsJava[Amount, String]          = _.value.toString()
 
   implicit def instanceOpt[E <: java.lang.Enum[E]]: AsJava[E, E] = e => e
 }
@@ -209,7 +210,7 @@ class BinanceApiAsyncRestClientImpl(service: BinanceApiService)(implicit ex: Exe
       )
     )
 
-  override def withdraw(asset: Asset, address: String, amount: String, name: Option[String] = None): Future[Unit] =
+  override def withdraw(asset: Asset, address: String, amount: Amount, name: Option[String] = None): Future[Unit] =
     RunRequest[Unit](
       service.withdraw(
         AsJava(asset),

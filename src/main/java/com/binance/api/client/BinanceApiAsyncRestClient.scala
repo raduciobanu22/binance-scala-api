@@ -1,16 +1,11 @@
 package com.binance.api.client
 
 import com.binance.api.client.domain.account._
-import com.binance.api.client.domain.account.request.{
-  AllOrdersRequest,
-  CancelOrderRequest,
-  OrderRequest,
-  OrderStatusRequest
-}
+import com.binance.api.client.domain.account.request.{AllOrdersRequest, CancelOrderRequest, OrderRequest, OrderStatusRequest}
 import com.binance.api.client.domain.event.ListenKey
 import com.binance.api.client.domain.general.{ExchangeInfo, ServerTime}
 import com.binance.api.client.domain.market._
-import com.binance.api.client.domain.{Asset, Instant, Symbol}
+import com.binance.api.client.domain.{Amount, Asset, Instant, Symbol}
 
 import scala.concurrent.Future
 
@@ -154,7 +149,7 @@ trait BinanceApiAsyncRestClient {
     * @param amount amount to withdraw
     * @param name description/alias of the address
     */
-  def withdraw(asset: Asset, address: String, amount: String, name: Option[String]): Future[Unit]
+  def withdraw(asset: Asset, address: String, amount: Amount, name: Option[String]): Future[Unit]
 
   /**
     * Fetch account deposit history.

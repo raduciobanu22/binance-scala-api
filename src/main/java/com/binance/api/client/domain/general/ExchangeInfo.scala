@@ -1,6 +1,6 @@
 package com.binance.api.client.domain.general
 
-import com.binance.api.client.domain.Instant
+import com.binance.api.client.domain.{Instant, Symbol}
 
 /**
   * Current exchange trading rules and symbol information.
@@ -12,6 +12,6 @@ case class ExchangeInfo(
     rateLimits: List[RateLimit],
     symbols:    List[SymbolInfo]
 ) {
-  lazy val getSymbolInfo: Map[String, SymbolInfo] =
+  lazy val getSymbolInfo: Map[Symbol, SymbolInfo] =
     symbols.map(s => s.symbol -> s)(collection.breakOut)
 }
