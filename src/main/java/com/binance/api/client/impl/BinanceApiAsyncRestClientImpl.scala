@@ -4,14 +4,11 @@ import java.lang.System.currentTimeMillis
 
 import com.binance.api.client.BinanceApiAsyncRestClient
 import com.binance.api.client.constant.BinanceApiConstants.DEFAULT_RECEIVING_WINDOW
-import com.binance.api.client.domain.account.AccountJson._
+import com.binance.api.client.json.Decoders._
 import com.binance.api.client.domain.account._
 import com.binance.api.client.domain.account.request.{AllOrdersRequest, CancelOrderRequest, OrderRequest, OrderStatusRequest}
-import com.binance.api.client.domain.event.EventJson._
 import com.binance.api.client.domain.event.ListenKey
-import com.binance.api.client.domain.general.GeneralJson._
 import com.binance.api.client.domain.general.{ExchangeInfo, ServerTime}
-import com.binance.api.client.domain.market.MarketJson._
 import com.binance.api.client.domain.market._
 
 import scala.concurrent.{ExecutionContext, Future}

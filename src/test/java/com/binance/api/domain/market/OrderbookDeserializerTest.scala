@@ -1,8 +1,8 @@
 package com.binance.api.domain.market
 
 import com.binance.api.client.domain.OrderBookEntry
-import com.binance.api.client.domain.market.{Candlestick, OrderBook}
-import com.binance.api.client.domain.market.MarketJson._
+import com.binance.api.client.domain.market.OrderBook
+import com.binance.api.client.json.Decoders._
 import io.circe._
 import org.junit.Assert.assertEquals
 import org.junit.Test

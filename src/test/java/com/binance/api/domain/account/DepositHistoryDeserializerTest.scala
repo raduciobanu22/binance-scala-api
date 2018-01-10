@@ -4,7 +4,7 @@ import com.binance.api.client.domain.account.{Deposit, DepositHistory}
 import io.circe._
 import junit.framework.TestCase._
 import org.junit.Test
-import com.binance.api.client.domain.account.AccountJson._
+import com.binance.api.client.json.Decoders._
 
 /**
   * Test deserialization of a withdraw/deposit history.

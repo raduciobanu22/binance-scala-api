@@ -1,11 +1,10 @@
 package com.binance.api.domain.account
 
-import junit.framework.TestCase._
 import com.binance.api.client.domain.account.{Withdraw, WithdrawHistory}
+import com.binance.api.client.json.Decoders._
 import io.circe._
 import junit.framework.TestCase._
 import org.junit.Test
-import com.binance.api.client.domain.account.AccountJson._
 
 /**
   * Test deserialization of a withdraw/deposit history.

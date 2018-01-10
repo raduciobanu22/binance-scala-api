@@ -1,7 +1,7 @@
 package com.binance.api.domain.event
 
 import com.binance.api.client.domain._
-import com.binance.api.client.domain.event.EventJson._
+import com.binance.api.client.json.Decoders._
 import com.binance.api.client.domain.event.{AccountUpdateEvent, OrderTradeUpdateEvent}
 import io.circe._
 import org.junit.Assert.assertEquals

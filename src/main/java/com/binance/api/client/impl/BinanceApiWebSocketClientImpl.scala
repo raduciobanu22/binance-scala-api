@@ -4,7 +4,7 @@ import java.io.{Closeable, IOException}
 
 import com.binance.api.client.BinanceApiWebSocketClient
 import com.binance.api.client.constant.BinanceApiConstants
-import com.binance.api.client.domain.event.EventJson._
+import com.binance.api.client.json.Decoders._
 import com.binance.api.client.domain.event._
 import com.binance.api.client.domain.market.CandlestickInterval
 import okhttp3.{OkHttpClient, Request}

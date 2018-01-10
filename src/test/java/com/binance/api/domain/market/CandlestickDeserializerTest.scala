@@ -4,7 +4,7 @@ import com.binance.api.client.domain.market.Candlestick
 import io.circe._
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import com.binance.api.client.domain.market.MarketJson._
+import com.binance.api.client.json.Decoders._
 
 /**
   * Tests the adequate deserialization of candlestick JSON information.

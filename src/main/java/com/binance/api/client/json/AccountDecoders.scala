@@ -1,9 +1,9 @@
-package com.binance.api.client.domain.account
+package com.binance.api.client.json
 
-import com.binance.api.client.domain.DomainJson._
+import com.binance.api.client.domain.account._
 import io.circe._
 
-object AccountJson {
+trait AccountDecoders extends DomainDecoders {
   implicit lazy val WithdrawDecoder: Decoder[Withdraw] =
     Decoder.forProduct8("amount", "address", "asset", "applyTime", "successTime", "txId", "id", "status")(
       Withdraw.apply

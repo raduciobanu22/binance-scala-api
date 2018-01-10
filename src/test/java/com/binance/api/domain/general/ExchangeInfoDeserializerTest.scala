@@ -1,7 +1,7 @@
 package com.binance.api.domain.general
 
 import com.binance.api.client.domain.OrderType
-import com.binance.api.client.domain.general.GeneralJson._
+import com.binance.api.client.json.Decoders._
 import com.binance.api.client.domain.general._
 import io.circe._
 import org.junit.Assert._

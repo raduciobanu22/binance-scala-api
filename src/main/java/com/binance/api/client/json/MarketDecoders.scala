@@ -1,9 +1,9 @@
-package com.binance.api.client.domain.market
+package com.binance.api.client.json
 
-import com.binance.api.client.domain.DomainJson.{enumDecoder, OrderBookEntryDecoder}
+import com.binance.api.client.domain.market._
 import io.circe._
 
-object MarketJson {
+trait MarketDecoders extends DomainDecoders {
 
   implicit lazy val AggTradeDecoder: Decoder[AggTrade] =
     Decoder.forProduct8("a", "p", "q", "f", "l", "T", "m", "M")(AggTrade.apply)
@@ -12,7 +12,7 @@ object MarketJson {
     Decoder.forProduct5("symbol", "bidPrice", "bidQty", "askPrice", "askQty")(BookTicker.apply)
 
   implicit lazy val CandlestickIntervalDecoder: Decoder[CandlestickInterval] =
-    enumDecoder(CandlestickInterval.values())
+    JavaEnumDecoder(CandlestickInterval.values())
 
   implicit lazy val CandlestickDecoder: Decoder[Candlestick] =
     Decoder

@@ -1,9 +1,9 @@
-package com.binance.api.client.domain.event
+package com.binance.api.client.json
 
-import com.binance.api.client.domain.DomainJson._
+import com.binance.api.client.domain.event._
+import io.circe._
 
-object EventJson {
-  import io.circe._
+trait EventDecoders extends DomainDecoders {
 
   implicit lazy val AccountUpdateEventDecoder: Decoder[AccountUpdateEvent] =
     Decoder.forProduct3("e", "E", "B")(AccountUpdateEvent.apply)

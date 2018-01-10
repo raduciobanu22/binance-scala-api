@@ -1,21 +1,21 @@
-package com.binance.api.client.domain.general
+package com.binance.api.client.json
 
-import com.binance.api.client.domain.DomainJson.{enumDecoder, OrderTypeDecoder}
+import com.binance.api.client.domain.general._
+import io.circe._
 
-object GeneralJson {
-  import io.circe._
+trait GeneralDecoders extends DomainDecoders {
 
   implicit lazy val FilterTypeDecoder: Decoder[FilterType] =
-    enumDecoder(FilterType.values)
+    JavaEnumDecoder(FilterType.values)
 
   implicit lazy val RateLimitTypeDecoder: Decoder[RateLimitType] =
-    enumDecoder(RateLimitType.values)
+    JavaEnumDecoder(RateLimitType.values)
 
   implicit lazy val RateLimitIntervalDecoder: Decoder[RateLimitInterval] =
-    enumDecoder(RateLimitInterval.values)
+    JavaEnumDecoder(RateLimitInterval.values)
 
   implicit lazy val SymbolStatusDecoder: Decoder[SymbolStatus] =
-    enumDecoder(SymbolStatus.values)
+    JavaEnumDecoder(SymbolStatus.values)
 
   implicit lazy val ExchangeFilterDecoder: Decoder[ExchangeFilter] =
     Decoder.forProduct2("filterType", "limit")(ExchangeFilter.apply)
