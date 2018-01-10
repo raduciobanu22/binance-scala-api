@@ -14,25 +14,26 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object OrdersExample extends App {
 
   val factory = new BinanceApiClientFactory("YOUR_API_KEY", "YOUR_SECRET")
-  val client = factory.newAsyncRestClient
+  val client  = factory.newAsyncRestClient
+  val symbol  = "LINKETH"
 
   // Getting list of open orders
-  client.getOpenOrders(OrderRequest("LINKETH")).foreach(println)
+  client.getOpenOrders(OrderRequest(symbol)).foreach(println)
   // Getting list of all orders with a limit of 10
-  client.getAllOrders(AllOrdersRequest("LINKETH", limit = Some(10))).foreach(println)
+  client.getAllOrders(AllOrdersRequest(symbol, limit = Some(10))).foreach(println)
   // Get status of a particular order
-  client.getOrderStatus(OrderStatusRequest("LINKETH", orderId = Some(751698L))).foreach(println)
+  client.getOrderStatus(OrderStatusRequest(symbol, orderId = Some(751698L))).foreach(println)
 
   // Canceling an order
-  client.cancelOrder(CancelOrderRequest("LINKETH", orderId = Some(756762l))).failed.foreach {
+  client.cancelOrder(CancelOrderRequest(symbol, orderId = Some(756762l))).failed.foreach {
     case e: BinanceApiExceptionError => println(e)
     case other => other.printStackTrace()
   }
 
   // Placing a test LIMIT order
-  client.newOrderTest(limitBuy("LINKETH", TimeInForce.GTC, "1000", "0.0001"))
+  client.newOrderTest(limitBuy(symbol, TimeInForce.GTC, "1000", "0.0001"))
   // Placing a test MARKET order
-  client.newOrderTest(marketBuy("LINKETH", "1000"))
+  client.newOrderTest(marketBuy(symbol, "1000"))
   // Placing a real LIMIT order
-  client.newOrder(limitBuy("LINKETH", TimeInForce.GTC, "1000", "0.0001")).foreach(println)
+  client.newOrder(limitBuy(symbol, TimeInForce.GTC, "1000", "0.0001")).foreach(println)
 }

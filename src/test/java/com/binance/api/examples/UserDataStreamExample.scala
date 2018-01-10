@@ -12,25 +12,25 @@ import scala.concurrent.ExecutionContext.Implicits.global
   */
 object UserDataStreamExample extends App {
 
-  val factory = new BinanceApiClientFactory("YOUR_API_KEY", "YOUR_SECRET")
-  val client  = factory.newAsyncRestClient
-
-  // Then, we open a new web socket client, and provide a callback that is called on every update
+  val factory         = new BinanceApiClientFactory("YOUR_API_KEY", "YOUR_SECRET")
+  val client          = factory.newAsyncRestClient
   val webSocketClient = factory.newWebSocketClient
-  // First, we obtain a listenKey which is required to interact with the user data stream
-  client.startUserDataStream.foreach((listenKey) => {
-    webSocketClient.onUserDataUpdateEvent(listenKey) {
-      case Left(orderTradeUpdateEvent: OrderTradeUpdateEvent) =>
-        println(orderTradeUpdateEvent)
-        // Print original quantity
-        println(orderTradeUpdateEvent.originalQuantity)
-        // Or price
-        println(orderTradeUpdateEvent.price)
-      case Right(accountUpdateEvent: AccountUpdateEvent) =>
-        println(accountUpdateEvent.balances)
-    }
 
-  })
+  // First, we obtain a listenKey which is required to interact with the user data stream
+  client.startUserDataStream.foreach(
+    listenKey =>
+      webSocketClient.onUserDataUpdateEvent(listenKey) {
+        case Left(orderTradeUpdateEvent: OrderTradeUpdateEvent) =>
+          println(orderTradeUpdateEvent)
+          // Print original quantity
+          println(orderTradeUpdateEvent.originalQuantity)
+          // Or price
+          println(orderTradeUpdateEvent.price)
+        case Right(accountUpdateEvent: AccountUpdateEvent) =>
+          println(accountUpdateEvent.balances)
+    }
+  )
+
   println("Waiting for events...")
   // We can keep alive the user data stream
   // client.keepAliveUserDataStream(listenKey);

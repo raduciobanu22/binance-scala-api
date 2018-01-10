@@ -11,13 +11,17 @@ import scala.concurrent.ExecutionContext.Implicits.global
   * It illustrates how to create a stream to obtain updates on market data such as executed trades.
   */
 object MarketDataStreamExample extends App {
-
-  val client = new BinanceApiClientFactory("", "").newWebSocketClient
+  val webSocket = new BinanceApiClientFactory("", "").newWebSocketClient
+  val symbol    = "ethbtc"
 
   // Listen for aggregated trade events for ETH/BTC
-  client.onAggTradeEvent("ethbtc")((response: AggTradeEvent) => println(response))
+  webSocket.onAggTradeEvent(symbol)((response: AggTradeEvent) => println(response))
+
   // Listen for changes in the order book in ETH/BTC
-  client.onDepthEvent("ethbtc")((response: DepthEvent) => println(response))
+  webSocket.onDepthEvent(symbol)((response: DepthEvent) => println(response))
+
   // Obtain 1m candlesticks in real-time for ETH/BTC
-  client.onCandlestickEvent("ethbtc", CandlestickInterval.ONE_MINUTE)((response: CandlestickEvent) => println(response))
+  webSocket.onCandlestickEvent(symbol, CandlestickInterval.ONE_MINUTE)(
+    (response: CandlestickEvent) => println(response)
+  )
 }

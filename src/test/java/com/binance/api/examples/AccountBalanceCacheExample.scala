@@ -13,18 +13,9 @@ import scala.concurrent.Future
   * Illustrates how to use the user data event stream to create a local cache for the balance of an account.
   */
 object AccountBalanceCacheExample extends App {
-  new AccountBalanceCacheExample(new BinanceApiClientFactory("YOUR_API_KEY", "YOUR_SECRET"))
-}
-
-class AccountBalanceCacheExample(clientFactory:   BinanceApiClientFactory) {
-  val client:          BinanceApiAsyncRestClient = clientFactory.newAsyncRestClient
-  val webSocketClient: BinanceApiWebSocketClient = clientFactory.newWebSocketClient
-  initializeAssetBalanceCache(client).flatMap(
-    (accountBalanceCache) =>
-      initializedStreamSession(client).map(
-        listenKey => startAccountBalanceEventStreaming(webSocketClient, accountBalanceCache, listenKey)
-    )
-  )
+  val clientFactory   = new BinanceApiClientFactory("YOUR_API_KEY", "YOUR_SECRET")
+  val client          = clientFactory.newAsyncRestClient
+  val webSocketClient = clientFactory.newWebSocketClient
 
   /**
     * Initializes the asset balance cache by using the REST API and starts a new user data streaming session.
@@ -68,4 +59,11 @@ class AccountBalanceCacheExample(clientFactory:   BinanceApiClientFactory) {
         println(accountBalanceCache)
       case _ => ()
     }
+
+  initializeAssetBalanceCache(client).flatMap(
+    (accountBalanceCache) =>
+      initializedStreamSession(client).map(
+        listenKey => startAccountBalanceEventStreaming(webSocketClient, accountBalanceCache, listenKey)
+      )
+  )
 }
