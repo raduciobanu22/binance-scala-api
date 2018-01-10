@@ -2,7 +2,7 @@ package com.binance.api.client.json
 
 import io.circe.{Decoder, DecodingFailure, HCursor}
 
-object JavaEnumDecoder {
+object EnumDecoder {
   def apply[E <: java.lang.Enum[E]](values: Seq[E]): Decoder[E] =
     Decoder.decodeString.flatMap { str => (c: HCursor) =>
       values
