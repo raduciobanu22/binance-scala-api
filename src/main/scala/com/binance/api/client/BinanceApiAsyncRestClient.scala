@@ -30,7 +30,7 @@ trait BinanceApiAsyncRestClient {
   def getExchangeInfo: Future[ExchangeInfo]
 
   /**
-    * Get order book of a symbol
+    * Get order book of a symbol, i.e. get the depth of the market for that symbol
     *
     * @param symbol ticker symbol (e.g. ETHBTC)
     */
