@@ -3,9 +3,9 @@ package com.binance.api.client.domain.account
 import com.binance.api.client.domain.{Instant, OrderId, Price, Quantity}
 
 /**
-  * Represents an executed trade.
+  * Represents an executed trade for the account.
   */
-case class Trade(
+case class MyTrade(
     /**
       * Trade id.
       */

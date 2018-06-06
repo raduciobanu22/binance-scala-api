@@ -56,6 +56,16 @@ trait BinanceApiAsyncRestClient {
                    endTime:   Option[Instant] = None): Future[List[AggTrade]]
 
   /**
+    * Get recent trades for the symbol (up to last 500).
+    *
+    * @param symbol    symbol (mandatory)
+    * @param limit     Default 500; max 500 (Option)
+    * @return a list of trades for the given symbol
+    */
+  def getTrades(symbol:    Symbol,
+                limit:     Option[Int] = None): Future[List[Trade]]
+
+  /**
     *
     * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.
     *
@@ -137,7 +147,7 @@ trait BinanceApiAsyncRestClient {
                   limit:      Option[Int] = None,
                   fromId:     Option[Long] = None,
                   recvWindow: Option[Long] = None,
-                  timestamp:  Option[Instant] = None): Future[List[Trade]]
+                  timestamp:  Option[Instant] = None): Future[List[MyTrade]]
 
   /**
     * Submit a withdraw request.

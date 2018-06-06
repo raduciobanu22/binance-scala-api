@@ -16,6 +16,8 @@ trait BinanceApiWebSocketClient {
 
   def onAggTradeEvent(symbol: Symbol)(callback: AggTradeEvent => Unit): Unit
 
+  def onTradeEvent(symbol: Symbol)(callback: TradeEvent => Unit): Unit
+
   def onUserDataUpdateEvent(listenKey: ListenKey)(
       callback:                        Either[OrderTradeUpdateEvent, AccountUpdateEvent] => Unit
   ): Unit

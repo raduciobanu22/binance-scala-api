@@ -28,6 +28,10 @@ class BinanceApiWebSocketClientImpl() extends BinanceApiWebSocketClient with Clo
     createNewWebSocket(s"${symbol.value.toLowerCase}@aggTrade",
                        new BinanceApiWebSocketListener[AggTradeEvent](callback))
 
+  override def onTradeEvent(symbol: Symbol)(callback: TradeEvent => Unit): Unit =
+    createNewWebSocket(s"${symbol.value.toLowerCase}@trade",
+                       new BinanceApiWebSocketListener[TradeEvent](callback))
+
   def onUserDataUpdateEvent(
       listenKey: ListenKey
   )(callback:    Either[OrderTradeUpdateEvent, AccountUpdateEvent] => Unit): Unit =
