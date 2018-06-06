@@ -106,7 +106,7 @@ object Decoders {
     Decoder.forProduct11("e", "E", "s", "t", "p", "q", "b", "a", "T", "m", "M")(TradeEvent.apply)
 
   implicit lazy val DepthEventDecoder: Decoder[DepthEvent] =
-    Decoder.forProduct6("e", "E", "s", "u", "b", "a")(DepthEvent.apply)
+    Decoder.forProduct7("e", "E", "s", "U", "u", "b", "a")(DepthEvent.apply)
 
   implicit lazy val AggTradeDecoder: Decoder[AggTrade] =
     Decoder.forProduct8("a", "p", "q", "f", "l", "T", "m", "M")(AggTrade.apply)
