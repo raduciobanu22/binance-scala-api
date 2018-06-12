@@ -43,6 +43,7 @@ object Decoders {
   implicit lazy val ExchangeFilterDecoder:   Decoder[ExchangeFilter]   = deriveDecoder[ExchangeFilter]
   implicit lazy val ExchangeInfoDecoder:     Decoder[ExchangeInfo]     = deriveDecoder[ExchangeInfo]
   implicit lazy val ListenKeyDecoder:        Decoder[ListenKey]        = deriveDecoder[ListenKey]
+  implicit lazy val MyTradeDecoder:          Decoder[MyTrade]          = deriveDecoder[MyTrade]
   implicit lazy val NewOrderResponseDecoder: Decoder[NewOrderResponse] = deriveDecoder[NewOrderResponse]
   implicit lazy val OrderBookDecoder:        Decoder[OrderBook]        = deriveDecoder[OrderBook]
   implicit lazy val OrderDecoder:            Decoder[Order]            = deriveDecoder[Order]
@@ -52,7 +53,6 @@ object Decoders {
   implicit lazy val SymbolInfoDecoder:       Decoder[SymbolInfo]       = deriveDecoder[SymbolInfo]
   implicit lazy val TickerPriceDecoder:      Decoder[TickerPrice]      = deriveDecoder[TickerPrice]
   implicit lazy val TickerStatisticsDecoder: Decoder[TickerStatistics] = deriveDecoder[TickerStatistics]
-  implicit lazy val TradeDecoder:            Decoder[Trade]            = deriveDecoder[Trade]
   implicit lazy val WithdrawDecoder:         Decoder[Withdraw]         = deriveDecoder[Withdraw]
   implicit lazy val WithdrawHistoryDecoder:  Decoder[WithdrawHistory]  = deriveDecoder[WithdrawHistory]
 
@@ -102,11 +102,17 @@ object Decoders {
   implicit lazy val AggTradeEventDecoder: Decoder[AggTradeEvent] =
     Decoder.forProduct11("e", "E", "s", "a", "p", "q", "f", "l", "T", "m", "M")(AggTradeEvent.apply)
 
+  implicit lazy val TradeEventDecoder: Decoder[TradeEvent] =
+    Decoder.forProduct11("e", "E", "s", "t", "p", "q", "b", "a", "T", "m", "M")(TradeEvent.apply)
+
   implicit lazy val DepthEventDecoder: Decoder[DepthEvent] =
-    Decoder.forProduct6("e", "E", "s", "u", "b", "a")(DepthEvent.apply)
+    Decoder.forProduct7("e", "E", "s", "U", "u", "b", "a")(DepthEvent.apply)
 
   implicit lazy val AggTradeDecoder: Decoder[AggTrade] =
     Decoder.forProduct8("a", "p", "q", "f", "l", "T", "m", "M")(AggTrade.apply)
+
+  implicit lazy val TradeDecoder: Decoder[Trade] =
+    Decoder.forProduct6("id", "price", "qty", "time", "isBuyerMaker", "isBestMatch")(Trade.apply)
 
   implicit lazy val CandlestickDecoder: Decoder[Candlestick] =
     Decoder

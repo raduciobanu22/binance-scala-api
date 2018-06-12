@@ -44,10 +44,9 @@ object DepthCacheExample extends App {
     */
   private def startDepthEventStreaming(client: BinanceApiWebSocketClientImpl, cache: Cache, symbol: Symbol) =
     client.onDepthEvent(symbol)((response: DepthEvent) => {
-
-      if (response.updateId > cache.lastUpdateId) {
+      if (response.firstUpdateId > cache.lastUpdateId) {
         println(response)
-        cache.lastUpdateId = response.updateId
+        cache.lastUpdateId = response.lastUpdateId
         updateOrderBook(cache.asks, response.asks)
         updateOrderBook(cache.bids, response.bids)
         printDepthCache(cache)

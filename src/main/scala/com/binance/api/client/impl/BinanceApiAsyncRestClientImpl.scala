@@ -87,6 +87,16 @@ class BinanceApiAsyncRestClientImpl(service: BinanceApiService)(implicit ex: Exe
         )
     )
 
+  def getTrades(symbol:    Symbol,
+                limit:     Option[Int] = None): Future[List[Trade]] =
+    RunRequest[List[Trade]](
+      service
+        .getTrades(
+          AsJava(symbol),
+          AsJava(limit)
+        )
+    )
+
   def getCandlestickBars(symbol:    Symbol,
                          interval:  CandlestickInterval,
                          limit:     Option[Int] = None,
@@ -199,8 +209,8 @@ class BinanceApiAsyncRestClientImpl(service: BinanceApiService)(implicit ex: Exe
                   limit:      Option[Int],
                   fromId:     Option[Long],
                   recvWindow: Option[Long],
-                  timestamp:  Option[Instant]): Future[List[Trade]] =
-    RunRequest[List[Trade]](
+                  timestamp:  Option[Instant]): Future[List[MyTrade]] =
+    RunRequest[List[MyTrade]](
       service.getMyTrades(
         AsJava(symbol),
         AsJava(limit),

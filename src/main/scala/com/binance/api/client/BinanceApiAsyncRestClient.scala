@@ -30,7 +30,7 @@ trait BinanceApiAsyncRestClient {
   def getExchangeInfo: Future[ExchangeInfo]
 
   /**
-    * Get order book of a symbol
+    * Get order book of a symbol, i.e. get the depth of the market for that symbol
     *
     * @param symbol ticker symbol (e.g. ETHBTC)
     */
@@ -54,6 +54,16 @@ trait BinanceApiAsyncRestClient {
                    limit:     Option[Int] = None,
                    startTime: Option[Instant] = None,
                    endTime:   Option[Instant] = None): Future[List[AggTrade]]
+
+  /**
+    * Get recent trades for the symbol (up to last 500).
+    *
+    * @param symbol    symbol (mandatory)
+    * @param limit     Default 500; max 500 (Option)
+    * @return a list of trades for the given symbol
+    */
+  def getTrades(symbol:    Symbol,
+                limit:     Option[Int] = None): Future[List[Trade]]
 
   /**
     *
@@ -137,7 +147,7 @@ trait BinanceApiAsyncRestClient {
                   limit:      Option[Int] = None,
                   fromId:     Option[Long] = None,
                   recvWindow: Option[Long] = None,
-                  timestamp:  Option[Instant] = None): Future[List[Trade]]
+                  timestamp:  Option[Instant] = None): Future[List[MyTrade]]
 
   /**
     * Submit a withdraw request.

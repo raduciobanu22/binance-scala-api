@@ -24,6 +24,8 @@ object MarketDataEndpointsExample extends App {
   client.getAllPrices.foreach(println)
   // Getting agg trades
   client.getAggTrades(symbol, limit = Some(10)).foreach(println)
+  // Getting trades
+  client.getTrades(symbol, limit = Some(10)).foreach(println)
   // Weekly candlestick bars for a symbol
   client.getCandlestickBars(symbol, WEEKLY).foreach(println)
   // Getting all book tickers

@@ -24,6 +24,9 @@ trait BinanceApiService {
                                              @Query("startTime") startTime: java.lang.Long,
                                              @Query("endTime") endTime:     java.lang.Long): Call[ResponseBody]
 
+  @GET("/api/v1/trades") def getTrades(@Query("symbol") symbol:       String,
+                                       @Query("limit") limit:         Integer): Call[ResponseBody]
+
   @GET("/api/v1/klines") def getCandlestickBars(@Query("symbol") symbol:       String,
                                                 @Query("interval") interval:   String,
                                                 @Query("limit") limit:         Integer,

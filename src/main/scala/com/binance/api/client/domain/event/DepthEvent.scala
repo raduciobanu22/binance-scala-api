@@ -9,16 +9,14 @@ case class DepthEvent(
     eventType: String,
     eventTime: Instant,
     symbol:    Symbol,
+    firstUpdateId: Long,
+    lastUpdateId: Long,
     /**
-      * updateId to sync up with updateid in /api/v1/depth
-      */
-    updateId: Long,
-    /**
-      * Bid depth delta.
+      * Bid depth delta. Each price is a 'price level'.
       */
     bids: List[OrderBookEntry],
     /**
-      * Ask depth delta.
+      * Ask depth delta.. Each price is a 'price level'.
       */
     asks: List[OrderBookEntry]
 )
