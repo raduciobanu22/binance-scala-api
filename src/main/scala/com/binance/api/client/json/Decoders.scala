@@ -36,6 +36,7 @@ object Decoders {
 
   /* these exactly correspond to their schema, so we can auto-derive them */
   implicit lazy val AccountDecoder:          Decoder[Account]          = deriveDecoder[Account]
+  implicit lazy val AssetBalanceFullDecoder: Decoder[AssetBalanceFull] = deriveDecoder[AssetBalanceFull]
   implicit lazy val BookTickerDecoder:       Decoder[BookTicker]       = deriveDecoder[BookTicker]
   implicit lazy val DepositAddressDecoder:   Decoder[DepositAddress]   = deriveDecoder[DepositAddress]
   implicit lazy val DepositDecoder:          Decoder[Deposit]          = deriveDecoder[Deposit]
