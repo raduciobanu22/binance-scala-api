@@ -54,6 +54,9 @@ class ExchangeInfoDeserializerTest {
     }, {
       "filterType": "MIN_NOTIONAL",
       "minNotional": "0.00100000"
+    }, {
+      "filterType": "ICEBERG_PARTS",
+      "limit": 10
     }]
   }]}"""
     assertEquals(
@@ -66,6 +69,7 @@ class ExchangeInfoDeserializerTest {
             RateLimit(rateLimitType = RateLimitType.ORDERS, interval = RateLimitInterval.SECOND, limit = 10),
             RateLimit(rateLimitType = RateLimitType.ORDERS, interval = RateLimitInterval.DAY, limit = 100000)
           ),
+          exchangeFilters = List.empty,
           symbols = List(
             SymbolInfo(
               symbol = Symbol("ETHBTC"),
@@ -109,6 +113,17 @@ class ExchangeInfoDeserializerTest {
                   stepSize = None,
                   minNotional = Some("0.00100000"),
                   limit = None
+                ),
+                SymbolFilter(
+                  filterType = FilterType.ICEBERG_PARTS,
+                  minPrice = None,
+                  maxPrice = None,
+                  tickSize = None,
+                  minQty = None,
+                  maxQty = None,
+                  stepSize = None,
+                  minNotional = None,
+                  limit = Some(10)
                 )
               )
             )
