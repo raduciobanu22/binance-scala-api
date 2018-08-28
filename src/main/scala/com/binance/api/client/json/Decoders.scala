@@ -36,7 +36,7 @@ object Decoders {
 
   /* these exactly correspond to their schema, so we can auto-derive them */
   implicit lazy val AccountDecoder:          Decoder[Account]          = deriveDecoder[Account]
-  implicit lazy val AssetBalanceFullDecoder: Decoder[AssetBalanceFull] = deriveDecoder[AssetBalanceFull]
+  implicit lazy val AssetBalanceDecoder:     Decoder[AssetBalance]     = deriveDecoder[AssetBalance]
   implicit lazy val BookTickerDecoder:       Decoder[BookTicker]       = deriveDecoder[BookTicker]
   implicit lazy val DepositAddressDecoder:   Decoder[DepositAddress]   = deriveDecoder[DepositAddress]
   implicit lazy val DepositDecoder:          Decoder[Deposit]          = deriveDecoder[Deposit]
@@ -59,16 +59,17 @@ object Decoders {
 
   /* The rest have short names which we want to rename, or arrives as a tuple */
 
-  implicit lazy val AssetBalanceDecoder: Decoder[AssetBalance] =
-    Decoder.forProduct3("a", "f", "l")(AssetBalance.apply)
-
   implicit lazy val OrderBookEntryDecoder: Decoder[OrderBookEntry] =
     Decoder.decodeTuple3[Price, Quantity, Seq[String]].map {
       case (a0, a1, _) => OrderBookEntry(a0, a1)
     }
 
-  implicit lazy val AccountUpdateEventDecoder: Decoder[AccountUpdateEvent] =
+  implicit lazy val AccountUpdateEventDecoder: Decoder[AccountUpdateEvent] = {
+    implicit val AssetBalanceDecoder: Decoder[AssetBalance] =
+      Decoder.forProduct3("a", "f", "l")(AssetBalance.apply)
+
     Decoder.forProduct3("e", "E", "B")(AccountUpdateEvent.apply)
+  }
 
   implicit lazy val CandlestickDetailedDecoder: Decoder[CandlestickDetailed] =
     Decoder.forProduct15("t", "o", "h", "l", "c", "v", "T", "i", "f", "L", "q", "n", "V", "Q", "x")(

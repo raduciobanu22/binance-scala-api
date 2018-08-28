@@ -2,7 +2,7 @@ package com.binance.api.examples
 
 import java.util
 
-import com.binance.api.client.domain.{AssetBalance, Asset}
+import com.binance.api.client.domain.{Asset, AssetBalance}
 import com.binance.api.client.domain.event.{AccountUpdateEvent, ListenKey}
 import com.binance.api.client.{BinanceApiAsyncRestClient, BinanceApiClientFactory, BinanceApiWebSocketClient}
 
