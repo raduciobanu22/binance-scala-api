@@ -1,6 +1,6 @@
 organization := "com.olvind"
 name := "binance-scala-api"
-version := "0.0.1-SNAPSHOT"
+version := "0.0.3"
 scalaVersion := "2.12.4"
 
 libraryDependencies ++= Seq(
